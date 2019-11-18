@@ -1,0 +1,5 @@
+{
+    "hdfs": {
+        "core_dir": "/project/core/"
+    }
+}
