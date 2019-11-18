@@ -1,0 +1,15 @@
+{
+    "paths": {
+        "data_dir": "data/",
+        "output_dir": "output/"
+    },
+    "preprocessing": {
+        "random_seed": 0
+    },
+    "model": {
+        "data": "20190728/train_dev_test_split",
+        "config": "models/configs/dummy.json",
+        "vectorizer_class": "TextVectorizer",
+        "model_class": "Dummy"
+    }
+}

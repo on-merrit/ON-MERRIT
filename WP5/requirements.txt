@@ -1,0 +1,11 @@
+jupyter
+matplotlib
+nltk
+numpy
+pandas
+pyspark==2.4.0
+scikit-learn
+scipy
+seaborn
+spacy
+tqdm

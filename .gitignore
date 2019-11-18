@@ -1,0 +1,24 @@
+# Mac specific
+**/.DS_Store
+
+# IDE specific
+.vscode/
+.idea/
+
+# Project config
+config*.json
+logging*.json
+
+# Project log
+log/
+
+# Compiled code / checkpoints
+**/.ipynb_checkpoints/
+**/*.py[cod]
+__pycache__/
+
+# Distribution / packaging
+dist/
+
+# Exceptions
+!**/.gitkeep 

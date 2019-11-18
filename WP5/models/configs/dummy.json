@@ -1,0 +1,23 @@
+{
+    "name": "dummy",
+    "description": "most frequent class",
+    "random_seed": 0,
+    "tokenizer": {
+        "stop": true, 
+        "punct": true, 
+        "lower": true, 
+        "stem": true,
+        "replace_nums": false
+    },
+    "vectorizer": {
+        "max_df": 1.0, 
+        "min_df": 2, 
+        "max_features": null, 
+        "binary": false
+    },
+    "model": {
+        "strategy": "most_frequent", 
+        "random_state": 0, 
+        "constant": null
+    }
+}
