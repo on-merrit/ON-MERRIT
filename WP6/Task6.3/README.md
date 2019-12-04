@@ -41,7 +41,7 @@ Do these steps after you have cloned this repository.
 
 ### Optional
 
-* Create and start a Python virtual environment
+* You can instead use a Python virtual environment
     * There are a number of different libraries for creating virtual environments in Python:
         * The standard built-in `venv` library works in Python 3 only
         * Most people seem to recommend the third-party `virtualenv` library due to ease of use and support for both Python 2 and 3
@@ -51,9 +51,18 @@ Do these steps after you have cloned this repository.
     * This template will work with any of the above libraries
     * A good tutorial on how to use `virtualenv` with `virtualenvwrapper` is available [here](http://www.marinamele.com/2014/07/install-python3-on-mac-os-x-and-use-virtualenv-and-virtualenvwrapper.html).
     * A tutorial on how to start using `pipenv` is provided [here](https://dev.to/yukinagae/your-first-guide-to-getting-started-with-pipenv-50bn).
-* If you use a virtual environment, add a new kernel to your jupyter installation:
-    * While in your virtual environment run ``python -m ipykernel install --user --name name_of_your_environment``
-    * Installed kernels can be listed using ``jupyter kernelspec list``
+    * Add a new kernel to your jupyter installation:
+        * While in your virtual environment run ``python -m ipykernel install --user --name name_of_your_environment``
+        * Installed kernels can be listed using ``jupyter kernelspec list``
+    * To use anaconda
+        * First time setup:
+            * Download from https://docs.anaconda.com/anaconda/install/
+            * Create a conda environment with the right python version: `conda create -n "on-merrit" python=3.6.4 pip`
+            * Activate its use: `conda activate on-merrit`
+            * Install the required packages: `pip install -r requirements.txt`
+        * Each time to run a experiment:
+            * `conda activate on-merrit`
+            * Follow the instructions at [Running the app](#markdown-header-running-the-app)
 
 ## Running the app
 
