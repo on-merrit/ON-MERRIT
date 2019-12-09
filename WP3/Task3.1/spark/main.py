@@ -7,7 +7,7 @@ import logging
 import argparse
 import importlib
 
-import pyspark
+from pyspark.sql.session import SparkSession
 
 
 if os.path.exists('jobs.zip'):
@@ -57,12 +57,17 @@ if __name__ == '__main__':
     args = arg_parser.parse_args()
 
     logger.info('Running job: {}'.format(args.job_name))
-    sc = pyspark.SparkContext(appName=args.job_name)
-    logger.info('Spark context created, Spark version: {}'.format(sc.version))
+
+    # In pyspark2, the hiveContext, SparkConf, SparkContext or SQLContext etc. are all encapsulated inside
+    # the SparkSession object. Hence all the methods exposed on them are directly accessible
+    # from the SparkSession object
+    ss = SparkSession.builder.appName(args.job_name).enableHiveSupport().getOrCreate()
+
+    logger.info('Spark Session created, Spark version: {}'.format(ss.version))
     job_module = importlib.import_module('jobs.{}'.format(args.job_name))
 
     start_time = time.time()
-    job_module.analyze(sc, cfg)
+    job_module.analyze(ss, cfg)
     end_time = time.time()
 
     logger.info('Execution of job {} took {} seconds'.format(
