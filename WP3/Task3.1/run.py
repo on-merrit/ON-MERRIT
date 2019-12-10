@@ -15,6 +15,8 @@ from src.tasks.preprocessing import prepare_dataset
 from src.tasks.experiments import classify
 from src.tasks.analysis import parse_results
 
+from src.tasks.hello_world import hello_world
+
 __author__ = 'dh8835'
 __email__ = 'dasha.herrmannova@open.ac.uk'
 
@@ -74,6 +76,10 @@ menu_actions = {
     '0': prepare_dataset,
     '1': classify,
     '2': parse_results,
+
+    '3': hello_world,
+
+
     'x': exit_app,
     'm': menu
 }
