@@ -44,7 +44,7 @@ def analyze(ss, cfg):
 
     logger = logging.getLogger(__name__)
     logger.info('Python version: {}'.format(sys.version))
-    logger.info('Extracting dataset of MAG instituion ids mapped to their latitude and longitude values.')
+    logger.info('Extracting dataset of MAG institution ids mapped to their latitude and longitude values.')
 
     # MAG dataset to use
     db_name = cfg['mag_db_name']
