@@ -9,3 +9,4 @@ scipy
 seaborn
 spacy
 tqdm
+shapely

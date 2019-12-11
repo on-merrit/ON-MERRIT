@@ -53,7 +53,7 @@ def analyze(ss, cfg):
     db_name = cfg['mag_db_name']
 
     # tables that will be used =============================================== #
-    aff_df = ss.table(db_name + '.affiliations')  # this will be used to identify institutions within a country
+    aff_df = ss.table(db_name + '.affiliations')  # this will be used to identify institutions
     paper_author_aff_df = ss.table(db_name+'.paperauthoraffiliations')  # this will be used to identify papers coming from an institution
     paper_df = ss.table(db_name+'.papers')  # this will give the details of a paper.
 
@@ -98,5 +98,5 @@ def analyze(ss, cfg):
     LogUtils().describe_df(total_result, 'Final dataset')
     all_output_filename = join(cfg['hdfs']['onmerrit_dir'], 'ds_q4/' + 'all_authors.csv')
     total_result.write.csv(all_output_filename, mode="overwrite", header=True, sep=",", quoteAll=True)
-    logger.info("\n\n\nWriting the total results to file "+all_output_filename)
+    logger.info("\n\n\nWrote total results to file "+all_output_filename)
     # done =================================================================== #

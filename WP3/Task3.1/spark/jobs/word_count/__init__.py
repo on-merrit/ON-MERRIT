@@ -9,7 +9,7 @@ from pyspark import SparkContext, SQLContext
 from shared.log_utils import LogUtils
 
 
-def analyze(sc, cfg):
+def analyze(ss, cfg):
     """
     Run job 
     :param sc: SparkContext
@@ -19,10 +19,6 @@ def analyze(sc, cfg):
     logger = logging.getLogger(__name__)
     logger.info('Python version: {}'.format(sys.version))
     logger.info('Counting words...')
-
-    # needs to be initialized (even if not used) to be able 
-    # to work with DataFrames
-    sql_sc = SQLContext(sc)
     
     core_dir = cfg['hdfs']['core_dir']
 
@@ -49,7 +45,7 @@ def analyze(sc, cfg):
     )
 
     texts = [text_01, text_02, text_03, text_04]
-    words = sc.parallelize(texts).flatMap(lambda text: text.split())
+    words = ss.parallelize(texts).flatMap(lambda text: text.split())
     words = words.map(lambda word: (word, 1))
     counts = words.reduceByKey(lambda a, b: a + b)
     ordered = counts.sortBy(lambda pair: pair[1], ascending=False)
