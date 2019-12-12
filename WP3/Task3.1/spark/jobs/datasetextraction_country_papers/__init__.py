@@ -35,7 +35,7 @@ __email__ = 'bikash.gyawali@open.ac.uk'
 # ============================================================================ #
 def analyze(ss, cfg):
     """
-    Run job 
+    Run job
     :param ss: SparkSession
     :param cfg: app configuration
     :return: None
@@ -43,7 +43,7 @@ def analyze(ss, cfg):
 
     logger = logging.getLogger(__name__)
     logger.info('Python version: {}'.format(sys.version))
-    logger.info('Extracting dataset of MAG instituion ids mapped to their latitude and longitude values.')
+    logger.info('Extracting dataset of all papers published by all institution in the countries of our choice.')
 
     # MAG dataset to use
     db_name = cfg['mag_db_name']
@@ -69,10 +69,14 @@ def analyze(ss, cfg):
         cnames = cfg['data']['country_names_variations'][country_name]  # possible variations of country names
         cnames.append(country_name)
         logger.info("\n\n\nPossible name variations for " + country_name +" = "+ str(cnames))
-        all_institutions_ids_df = affiliation_countryname_df.filter(F.col("country").isin(cnames)).select("affiliationid").distinct()  # all instituion within the country
+        all_institutions_ids_df = affiliation_countryname_df.filter(F.col("country").isin(cnames)).select("affiliationid").distinct()  # all institutions within the country
 
         country_papers_df = all_institutions_ids_df.join(paper_author_aff_df, all_institutions_ids_df.affiliationid == paper_author_aff_df.affiliationid) # inner join
         country_papers_df = country_papers_df.select('paperid', paper_author_aff_df.affiliationid)  # keep only the necessary fields
+        # same paper could have multiple authors and therefore have multiple entries in paper_author_aff_df. Need to get rid of such duplicate entries
+        country_papers_df = country_papers_df.dropDuplicates()
+
+        # To get back the name of the institutions
         country_papers_institution_df = country_papers_df.join(aff_df, country_papers_df.affiliationid == aff_df.affiliationid) # inner join
         country_papers_institution_df = country_papers_institution_df.select('paperid', country_papers_df.affiliationid, 'normalizedname', 'displayname')  # keep only the necessary fields
 

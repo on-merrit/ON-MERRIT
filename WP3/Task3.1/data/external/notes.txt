@@ -1,1 +1,3 @@
 countries.geojson file downloaded from https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson
+
+The field of study hierarchy (fos_hierarchy.csv) was obtained from an external script. Will integrate that script into here later.

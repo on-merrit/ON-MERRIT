@@ -30,5 +30,7 @@ class LogUtils(object):
         logger.info('Data schema:')
         df.printSchema()
         logger.info(f'Number of rows: {df.count()}'.format(df.count()))
-        logger.info(f'First {top_x} records')
-        df.show(n=top_x)
+
+        # With non-ascii characters this causes a problem -- https://stackoverflow.com/a/44567597/530399
+        # logger.info(f'First {top_x} records')
+        # df.show(n=top_x)
