@@ -1,5 +1,5 @@
 '''
-Extracts dataset of all papers of all intituions in the countries of our choice.
+Extracts dataset of all papers of all institutions in the countries of our choice.
 
 A separate csv will be generated for each country. A total dataset of all records will also be created.
 

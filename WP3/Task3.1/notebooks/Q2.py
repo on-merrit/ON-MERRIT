@@ -179,13 +179,13 @@ for discipline in cfg['data']['fields_of_study']:
 # In[10]:
 
 
-all_countries_plot["climatology"]["netherlands"]
+all_countries_plot["medicine"]["russia"]
 
 
 # In[11]:
 
 
-all_countries_plot["agriculture"]["germany"]
+all_countries_plot["agriculture"]["brazil"]
 
 
 # In[ ]:

@@ -13,7 +13,7 @@
             "india" : ["Jadavpur University","SASTRA University","Acharya Nagarjuna University","Amrita Vishwa Vidyapeetham","Indian Institute of Science","University of Mumbai"],
             "portugal" : ["University of Porto","University of Minho","University of Tras-os-Montes and Alto Douro","University of Lisbon","NOVA University of Lisbon","University of Evora"],
             "russia" : ["Saint Petersburg State University","National Research Saratov State University","MIREA - Russian Technological University","Tomsk Polytechnic University","Southern Federal University","Bashkir State University"],
-            "uk" : ["University of Southampton","Aberystwyth University","Sheffield Hallam University","Lancaster University","The Open University","Birmingham City University"],
+            "uk" : ["University of Southampton","Aberystwyth University","Sheffield Hallam University","Lancaster University","Open University","Birmingham City University"],
             "usa" : ["University of North Carolina at Chapel Hill","Northeastern University","Oklahoma State University","New York University","Univerdity of Cincinnati","Florida International University"]
         },
         "country_names_variations" : {
