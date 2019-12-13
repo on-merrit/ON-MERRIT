@@ -6,8 +6,8 @@
 .idea/
 
 # Project config
-config*.json
-logging*.json
+config.json
+logging.json
 
 # Project log
 log/
@@ -21,4 +21,5 @@ __pycache__/
 dist/
 
 # Exceptions
-!**/.gitkeep 
+!**/.gitkeep
+
