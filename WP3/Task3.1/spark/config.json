@@ -1,0 +1,31 @@
+{
+    "___comment": "The fields of study originally mentioned in DoW are agriculture, climate and health but MAG doesn't have fieldsofstudy entry for climate and health",
+    "hdfs": {
+        "core_dir": "/project/core/",
+        "onmerrit_dir": "/project/core/onmerrit/"
+    },
+    "data": {
+        "fields_of_study": ["agriculture", "climatology", "medicine"],
+        "institutions_by_country": {
+            "austria" : ["Vienna University of Technology","Johannes Kepple University of Linz","Medical University of Innsbruck","Medical University of Vienna","University of Vienna","Vienna University of Technology"],
+            "brazil" : ["Federal University of Sao Paulo (UNIFESP)","Federal University of Health Sciences of Porto Alegre (UFCSPA)","Ceara State University","University of Sao Paulo","Sao Paulo State University","Federal University of Technology - Parana"],
+            "germany" : ["Technical University of Berlin","University of Munster","Chemnitz University of Technology","University of Bonn","TU Dresden","University of Stuttgart"],
+            "india" : ["Jadavpur University","SASTRA University","Acharya Nagarjuna University","Amrita Vishwa Vidyapeetham","Indian Institute of Science","University of Mumbai"],
+            "portugal" : ["University of Porto","University of Minho","University of Tras-os-Montes and Alto Douro","University of Lisbon","NOVA University of Lisbon","University of Evora"],
+            "russia" : ["Saint Petersburg State University","National Research Saratov State University","MIREA - Russian Technological University","Tomsk Polytechnic University","Southern Federal University","Bashkir State University"],
+            "uk" : ["University of Southampton","Aberystwyth University","Sheffield Hallam University","Lancaster University","The Open University","Birmingham City University"],
+            "usa" : ["University of North Carolina at Chapel Hill","Northeastern University","Oklahoma State University","New York University","Univerdity of Cincinnati","Florida International University"]
+        },
+        "country_names_variations" : {
+            "austria": [],
+            "brazil": [],
+            "germany": [],
+            "india": [],
+            "portugal": [],
+            "russia": [],
+            "uk": ["u.k.","united kingdom", "gb", "g.b.", "great britain"],
+            "usa": ["u.s.a", "united states of america", "united states america"]
+        }
+    },
+    "mag_db_name" : "academicgraph"
+}
