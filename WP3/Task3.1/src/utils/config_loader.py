@@ -22,5 +22,5 @@ class ConfigLoader(object):
             )
         if not isabs(config_path):
             config_path = join(ConfigLoader._project_root, config_path)
-        with open(config_path) as fp:
+        with open(config_path, encoding='utf-8') as fp:
             return json.load(fp)

@@ -9,8 +9,8 @@ from os.path import join, abspath, dirname
 from src.utils.butils import *
 
 
-__author__ = 'dh8835'
-__email__ = 'dasha.herrmannova@open.ac.uk'
+__author__ = 'bg3753'
+__email__ = 'bikash.gyawali@open.ac.uk'
 
 
 from shapely.geometry import mapping, shape
@@ -20,7 +20,7 @@ from shapely.geometry import Point
 
 
 def create_instituitons_countries_dataset() -> None:
-    """Creates a csv mapping latitude and longitude of insititions in MAG to their country names.
+    """Creates a csv mapping latitude and longitude of institutions in MAG to their country names.
 
     Based on https://stackoverflow.com/a/46589405/530399
     

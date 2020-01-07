@@ -37,7 +37,7 @@ def load_config():
         sys.path.insert(0, 'config.json')
     else:
         sys.path.insert(0, '../config.json')
-    with open('config.json') as fp:
+    with open('config.json', encoding='utf-8') as fp:
         return json.load(fp)
 
 

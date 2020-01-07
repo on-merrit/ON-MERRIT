@@ -78,7 +78,11 @@ def analyze(ss, cfg):
 
         # To get back the name of the institutions
         country_papers_institution_df = country_papers_df.join(aff_df, country_papers_df.affiliationid == aff_df.affiliationid) # inner join
-        country_papers_institution_df = country_papers_institution_df.select('paperid', country_papers_df.affiliationid, 'normalizedname', 'displayname')  # keep only the necessary fields
+        # keep only the necessary fields.
+        '''I keep wikipage because they might contain english names for non-english universities. Ex: 
+        Universidade Federal de Ciências da Saúde de Porto Alegre has wikipage http://en.wikipedia.org/wiki/Federal_University_of_Health_Sciences_of_Porto_Alegre
+        '''
+        country_papers_institution_df = country_papers_institution_df.select('paperid', country_papers_df.affiliationid, 'normalizedname', 'displayname', 'wikipage')
 
 
         # save the data for the current country
