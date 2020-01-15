@@ -3,6 +3,8 @@
 
 # # This will create plots for institutions of type universities only. The universities list comes from Times Higher Education (THE).
 
+# #### The unpaywall dump used was from (April or June) 2018; hence analysis until 2017 only is going to be included.
+
 # ## Question : What % of papers published by our selected universities in selected countries are Open Access?
 
 # In[1]:
@@ -30,7 +32,7 @@ from MAG_utils import *
 
 
 
-# In[3]:
+# In[83]:
 
 
 # Built-in
@@ -42,9 +44,25 @@ import pandas as pd
 import seaborn as sns
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+from matplotlib import rc,rcParams
+from matplotlib.patches import Rectangle
 
 import unicodedata
 import re
+from statistics import mean 
+
+
+
+'''
+So as to enable font properties on matplotlib plot ticks and labels
+https://stackoverflow.com/a/29772534/530399
+'''
+# # activate latex text rendering
+# rc('text', usetex=True)
+# rc('axes', linewidth=2)
+# rc('font', weight='bold')
+# rcParams['text.latex.preamble'] = [r'\usepackage{sfmath} \boldmath']
 
 
 # In[4]:
@@ -65,38 +83,31 @@ with open(join(root,"spark/config.json")) as fp:
 
 
 output_dir = join(root,"documents/analysis/jcdl_dataset_question")
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
+# Create a new directory to save results
+os.makedirs(output_dir)
 
 
 # In[7]:
 
 
+cnames_for_plot = {
+    "austria" : "Austria",
+    "brazil" : "Brazil",
+    "germany" : "Germany",
+    "india" : "India",
+    "portugal" : "Portugal",
+    "russia" : "Russia",
+    "uk" : "UK",
+    "usa" : "USA"
+}
+
+
+# In[8]:
+
+
 def create_OA_percent_bar_chart(oa_percent_dict, save_fname, x_label=None, plt_text=None, display_values=False):
     #     https://stackoverflow.com/a/37266356/530399
-    sort_by_vals = sorted(oa_percent_dict.items(), key=lambda kv: kv[1], reverse=True) # sorted by values, return a list of tuples
+    sort_by_vals = sorted(oa_percent_dict.items(), key=lambda kv: kv[0]) # sorted by keys, return a list of tuples
     x, y = zip(*sort_by_vals) # unpack a list of pairs into two tuples
     
     
@@ -121,40 +132,21 @@ def create_OA_percent_bar_chart(oa_percent_dict, save_fname, x_label=None, plt_t
     
     plt.xticks(x, rotation='vertical')
     
-    plt.savefig(save_fname+".png", bbox_inches='tight')
-    plt.savefig(save_fname+".pdf", bbox_inches='tight')
+    plt.savefig(save_fname+".png", bbox_inches='tight', dpi=600)
+    plt.savefig(save_fname+".pdf", bbox_inches='tight', dpi=600)
     
     plt.close()
     
     return ax.get_figure()
 
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[8]:
+# In[9]:
 
 
 def mag_wiki_link_normalise(wikilink):
 #     Get the english name from the wiki
 
 #     print(wikilink)
-    
     try:
         last_slash_index = wikilink.rindex('/')
         start_index = last_slash_index+1
@@ -165,27 +157,51 @@ def mag_wiki_link_normalise(wikilink):
     return mag_normalisation_institution_names(uni_name)
 
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# # Part A : Analysis Per University Per Country
-
-# In[9]:
-
-
-pub_year_bins = [0, 2010, 2013, 2016, 2019]
-
-
 # In[10]:
+
+
+study_years = [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017]
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# # Part A : Granularity Level of University Per Country
+
+# In[11]:
 
 
 def get_plt_univ_papers_OA_stats(country_papers_OA_df, univs_name):
@@ -210,12 +226,20 @@ def get_plt_univ_papers_OA_stats(country_papers_OA_df, univs_name):
         
         univ_papers_df_set2 = country_papers_OA_df[country_papers_OA_df['normalizedwikiname']==THE_univ_name_normalised]
         
-        
+        # The records in two sets can be the excatly the same 
         # Concat and remove exact duplicates  -- https://stackoverflow.com/a/21317570/530399
         univ_papers_df = pd.concat([univ_papers_df_set1, univ_papers_df_set2]).drop_duplicates().reset_index(drop=True)
         
+
+#         Put additional criteria that these papers are from 2007 till 2017
+        univ_papers_df = univ_papers_df[univ_papers_df['year'].isin(study_years)]
         
         
+        # Same paper will have multiple entries if there are multiple authors for that paper from same university.
+        # This is not necessary because the input dataset was already prepared to exclude such duplicates.
+#         univ_papers_df = univ_papers_df.drop_duplicates(subset="paperid")
+
+
         
         count_total_univ_papers = len(univ_papers_df)
         
@@ -241,11 +265,16 @@ def get_plt_univ_papers_OA_stats(country_papers_OA_df, univs_name):
             count_all_2015 = len(univ_papers_df[univ_papers_df['year']==2015])
             count_all_2016 = len(univ_papers_df[univ_papers_df['year']==2016])
             count_all_2017 = len(univ_papers_df[univ_papers_df['year']==2017])
-            count_all_2018 = len(univ_papers_df[univ_papers_df['year']==2018])
             
             
             univs_info[org_univ_name]["yearwise_all"] = {}
-            univs_info[org_univ_name]["yearwise_all"]["count_year"] = {"2008":count_all_2008, "2009":count_all_2009, "2010":count_all_2010,"2011":count_all_2011,"2012":count_all_2012,"2013":count_all_2013,"2014":count_all_2014,"2015":count_all_2015,"2016":count_all_2016,"2017":count_all_2017,"2018":count_all_2018}
+            univs_info[org_univ_name]["yearwise_all"]["count_year"] = {
+                "2007":count_all_2007,
+                "2008":count_all_2008, "2009":count_all_2009, "2010":count_all_2010,"2011":count_all_2011,
+                "2012":count_all_2012,"2013":count_all_2013,
+                "2014":count_all_2014,"2015":count_all_2015,
+                "2016":count_all_2016,"2017":count_all_2017
+            }
             
             
             
@@ -287,7 +316,6 @@ def get_plt_univ_papers_OA_stats(country_papers_OA_df, univs_name):
             count_oa_2015 = len(OA_univ_papers_df[OA_univ_papers_df['year']==2015])
             count_oa_2016 = len(OA_univ_papers_df[OA_univ_papers_df['year']==2016])
             count_oa_2017 = len(OA_univ_papers_df[OA_univ_papers_df['year']==2017])
-            count_oa_2018 = len(OA_univ_papers_df[OA_univ_papers_df['year']==2018])
             
             
             
@@ -298,56 +326,52 @@ def get_plt_univ_papers_OA_stats(country_papers_OA_df, univs_name):
                                                                   "2011":count_oa_2011, "2012":count_oa_2012,
                                                                   "2013":count_oa_2013, "2014":count_oa_2014,
                                                                   "2015":count_oa_2015, "2016":count_oa_2016,
-                                                                  "2017":count_oa_2017, "2018":count_oa_2018} 
+                                                                  "2017":count_oa_2017} 
             
             
-            bucket_year_groups = OA_univ_papers_df.groupby(pd.cut(OA_univ_papers_df.year, pub_year_bins))
-            bucket_year_groups_count_records = bucket_year_groups.size().to_dict()
-            #  for easy readbility
-            remapped = {}
-            remapped["0-2010"] = bucket_year_groups_count_records[pd.Interval(0, 2010, closed='right')]
-            remapped["2011-2013"] = bucket_year_groups_count_records[pd.Interval(2010, 2013, closed='right')]
-            remapped["2014-2016"] = bucket_year_groups_count_records[pd.Interval(2013, 2016, closed='right')]
-            remapped["2017-2019"] = bucket_year_groups_count_records[pd.Interval(2016, 2019, closed='right')]
+#             bucket_year_groups = OA_univ_papers_df.groupby(pd.cut(OA_univ_papers_df.year, pub_year_bins))
+#             bucket_year_groups_count_records = bucket_year_groups.size().to_dict()
+#             #  for easy readbility
+#             remapped = {}
+#             remapped["0-2010"] = bucket_year_groups_count_records[pd.Interval(0, 2010, closed='right')]
+#             remapped["2011-2013"] = bucket_year_groups_count_records[pd.Interval(2010, 2013, closed='right')]
+#             remapped["2014-2016"] = bucket_year_groups_count_records[pd.Interval(2013, 2016, closed='right')]
+#             remapped["2017-2019"] = bucket_year_groups_count_records[pd.Interval(2016, 2019, closed='right')]
             
-            univs_info[org_univ_name]["yearwise_OA"]["count_intervals"] = remapped
+#             univs_info[org_univ_name]["yearwise_OA"]["count_intervals"] = remapped
             
             
             
             
 #             Note: This is the growth rate per year.
-            growth_rate = {}  # change divided by the time it took to make that change
-            growth_rate["2008"] = (count_oa_2008 - count_oa_2007)/1.00
-            growth_rate["2009"] = (count_oa_2009 - count_oa_2008)/1.00
-            growth_rate["2010"] = (count_oa_2010 - count_oa_2009)/1.00
-            growth_rate["2011"] = (count_oa_2011 - count_oa_2010)/1.00
-            growth_rate["2012"] = (count_oa_2012 - count_oa_2011)/1.00
-            growth_rate["2013"] = (count_oa_2013 - count_oa_2012)/1.00
-            growth_rate["2014"] = (count_oa_2014 - count_oa_2013)/1.00
-            growth_rate["2015"] = (count_oa_2015 - count_oa_2014)/1.00
-            growth_rate["2016"] = (count_oa_2016 - count_oa_2015)/1.00
-            growth_rate["2017"] = (count_oa_2017 - count_oa_2016)/1.00
-            growth_rate["2018"] = (count_oa_2018 - count_oa_2017)/1.00
+#             growth_rate = {}  # change divided by the time it took to make that change
+#             growth_rate["2008"] = (count_oa_2008 - count_oa_2007)/1.00
+#             growth_rate["2009"] = (count_oa_2009 - count_oa_2008)/1.00
+#             growth_rate["2010"] = (count_oa_2010 - count_oa_2009)/1.00
+#             growth_rate["2011"] = (count_oa_2011 - count_oa_2010)/1.00
+#             growth_rate["2012"] = (count_oa_2012 - count_oa_2011)/1.00
+#             growth_rate["2013"] = (count_oa_2013 - count_oa_2012)/1.00
+#             growth_rate["2014"] = (count_oa_2014 - count_oa_2013)/1.00
+#             growth_rate["2015"] = (count_oa_2015 - count_oa_2014)/1.00
+#             growth_rate["2016"] = (count_oa_2016 - count_oa_2015)/1.00
+#             growth_rate["2017"] = (count_oa_2017 - count_oa_2016)/1.00
+#             growth_rate["2018"] = (count_oa_2018 - count_oa_2017)/1.00
             
             
-            univs_info[org_univ_name]["yearwise_OA"]["growth_rate"] = growth_rate
+#             univs_info[org_univ_name]["yearwise_OA"]["growth_rate"] = growth_rate
     
     bar_fig = create_OA_percent_bar_chart(univs_oa_percent, save_fname = join(output_dir,country_name+"_"+'OA_percent') , x_label = ("Universities in "+country_name), plt_text = ('Total Count of Universities = '+str(len(univs_oa_percent))) )
     return bar_fig, univs_info, univs_not_found, univs_found
 
 
-# In[11]:
-
-
-# Create a new directory to save results
-os.makedirs(output_dir)
+# In[12]:
 
 
 all_countries_plot = {}
 all_countries_all_univs_OA_info = {}
 all_countries_univs_found_not_found = {}
 
-for country_name,univs_name in cfg['data']['all_THE_institutions_by_country'].items():
+for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'].items():
     print("\nProcesing for dataset of univs in "+country_name+"\n")
     all_countries_plot[country_name] = {}
     all_countries_univs_found_not_found[country_name] =  {}
@@ -394,13 +418,7 @@ for country_name,univs_name in cfg['data']['all_THE_institutions_by_country'].it
     print("Saved plot for dataset of "+country_name+"\n")
 
 
-# In[ ]:
-
-
-
-
-
-# In[12]:
+# In[13]:
 
 
 # Write text files with the infos
@@ -412,57 +430,230 @@ with open(join(output_dir,'all_countries_all_univs_OA_info.txt'), 'w') as file:
      file.write(json.dumps(all_countries_all_univs_OA_info, sort_keys=True, indent=4, ensure_ascii=False)) 
 
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# # Sample Test country
-
-# In[13]:
-
-
-# test_country = "russia"
-test_country = "brazil"
-# test_country = "uk"
-# test_country = "usa"
-
+# # Load data from previously saved files
 
 # In[14]:
 
 
-# all_countries_plot[test_country].savefig(join(output_dir,test_country+"_"+'OA.pdf'), bbox_inches='tight')
+with open(join(output_dir,'all_countries_all_univs_OA_info.txt')) as file:
+     all_countries_all_univs_OA_info = json.load(file)
+        
+# all_countries_all_univs_OA_info
 
 
-# In[15]:
+# # Create Representative universities OA percent comparision Scatter plot
+
+# In[263]:
 
 
-all_countries_plot[test_country]
+def create_representative_univs_line_plot_groups(all_countries_all_univs_OA_info, save_fname, x_label=None, y_label = "Percentage of OA Papers Published", plt_text=None):
+
+    country_rep_univs = {}
+    
+    width = 0.9
+    
+    colors = ("red", "blue", "green")
+    groups = ("Low Research Intensive Universities", "Medium Research Intensive Universities", "High Research Intensive Universities")
+    
+    
+    high_tier_plot_data = []
+    mid_tier_plot_data = []
+    low_tier_plot_data = []
+    
+    
+    country_tier_mean_values = []
+    
+    
+    
+    for country, univ_tiers in cfg["data"]["research_intensive_THE_WUR_institutions_by_country"].items():
+#         print(country)
+        country_rep_univs[cnames_for_plot[country]] = {}
+    
+        country_rep_univs[cnames_for_plot[country]]["High_Tier"]={}
+        country_rep_univs[cnames_for_plot[country]]["Mid_Tier"]={}
+        country_rep_univs[cnames_for_plot[country]]["Low_Tier"]={}
+        
+
+        high_tier_univs = univ_tiers["high"]
+        for x in high_tier_univs:
+            high_tier_plot_data.append((country+"(High)",all_countries_all_univs_OA_info[country][x]["percent_OA_papers"]))
+            country_rep_univs[cnames_for_plot[country]]["High_Tier"][x] = all_countries_all_univs_OA_info[country][x]["percent_OA_papers"]
+            
+    
+        medium_tier_univs = univ_tiers["medium"]
+        for x in medium_tier_univs:
+            mid_tier_plot_data.append((country+"(Mid)",all_countries_all_univs_OA_info[country][x]["percent_OA_papers"]))
+            country_rep_univs[cnames_for_plot[country]]["Mid_Tier"][x] = all_countries_all_univs_OA_info[country][x]["percent_OA_papers"]
+            
+        
+        low_tier_univs = univ_tiers["low"]
+        for x in low_tier_univs:
+            low_tier_plot_data.append((country+"(Low)",all_countries_all_univs_OA_info[country][x]["percent_OA_papers"]))
+            country_rep_univs[cnames_for_plot[country]]["Low_Tier"][x] = all_countries_all_univs_OA_info[country][x]["percent_OA_papers"]
+    
+    
+    fig, axs = plt.subplots(1,1,figsize=(15,10), sharex=True, sharey=True)
+    
+    sorted_cnames = sorted(cfg["data"]["research_intensive_THE_WUR_institutions_by_country"].keys())
+    
+    hidden_tick_indices = []
+    count_hidden_tick_index = -1
+    for i in range(len(sorted_cnames)):
+        cname = sorted_cnames[i]
+        
+        # First plot the data for low tier univs of the country
+        country_low_tier_univs_values = [x[1] for x in low_tier_plot_data if x[0]==cname+"(Low)"]
+#         axs.plot([cname+"(Low)"]*len(country_low_tier_univs_values), country_low_tier_univs_values, c="red", label="Low Tier University", linestyle='-', marker='o', linewidth=4)
+
+        
+        country_low_tier_mean_value = mean(country_low_tier_univs_values)
+        country_low_tier_min_value = min(country_low_tier_univs_values)
+        country_low_tier_max_value = max(country_low_tier_univs_values)
+        country_tier_mean_values.append((cname+"(Low)",country_low_tier_mean_value))
+        country_rep_univs[cnames_for_plot[cname]]["Low_Tier"]["Mean"] = country_low_tier_mean_value
+        
+        
+        axs.scatter([cname+"(Low)"]*len(country_low_tier_univs_values), country_low_tier_univs_values, c="black", marker='x', label="OA %")
+        height = country_low_tier_max_value - country_low_tier_min_value
+        axs.add_patch(Rectangle(xy=(count_hidden_tick_index+1-width/2,country_low_tier_min_value-1) ,width=width, height=height+2, linewidth=1, color='cornflowerblue', fill="cornflowerblue", alpha=0.25, label="Low Tier Universities"))
+        
+
+        
+        
+        
+
+        # Then plot the data for mid tier univs of the country    
+        country_mid_tier_univs_values = [x[1] for x in mid_tier_plot_data if x[0]==cname+"(Mid)"]
+#         axs.plot([cnames_for_plot[cname]]*len(country_mid_tier_univs_values), country_mid_tier_univs_values, c="orange", label="Mid Tier University", linestyle='-', marker='o', linewidth=4)  # to make this tick mark visible as cname rather than the true cname_mid; also capitalize the first letter
+
+        
+    
+        country_mid_tier_mean_value = mean(country_mid_tier_univs_values)
+        country_mid_tier_min_value = min(country_mid_tier_univs_values)
+        country_mid_tier_max_value = max(country_mid_tier_univs_values)
+        country_tier_mean_values.append((cnames_for_plot[cname],country_mid_tier_mean_value))
+        country_rep_univs[cnames_for_plot[cname]]["Mid_Tier"]["Mean"] = country_mid_tier_mean_value
+        
+        
+        axs.scatter([cnames_for_plot[cname]]*len(country_mid_tier_univs_values), country_mid_tier_univs_values, c="black", marker='x', label="OA %")
+        height = country_mid_tier_max_value - country_mid_tier_min_value
+        axs.add_patch(Rectangle(xy=(count_hidden_tick_index+2-width/2,country_mid_tier_min_value-1) ,width=width, height=height+2, linewidth=1, color='orange', fill="orange", alpha=0.25, label="Mid Tier Universities"))
+        
+        
+        
+        
+        
+    
+        # Also, plot the data for high tier univs of the country
+        country_high_tier_univs_values = [x[1] for x in high_tier_plot_data if x[0]==cname+"(High)"]
+#         axs.plot([cname+"(High)"]*len(country_high_tier_univs_values), country_high_tier_univs_values, c="green", label="High Tier University", linestyle='-', marker='o', linewidth=4)
+        
+        
+        country_high_tier_mean_value = mean(country_high_tier_univs_values)
+        country_high_tier_min_value = min(country_high_tier_univs_values)
+        country_high_tier_max_value = max(country_high_tier_univs_values)
+        country_tier_mean_values.append((cname+"(High)",country_high_tier_mean_value))
+        country_rep_univs[cnames_for_plot[cname]]["High_Tier"]["Mean"] = country_high_tier_mean_value
+        
+        
+        axs.scatter([cname+"(High)"]*len(country_high_tier_univs_values), country_high_tier_univs_values, c="black", marker='x', label="OA %")
+        height = country_high_tier_max_value - country_high_tier_min_value
+        axs.add_patch(Rectangle(xy=(count_hidden_tick_index+3-width/2,country_high_tier_min_value-1),width=width, height=height+2, linewidth=1, color='green', fill="green", alpha=0.25, label="High Tier Universities"))
+        
+        
+        
+        
+        
+        # Hide the tick marks for the low and high tier markers
+        hidden_tick_indices.append(count_hidden_tick_index+1)  # low marker
+        hidden_tick_indices.append(count_hidden_tick_index+3)  # high marker
+        
+        
+        # Finally add three fake tick points for inter spacing among the groups
+        if i!=(len(sorted_cnames)-1):  # except when the last true xticks have been added.
+            count_hidden_tick_index = count_hidden_tick_index + 4
+            axs.plot([cname+"(None1)"], 10.0, c="white", linestyle='-', marker='o')
+            hidden_tick_indices.append(count_hidden_tick_index)
+
+            count_hidden_tick_index = count_hidden_tick_index + 1
+            axs.plot([cname+"(None2)"], 10.0, c="white", linestyle='-', marker='o')
+            hidden_tick_indices.append(count_hidden_tick_index)
+
+            count_hidden_tick_index = count_hidden_tick_index + 1
+            axs.plot([cname+"(None3)"], 10.0, c="white", linestyle='-', marker='o')
+            hidden_tick_indices.append(count_hidden_tick_index)
+        
+        
+    
+#     https://stackoverflow.com/a/13583251/530399
+    xticks = axs.xaxis.get_major_ticks()
+    for hidden_tick_index in hidden_tick_indices:
+        xticks[hidden_tick_index].set_visible(False)
+    
+    
+    # Plot the mean value line
+#     axs.scatter(*zip(*country_tier_mean_values), label='Mean Value', s=280, facecolors='none', edgecolors='b')
+    axs.scatter(*zip(*country_tier_mean_values), label='Mean OA %', c="red", marker='s', s=104)
+    
+    
+    
+    
+    # show grid at every ticks
+#     plt.grid()
+# https://stackoverflow.com/a/39039520/530399
+    axs.set_axisbelow(True)
+    axs.yaxis.grid(color='lightgrey', linestyle='dashed')
+    
+
+    # Frequency of y-ticks
+    # https://stackoverflow.com/a/12608937/530399
+    stepsize=3
+    start, end = axs.get_ylim()
+    axs.yaxis.set_ticks(np.arange(1, end, stepsize))
+    
+    # Font size to use for ticks
+    axs.xaxis.set_tick_params(labelsize=20)
+    axs.yaxis.set_tick_params(labelsize=20)
+    
+
+    axs.set_ylabel(y_label, fontsize=24, labelpad=15)
+    
+    
+    
+    
+    #     Remove multiple legends by unique entires. Because each country was separately adeed for each tiers, there are duplicate legend entries.
+#     https://stackoverflow.com/a/13589144/530399
+    handles, labels = plt.gca().get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))
+    plt.legend(by_label.values(), by_label.keys(), prop={'size': 16},
+               loc='upper center', bbox_to_anchor=(0.5, 1.05),
+          ncol=3, fancybox=True, shadow=True
+              )  # location of legend -- https://stackoverflow.com/a/4701285/530399
+    
+    
+    
+    plt.savefig(save_fname+".png", bbox_inches='tight', dpi=900)
+    plt.savefig(save_fname+".pdf", bbox_inches='tight', dpi=900)
+    
+    plt.close()
+    
+    return fig, country_rep_univs
 
 
-# In[16]:
+# In[264]:
 
 
-print(all_countries_univs_found_not_found[test_country]['not_found']['univ_names'])
+rep_univ_OA_plot, country_rep_univs_data = create_representative_univs_line_plot_groups(all_countries_all_univs_OA_info, save_fname = join(output_dir,"all_countries_representative_univs_OA_percent"))
+
+rep_univ_OA_plot
 
 
-# In[17]:
+# In[265]:
 
 
-all_countries_univs_found_not_found[test_country]['not_found']['count_univs']
+# Write country_rep_univs to file
+with open(join(output_dir,'representative_univs_in_all_countries.txt'), 'w') as file:
+     file.write(json.dumps(country_rep_univs_data, sort_keys=True, indent=4, ensure_ascii=False))
 
 
 # In[ ]:
@@ -471,51 +662,16 @@ all_countries_univs_found_not_found[test_country]['not_found']['count_univs']
 
 
 
-# # Sample University
-
-# In[18]:
-
-
-# test_univ = "Altai State Technical University"
-test_univ = "Universidade Luterana do Brasil (ULBRA)"
-# test_univ = "Brighton and Sussex Medical School"
-# test_univ = "central baptist college"
-
-
-# In[19]:
-
-
-all_countries_all_univs_OA_info[test_country][test_univ]
-
-
-# In[20]:
-
-
-test_OA_value = 100.00
-for key,val in all_countries_all_univs_OA_info[test_country].items():
-    if val['percent_OA_papers'] == test_OA_value:
-        print(key)
-        print(val)
-        print()
-
-
 # In[ ]:
 
 
 
 
 
-# In[21]:
+# In[ ]:
 
 
-max_OA_papers_count = 0
-max_OA_papers_uni = None
-for key,val in all_countries_all_univs_OA_info[test_country].items():
-    if val['count_OA_papers'] > max_OA_papers_count:
-        max_OA_papers_uni = key
-        max_OA_papers_count = val['count_OA_papers']
-print(max_OA_papers_uni)
-print(all_countries_all_univs_OA_info[test_country][max_OA_papers_uni])
+
 
 
 # In[ ]:
@@ -544,23 +700,141 @@ print(all_countries_all_univs_OA_info[test_country][max_OA_papers_uni])
 
 # # Part B: Analysis at Country Level
 
-# In[22]:
+# #### This can't build up on the data from univ_level because of duplicate paper. If the same paper(paperid) has authors from multiple univs within the same country, only one instance of it can be considered. 
+# 
+# #### 1. Load country level dataset 2. Retain records from unis in THE_WUR list only. 3. Delete duplicate paperid records 4. records from study_years only 4. Yearwise Breakdown
 
-
-with open(join(output_dir,'all_countries_all_univs_OA_info.txt')) as file:
-     all_countries_all_univs_OA_info = json.load(file)
-
-
-# In[23]:
-
-
-# all_countries_all_univs_OA_info
-
-
-# In[24]:
+# In[17]:
 
 
 countries_oa_info = {}
+countries_oa_percents = {}  # needed for plot.
+
+for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'].items():
+    
+    countries_oa_info[country_name] = {}
+    
+    
+    
+    # 1. Load Data
+    # CSV has repeated header from multiple partitions of the merge on pyspark csv output. Hence need to treat as string.
+    country_papers_OA_df = pd.read_csv(join(root,"data/processed/OA_status_"+country_name+"_papers.csv"), header=0, sep=",", dtype={'is_OA': object, "url_lists_as_string": object, "year": object, "wikipage": object})  # object means string
+    # Then eliminate problematic lines
+    #  temp fix until spark csv merge header issue is resolved -- the header line is present in each re-partition's output csv
+    country_papers_OA_df.drop(country_papers_OA_df[country_papers_OA_df.paperid == "paperid"].index, inplace=True)
+    # Then reset dtypes as needed.
+    country_papers_OA_df = country_papers_OA_df.astype({'year':int})  # todo : for other types too including is_OA and update the check method to boolean type
+    
+    
+    # Finally, create a new column named normalizedwikiname. This is helpful for matching english names of non-english universities. Eg: get "federal university of health sciences of porto alegre" for "universidade federal de ciencias da saude de porto alegre" using the wikilink which contains "universidade federal de ciencias da saude de porto alegre" in it.
+    country_papers_OA_df["normalizedwikiname"] = country_papers_OA_df['wikipage'].apply(mag_wiki_link_normalise)
+    
+    
+    # 2. Retain records from THE_WUR only
+    univs_names_normalized = [mag_normalisation_institution_names(x) for x in univs_name]
+    country_THE_papers_OA_df_set1 = country_papers_OA_df[country_papers_OA_df['normalizedname'].isin(univs_names_normalized)]
+    country_THE_papers_OA_df_set2 = country_papers_OA_df[country_papers_OA_df['normalizedwikiname'].isin(univs_names_normalized)]
+    # The records in two sets can be the excatly the same 
+# Concat and remove exact duplicates  -- https://stackoverflow.com/a/21317570/530399
+    country_THE_papers_OA_df = pd.concat([country_THE_papers_OA_df_set1, country_THE_papers_OA_df_set2]).drop_duplicates().reset_index(drop=True)
+    
+    
+    # 3. Remove Duplicates paperids -- same paper with authors from multiple universities within the country.
+    country_THE_papers_OA_df = country_THE_papers_OA_df.drop_duplicates(subset="paperid")
+    
+    # 4. Put criteria that these papers are from 2007 till 2017
+    country_THE_papers_OA_df = country_THE_papers_OA_df[country_THE_papers_OA_df['year'].isin(study_years)]
+    
+    
+    
+    OA_papers = country_THE_papers_OA_df[country_THE_papers_OA_df['is_OA']=="true"]
+    unknown_papers = country_THE_papers_OA_df[country_THE_papers_OA_df['is_OA']!="true"]
+    
+    
+    count_country_OA_papers = len(OA_papers)
+    count_country_unknown_papers = len(unknown_papers)
+    
+    total_country_papers = count_country_OA_papers + count_country_unknown_papers
+    percent_OA_country = (count_country_OA_papers * 100.00)/total_country_papers
+    percent_unknown_country = (count_country_unknown_papers * 100.00)/total_country_papers
+    
+    
+    countries_oa_percents[country_name] = percent_OA_country
+    
+    countries_oa_info[country_name]['count_OA_papers'] = count_country_OA_papers
+    countries_oa_info[country_name]['count_unknown_papers'] = count_country_unknown_papers    
+    countries_oa_info[country_name]['percent_OA_papers'] = percent_OA_country
+    countries_oa_info[country_name]['percent_unknown_papers'] = percent_unknown_country
+    countries_oa_info[country_name]['count_total_papers'] = total_country_papers
+    
+    
+    
+    # Yearwise Breakdown
+    count_oa_2007 = len(OA_papers[OA_papers["year"]==2007])
+    count_oa_2008 = len(OA_papers[OA_papers["year"]==2008])
+    count_oa_2009 = len(OA_papers[OA_papers["year"]==2009])
+    count_oa_2010 = len(OA_papers[OA_papers["year"]==2010])
+    count_oa_2011 = len(OA_papers[OA_papers["year"]==2011])
+    count_oa_2012 = len(OA_papers[OA_papers["year"]==2012])
+    count_oa_2013 = len(OA_papers[OA_papers["year"]==2013])
+    count_oa_2014 = len(OA_papers[OA_papers["year"]==2014])
+    count_oa_2015 = len(OA_papers[OA_papers["year"]==2015])
+    count_oa_2016 = len(OA_papers[OA_papers["year"]==2016])
+    count_oa_2017 = len(OA_papers[OA_papers["year"]==2017])
+   
+
+    
+    count_all_2007 = len(country_THE_papers_OA_df[country_THE_papers_OA_df["year"]==2007])
+    count_all_2008 = len(country_THE_papers_OA_df[country_THE_papers_OA_df["year"]==2008])
+    count_all_2009 = len(country_THE_papers_OA_df[country_THE_papers_OA_df["year"]==2009])
+    count_all_2010 = len(country_THE_papers_OA_df[country_THE_papers_OA_df["year"]==2010])
+    count_all_2011 = len(country_THE_papers_OA_df[country_THE_papers_OA_df["year"]==2011])
+    count_all_2012 = len(country_THE_papers_OA_df[country_THE_papers_OA_df["year"]==2012])
+    count_all_2013 = len(country_THE_papers_OA_df[country_THE_papers_OA_df["year"]==2013])
+    count_all_2014 = len(country_THE_papers_OA_df[country_THE_papers_OA_df["year"]==2014])
+    count_all_2015 = len(country_THE_papers_OA_df[country_THE_papers_OA_df["year"]==2015])
+    count_all_2016 = len(country_THE_papers_OA_df[country_THE_papers_OA_df["year"]==2016])
+    count_all_2017 = len(country_THE_papers_OA_df[country_THE_papers_OA_df["year"]==2017])
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    countries_oa_info[country_name]["yearwise_OA"] = {}
+    
+    countries_oa_info[country_name]["yearwise_OA"]["count_year"] = {"2007":count_oa_2007, "2008":count_oa_2008,
+                                                           "2009":count_oa_2009, "2010":count_oa_2010,
+                                                           "2011":count_oa_2011, "2012":count_oa_2012,
+                                                           "2013":count_oa_2013, "2014":count_oa_2014,
+                                                           "2015":count_oa_2015, "2016":count_oa_2016,
+                                                           "2017":count_oa_2017}
+
+    
+    # Lets find the percentage OA in each year
+    countries_oa_info[country_name]["yearwise_OA"]["percent_year"] = {
+        "2007":(count_oa_2007*100.00)/count_all_2007,
+        "2008":(count_oa_2008*100.00)/count_all_2008,
+       "2009":(count_oa_2009*100.00)/count_all_2009,
+        "2010":(count_oa_2010*100.00)/count_all_2010,
+       "2011":(count_oa_2011*100.00)/count_all_2011,
+        "2012":(count_oa_2012*100.00)/count_all_2012,
+       "2013":(count_oa_2013*100.00)/count_all_2013,
+        "2014":(count_oa_2014*100.00)/count_all_2014,
+       "2015":(count_oa_2015*100.00)/count_all_2015, 
+        "2016":(count_oa_2016*100.00)/count_all_2016,
+       "2017":(count_oa_2017*100.00)/count_all_2017
+    }
+    
+    
+    print("\nCompleted procesing for dataset of "+country_name+"\n")
+    
+
+'''countries_oa_info = {}
 countries_oa_percents = {}  # needed for plot.
 
 for key,val in all_countries_all_univs_OA_info.items():
@@ -568,10 +842,10 @@ for key,val in all_countries_all_univs_OA_info.items():
     count_country_OA_papers = 0
     count_country_unknown_papers = 0
     
-    count_yearwise_0_to_2010 = 0
-    count_yearwise_2011_to_2013 = 0
-    count_yearwise_2014_to_2016 = 0
-    count_yearwise_2017_to_2019 = 0
+#     count_yearwise_0_to_2010 = 0
+#     count_yearwise_2011_to_2013 = 0
+#     count_yearwise_2014_to_2016 = 0
+#     count_yearwise_2017_to_2019 = 0
     
     
     count_oa_2007 = 0
@@ -606,10 +880,10 @@ for key,val in all_countries_all_univs_OA_info.items():
         count_country_unknown_papers = count_country_unknown_papers + univ_oa_details['count_unknown_papers']
         
         # Lets get the sum of count of OA in the selected intervals
-        count_yearwise_0_to_2010 = count_yearwise_0_to_2010 + univ_oa_details["yearwise_OA"]["count_intervals"]["0-2010"]
-        count_yearwise_2011_to_2013 = count_yearwise_2011_to_2013 + univ_oa_details["yearwise_OA"]["count_intervals"]["2011-2013"]
-        count_yearwise_2014_to_2016 = count_yearwise_2014_to_2016 + univ_oa_details["yearwise_OA"]["count_intervals"]["2014-2016"]
-        count_yearwise_2017_to_2019 = count_yearwise_2017_to_2019 + univ_oa_details["yearwise_OA"]["count_intervals"]["2017-2019"]
+#         count_yearwise_0_to_2010 = count_yearwise_0_to_2010 + univ_oa_details["yearwise_OA"]["count_intervals"]["0-2010"]
+#         count_yearwise_2011_to_2013 = count_yearwise_2011_to_2013 + univ_oa_details["yearwise_OA"]["count_intervals"]["2011-2013"]
+#         count_yearwise_2014_to_2016 = count_yearwise_2014_to_2016 + univ_oa_details["yearwise_OA"]["count_intervals"]["2014-2016"]
+#         count_yearwise_2017_to_2019 = count_yearwise_2017_to_2019 + univ_oa_details["yearwise_OA"]["count_intervals"]["2017-2019"]
         
         # The sum of count of oa in specific years -- needed to find growth rate
         count_oa_2007 = count_oa_2007 + univ_oa_details["yearwise_OA"]["count_year"]["2007"]
@@ -653,10 +927,10 @@ for key,val in all_countries_all_univs_OA_info.items():
     
     countries_oa_info[key]["yearwise_OA"] = {}
     
-    countries_oa_info[key]["yearwise_OA"]["count_intervals"] = {"0-2010": count_yearwise_0_to_2010,
-                                                                "2011-2013": count_yearwise_2011_to_2013,
-                                                               "2014-2016": count_yearwise_2014_to_2016,
-                                                                "2017-2019": count_yearwise_2017_to_2019}
+#     countries_oa_info[key]["yearwise_OA"]["count_intervals"] = {"0-2010": count_yearwise_0_to_2010,
+#                                                                 "2011-2013": count_yearwise_2011_to_2013,
+#                                                                "2014-2016": count_yearwise_2014_to_2016,
+#                                                                 "2017-2019": count_yearwise_2017_to_2019}
     
     
     
@@ -685,48 +959,46 @@ for key,val in all_countries_all_univs_OA_info.items():
     
     
     
-    # Lets also find the growth within each intervals
-    growth_rate = {}  # change divided by the time it took to make that change
-    growth_rate["2008"] = (count_oa_2008 - count_oa_2007)/1.00
-    growth_rate["2009"] = (count_oa_2009 - count_oa_2008)/1.00
-    growth_rate["2010"] = (count_oa_2010 - count_oa_2009)/1.00
-    growth_rate["2011"] = (count_oa_2011 - count_oa_2010)/1.00
-    growth_rate["2012"] = (count_oa_2012 - count_oa_2011)/1.00
-    growth_rate["2013"] = (count_oa_2013 - count_oa_2012)/1.00
-    growth_rate["2014"] = (count_oa_2014 - count_oa_2013)/1.00
-    growth_rate["2015"] = (count_oa_2015 - count_oa_2014)/1.00
-    growth_rate["2016"] = (count_oa_2016 - count_oa_2015)/1.00
-    growth_rate["2017"] = (count_oa_2017 - count_oa_2016)/1.00
-    growth_rate["2018"] = (count_oa_2018 - count_oa_2017)/1.00
-    countries_oa_info[key]["yearwise_OA"]["growth_rate"] = growth_rate
+#     # Lets also find the growth within each intervals
+#     growth_rate = {}  # change divided by the time it took to make that change
+#     growth_rate["2008"] = (count_oa_2008 - count_oa_2007)/1.00
+#     growth_rate["2009"] = (count_oa_2009 - count_oa_2008)/1.00
+#     growth_rate["2010"] = (count_oa_2010 - count_oa_2009)/1.00
+#     growth_rate["2011"] = (count_oa_2011 - count_oa_2010)/1.00
+#     growth_rate["2012"] = (count_oa_2012 - count_oa_2011)/1.00
+#     growth_rate["2013"] = (count_oa_2013 - count_oa_2012)/1.00
+#     growth_rate["2014"] = (count_oa_2014 - count_oa_2013)/1.00
+#     growth_rate["2015"] = (count_oa_2015 - count_oa_2014)/1.00
+#     growth_rate["2016"] = (count_oa_2016 - count_oa_2015)/1.00
+#     growth_rate["2017"] = (count_oa_2017 - count_oa_2016)/1.00
+#     growth_rate["2018"] = (count_oa_2018 - count_oa_2017)/1.00
+#     countries_oa_info[key]["yearwise_OA"]["growth_rate"] = growth_rate
     
     
     
     
     
-    countries_oa_percents[key] = percent_OA_country
-
-
-# In[25]:
+    countries_oa_percents[key] = percent_OA_country'''
+# In[18]:
 
 
 with open(join(output_dir,'all_countries_OA_info.txt'), 'w') as file:
      file.write(json.dumps(countries_oa_info, sort_keys=True, indent=4, ensure_ascii=False)) 
 
 
-# In[26]:
+# In[19]:
 
 
 countries_oa_percents
 
 
-# In[27]:
+# In[20]:
 
 
 countries_oa_percent_bar_plot = create_OA_percent_bar_chart(countries_oa_percents, save_fname = join(output_dir,"all_countries_OA_percent"), x_label = "Countries", display_values=True)
 
 
-# In[28]:
+# In[21]:
 
 
 countries_oa_percent_bar_plot
@@ -737,10 +1009,7 @@ countries_oa_percent_bar_plot
 
 
 
-
-# In[29]:
-
-
+# This data will be put in latex table -- plot not needed
 def create_triple_bar_chart(oa_info_dict, save_fname, x_label=None):
     '''
     Contains plot of count OA, count Unknown and count Total. The % OA value is too small for this plot and is therefore separately shown in the other graph.
@@ -748,7 +1017,7 @@ def create_triple_bar_chart(oa_info_dict, save_fname, x_label=None):
     
     #  Sort by Percentage OA   
     #  https://stackoverflow.com/a/37266356/530399
-    sort_by_vals = sorted(oa_info_dict.items(), key=lambda kv: kv[1]['percent_OA_papers'], reverse=True) # sorted by values, return a list of tuples
+    sort_by_vals = sorted(oa_info_dict.items(), key=lambda kv: kv[0]) # sorted by keys, return a list of tuples
     
     names = [x for (x,y) in sort_by_vals]
     
@@ -799,31 +1068,13 @@ def create_triple_bar_chart(oa_info_dict, save_fname, x_label=None):
     plt.legend()
 
     
-    plt.savefig(save_fname+".png", bbox_inches='tight')
-    plt.savefig(save_fname+".pdf", bbox_inches='tight')
+    plt.savefig(save_fname+".png", bbox_inches='tight', dpi=900)
+    plt.savefig(save_fname+".pdf", bbox_inches='tight', dpi=900)
     
     
     plt.close()
     
-    return ax.get_figure()
-
-
-# In[30]:
-
-
-countries_oa_info_bar_plot = create_triple_bar_chart(countries_oa_info, save_fname = join(output_dir,"all_countries_OA_info"), x_label = "Countries")
-
-
-# In[31]:
-
-
-countries_oa_info_bar_plot
-
-
-# In[32]:
-
-
-def create_OA_growth_line_chart(countries_oa_info, save_fname, x_label = "Year", plt_text=None):
+    return ax.get_figure()countries_oa_info_bar_plot = create_triple_bar_chart(countries_oa_info, save_fname = join(output_dir,"all_countries_OA_info"), x_label = "Countries")countries_oa_info_bar_plot'''def create_OA_growth_line_chart(countries_oa_info, save_fname, x_label = "Year", plt_text=None):
     
     plt.figure(figsize=(15,10))
     
@@ -855,33 +1106,19 @@ def create_OA_growth_line_chart(countries_oa_info, save_fname, x_label = "Year",
 #     plt.xticks(years)
     plt.legend(country_names_list, loc='upper left')
     
-    plt.savefig(save_fname+".png", bbox_inches='tight')
-    plt.savefig(save_fname+".pdf", bbox_inches='tight')
+    plt.savefig(save_fname+".png", bbox_inches='tight', dpi=900)
+    plt.savefig(save_fname+".pdf", bbox_inches='tight', dpi=900)
     
     plt.close()
     
-    return ax.get_figure()
-
-
-# In[33]:
-
-
-countries_OA_growth_line_plot = create_OA_growth_line_chart(countries_oa_info, save_fname = join(output_dir,"all_countries_OA_growth"), x_label = "Year")
-
-
-# In[34]:
-
-
-countries_OA_growth_line_plot
-
-
+    return ax.get_figure()''''''countries_OA_growth_line_plot = create_OA_growth_line_chart(countries_oa_info, save_fname = join(output_dir,"all_countries_OA_growth"), x_label = "Year")'''# countries_OA_growth_line_plot
 # In[ ]:
 
 
 
 
 
-# In[35]:
+# In[234]:
 
 
 def create_yearwise_OA_percent_line_chart(countries_oa_info, save_fname, x_label = "Year", plt_text=None):
@@ -898,7 +1135,7 @@ def create_yearwise_OA_percent_line_chart(countries_oa_info, save_fname, x_label
         sort_by_year = sorted(percent_oa.items(), key=lambda kv: int(kv[0]))
         years, percent_oas = zip(*sort_by_year) # unpack a list of pairs into two tuples
         
-        plt.plot(years,percent_oas, linewidth=4, markersize=12, marker=markers[len(country_names_list)])
+        plt.plot(years, percent_oas, linewidth=4, markersize=12, marker=markers[len(country_names_list)])
         
         country_names_list.append(country_name)
         
@@ -906,36 +1143,82 @@ def create_yearwise_OA_percent_line_chart(countries_oa_info, save_fname, x_label
     
     ax = plt.gca()
     if x_label:
-        ax.set_xlabel(x_label)
-    ax.set_ylabel("% of OA paper published in each year")
+        ax.set_xlabel(x_label, fontsize=20, labelpad=10)
+    ax.set_ylabel("% of OA paper published in each year", fontsize=24, labelpad=15)
+    
+    
+    
+    # Font size to use for ticks
+    ax.xaxis.set_tick_params(labelsize=20)
+    ax.yaxis.set_tick_params(labelsize=20)
+    
+    
+    # Frequency of x-ticks
+    # https://stackoverflow.com/a/12608937/530399
+    stepsize=3
+    start, end = ax.get_ylim()
+    ax.yaxis.set_ticks(np.arange(int(start), end, stepsize))
+    
+    
+    
+    # show grid at every ticks
+    #     plt.grid()
+    # https://stackoverflow.com/a/39039520/530399
+    ax.set_axisbelow(True)
+    ax.yaxis.grid(color='lightgrey', linestyle='dashed')
+    
     
     if plt_text:
 #     https://stackoverflow.com/a/8482667/530399
         plt.text(0.7, 0.9,plt_text, ha='center', va='center', transform=ax.transAxes)
     
 #     plt.xticks(years)
-    plt.legend(country_names_list, loc='upper left')
+    plt.legend([cnames_for_plot[x] for x in country_names_list], loc='upper left', prop={'size': 16})
     
-    plt.savefig(save_fname+".png", bbox_inches='tight')
-    plt.savefig(save_fname+".pdf", bbox_inches='tight')
+    plt.savefig(save_fname+".png", bbox_inches='tight', dpi=900)
+    plt.savefig(save_fname+".pdf", bbox_inches='tight', dpi=900)
     
     plt.close()
     
     return ax.get_figure()
 
 
-# In[36]:
+# In[235]:
 
 
 countries_OA_percent_each_year_line_plot = create_yearwise_OA_percent_line_chart(countries_oa_info, save_fname = join(output_dir,"all_countries_OA_percent_each_year"), x_label = "Year")
 
 
-# In[37]:
+# In[236]:
 
 
 countries_OA_percent_each_year_line_plot
 
 
+# In[245]:
+
+
+countries_oa_info['usa']
+
+
+# In[26]:
+
+
+# countries_oa_info['brazil']
+
+
+# In[27]:
+
+
+# countries_oa_info['germany']
+
+
+# In[ ]:
+
+
+
+
+
 # In[ ]:
 
 
@@ -954,10 +1237,10 @@ countries_OA_percent_each_year_line_plot
 
 
 
-# In[38]:
+# In[ ]:
 
 
-countries_oa_info['brazil']
+
 
 
 # In[ ]:
@@ -966,10 +1249,22 @@ countries_oa_info['brazil']
 
 
 
-# In[39]:
+# In[ ]:
+
+
+
+
+
+# In[28]:
 
 
 print("\n\n\nCompleted!!!")
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
