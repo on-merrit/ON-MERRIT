@@ -1,5 +1,5 @@
 '''
-Extracts dataset of all papers of all institutions in the countries of our choice.
+Extracts dataset of all papers of ALL institutions in the countries of our choice. This includes all the institutions found in MAG for that country.
 
 A separate csv will be generated for each country. A total dataset of all records will also be created.
 
@@ -73,7 +73,8 @@ def analyze(ss, cfg):
 
         country_papers_df = all_institutions_ids_df.join(paper_author_aff_df, all_institutions_ids_df.affiliationid == paper_author_aff_df.affiliationid) # inner join
         country_papers_df = country_papers_df.select('paperid', paper_author_aff_df.affiliationid)  # keep only the necessary fields
-        # same paper could have multiple authors and therefore have multiple entries in paper_author_aff_df. Need to get rid of such duplicate entries
+        # same paper could have multiple authors within the same institution and therefore have multiple entries in paper_author_aff_df. Need to get rid of such duplicate entries.
+        # This will however preserve records with same paperid but different affilaitionid (when the same paper is written by authors from different univs), which is desired.
         country_papers_df = country_papers_df.dropDuplicates()
 
         # To get back the name of the institutions

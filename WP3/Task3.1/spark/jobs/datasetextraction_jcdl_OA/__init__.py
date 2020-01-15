@@ -1,5 +1,6 @@
 '''
-Extracts dataset of OA status of all papers of all the institutions (i.e. not just the universities ranked in THE) in the countries of our choice.
+Extracts dataset of OA status of all papers of all the institutions (i.e. all universities and all other institutions in MAG and not just the universities listed in THE WUR)
+in the countries of our choice. Further processing will be needed to make analysis per THE WUR univ names.
 
 A separate csv will be generated for each country. A total dataset of all records will also be created.
 
@@ -9,7 +10,7 @@ Classify the OA status into green, gold and open to read, open licence etc.
 
 Important considerations about this work :
 1. The mucc dataset doesn't have distinct entries for the ['paperid','link'] subset; i.e. the same paperid could have different/multiple links or even no link vs some link. I will infer that the paper is OA if there is atleast one link.
-2. The country papers can also have duplicates because the same paper could belong to multiple university (authors) within the same country but at the university level, those paperids are distinct.
+2. The country papers can also have duplicates (duplicate paperid) because the same paperid could belong to different authors from multiple university within the same country. This dataset has been prepared to not contain duplicate paperids(authorship) from same university. So, at the university level, paperids are non-dup but at the country level, the paperid field can be duplicated.
 3. The mucc dataset (for some reasons) doesn't contain entry for all paperids of MAG. This implies that some of the records in the dataset extracted here will not have neither true nor false value for the is_OA field.
 4. Only those records marked as true for is_OA field can be said to be OA. Others with false or no value for is_OA field are unknown status (i.e. not necessarily closed access).
 '''
@@ -49,7 +50,7 @@ def analyze(ss, cfg):
 
     logger = logging.getLogger(__name__)
     logger.info('Python version: {}'.format(sys.version))
-    logger.info('Extracting dataset of OA status of all papers published by all THE universities in the countries of our choice.')
+    logger.info('Extracting dataset of OA status of all papers published by all THE WUR universities in the countries of our choice.')
 
     # MAG dataset to use
     db_name = cfg['mag_db_name']
@@ -76,9 +77,9 @@ def analyze(ss, cfg):
         country_papers_df = ss.read.csv(join(cfg['hdfs']['onmerrit_dir'], country_name+'_papers.csv'), header=True, mode="DROPMALFORMED")
         logger.info("\n\n\nProcessing dataset of papers from " + country_name)
 
-        country_papers_oa_df = country_papers_df.join(mucc_df, ['paperid'], how='left_outer')  # left outer join so as to preserve all and only papers of the country in the result. inner join won't be good because mucc may not have an entry for some paperids
+        country_papers_oa_df = country_papers_df.join(mucc_df, ['paperid'], how='left_outer')  # left outer join so as to preserve all and only papers of the country in the result. inner join won't be good because (currently) mucc does not have entries for some paperids
 
-        country_papers_oa_df = country_papers_oa_df.join(papers_df, ['paperid'], how='inner')
+        country_papers_oa_df = country_papers_oa_df.join(papers_df, ['paperid'], how='inner')  # add in the information about publication year of each papers.
 
 
 

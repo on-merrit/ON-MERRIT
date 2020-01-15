@@ -4,6 +4,7 @@ from typing import List
 
 from pyspark.sql.types import StringType
 from pyspark.sql import functions as F
+from pyspark.sql.functions import udf
 import unicodedata
 import re
 
@@ -59,3 +60,18 @@ def get_mag_field_ids(
         """
         fieldnames_df = ss.createDataFrame([[x.lower()] for x in set(field_names)], schema=['normalizedname'])
         return fields_of_study_df.join(fieldnames_df, fields_of_study_df['normalizedname'] == fieldnames_df['normalizedname']).select('fieldofstudyid').distinct()
+
+
+
+def mag_normalisation_wiki_link(wiki_link):
+        #     Get the english name from the wiki
+        try:
+                last_slash_index = wiki_link.rindex('/')
+                start_index = last_slash_index + 1
+                uni_name = wiki_link[start_index:]
+        except:
+                uni_name = ""
+        #     Apply MAG normalisation to the name
+        return mag_normalisation_institution_names(uni_name)
+
+mag_normalisation_wiki_link_udf = udf(mag_normalisation_wiki_link,StringType())

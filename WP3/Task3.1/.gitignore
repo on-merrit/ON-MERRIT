@@ -23,3 +23,7 @@ dist/
 # Exceptions
 !**/.gitkeep
 
+# specific to my experiments.
+play_notebook.*
+bikash_todo.txt
+.gitignore
