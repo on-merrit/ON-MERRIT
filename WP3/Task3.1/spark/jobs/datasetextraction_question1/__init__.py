@@ -47,6 +47,8 @@ def analyze(ss, cfg):
     logger.info('Python version: {}'.format(sys.version))
     logger.info('Extracting dataset of OA status for all papers published by all THE WUR universities in the countries of our choice.')
 
+    # MAG dataset to use
+    db_name = cfg['mag_db_name']
 
     # datasets that will be used =============================================== #
     mucc_df = ss.read.parquet(cfg['hdfs']['mucc_dir']).select(['paperid','link'])  # this will be used to determine OA status.
@@ -60,6 +62,8 @@ def analyze(ss, cfg):
     mucc_df = mucc_df.withColumn("is_OA", oa_flag)
 
 
+    # tables that will be used
+    papers_df = ss.table(db_name + '.papers').select(['paperid', 'year']).drop_duplicates()  # this will be used to extract publication year for papers.
 
     for country_name, univ_names in cfg['data']['all_THE_WUR_institutions_by_country'].items():
 
@@ -91,8 +95,8 @@ def analyze(ss, cfg):
             # Get OA status
             univ_papers_oa_df = univ_papers_df.join(mucc_df, ['paperid'], how='left_outer')  # left outer join so as to preserve all and only papers of the univ in the result. inner join won't be good because (currently) mucc does not have entries for some paperids
 
-            # Get count of citation (incoming) for each of the papers in the dataset.
-            # univ_papers_oa_citations_df = univ_papers_oa_df.join(papers_df, ['paperid'], how='inner')
+            # Get publication year for each of the papers in the dataset.
+            univ_papers_oa_df = univ_papers_oa_df.join(papers_df, ['paperid'], how='inner')
 
             # Update the total results for the country
             if country_papers_oa_citations_df is None:

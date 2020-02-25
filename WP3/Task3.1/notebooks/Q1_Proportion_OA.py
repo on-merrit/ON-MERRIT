@@ -214,7 +214,7 @@ def get_univ_papers_citation_counts(country_papers_OA_df, univs_name):
     return univs_info, univs_not_found, univs_found
 
 
-# In[10]:
+# In[11]:
 
 
 all_countries_all_univs_OA_info = {}
@@ -227,13 +227,12 @@ for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'
     input_csv_path = join(root,"data/processed/oa_status_"+country_name+"_papers.csv")
     
     # CSV has repeated header from multiple partitions of the merge on pyspark csv output. Hence need to treat as string.
-    country_papers_OA_df = pd.read_csv(input_csv_path, header=0, sep=",", dtype={'is_OA': object, "url_lists_as_string": object, "year": object, "wikipage": object, "normalizedwikiname": object, "citationcount": object})  # object means string
+    country_papers_OA_df = pd.read_csv(input_csv_path, header=0, sep=",", dtype={'is_OA': object, "url_lists_as_string": object, "year": object, "wikipage": object, "normalizedwikiname": object})  # object means string
     # Then eliminate problematic lines
     #  temp fix until spark csv merge header issue is resolved -- the header line is present in each re-partition's output csv
     country_papers_OA_df.drop(country_papers_OA_df[country_papers_OA_df.paperid == "paperid"].index, inplace=True)
     # Then reset dtypes as needed.
     country_papers_OA_df = country_papers_OA_df.astype({'year':int})  # todo : for other types too including is_OA and update the check method to boolean type
-    country_papers_OA_df = country_papers_OA_df.astype({'citationcount':int})
     
     
     
@@ -267,7 +266,7 @@ for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'
     print("Computed OA counts for all univs in "+country_name+"\n")
 
 
-# In[11]:
+# In[12]:
 
 
 # Write text files with the infos
@@ -287,7 +286,7 @@ with open(join(output_dir,'all_countries_all_univs_OA_info.txt'), 'w') as file:
 
 # # Load data from previously saved files
 
-# In[12]:
+# In[13]:
 
 
 with open(join(output_dir,'all_countries_all_univs_OA_info.txt')) as file:
@@ -298,7 +297,7 @@ with open(join(output_dir,'all_countries_all_univs_OA_info.txt')) as file:
 
 # # Create bar plot for each of the countries
 
-# In[16]:
+# In[14]:
 
 
 def label_bar_with_value(ax, rects, value_labels):
@@ -398,7 +397,7 @@ def create_citation_count_distribution_bar_chart(univs_details, save_fname, x_la
     return fig
 
 
-# In[17]:
+# In[15]:
 
 
 country_name = 'brazil'
@@ -407,7 +406,7 @@ univs_details = all_countries_all_univs_OA_info[country_name]
 create_citation_count_distribution_bar_chart(univs_details, save_fname = join(output_dir,country_name+"_"+'citationcount_distribution'), x_label = ("Universities in "+cnames_for_plot[country_name]), save_file=False)
 
 
-# In[19]:
+# In[16]:
 
 
 for country_name, univs_details in all_countries_all_univs_OA_info.items():
@@ -420,7 +419,7 @@ for country_name, univs_details in all_countries_all_univs_OA_info.items():
 
 
 
-# In[20]:
+# In[ ]:
 
 
 print("\n\n\nCompleted!!!")
