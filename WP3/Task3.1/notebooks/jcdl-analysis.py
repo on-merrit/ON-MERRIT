@@ -5,9 +5,11 @@
 
 # #### The unpaywall dump used was from (April or June) 2018; hence analysis until 2017 only is going to be included.
 
+# #### The unpaywall dump used was from (April or June) 2018; hence analysis until 2017 only is going to be included.
+
 # ## Question : What % of papers published by our selected universities in selected countries are Open Access?
 
-# In[1]:
+# In[ ]:
 
 
 # standard path wrangling to be able to import project config and sources
@@ -19,7 +21,7 @@ sys.path.append(root)
 print('Project root: {}'.format(root))
 
 
-# In[2]:
+# In[ ]:
 
 
 sys.path.append(join(root,"spark/shared/"))
@@ -32,7 +34,7 @@ from MAG_utils import *
 
 
 
-# In[83]:
+# In[ ]:
 
 
 # Built-in
@@ -53,7 +55,7 @@ import re
 from statistics import mean 
 
 
-# In[4]:
+# In[ ]:
 
 
 cfg = None
@@ -61,13 +63,13 @@ with open(join(root,"spark/config.json")) as fp:
     cfg = json.load(fp)
 
 
-# In[5]:
+# In[ ]:
 
 
 # cfg
 
 
-# In[6]:
+# In[ ]:
 
 
 output_dir = join(root,"documents/analysis/jcdl_dataset_question")
@@ -75,7 +77,7 @@ output_dir = join(root,"documents/analysis/jcdl_dataset_question")
 os.makedirs(output_dir)
 
 
-# In[7]:
+# In[ ]:
 
 
 cnames_for_plot = {
@@ -90,7 +92,7 @@ cnames_for_plot = {
 }
 
 
-# In[8]:
+# In[ ]:
 
 
 def create_OA_percent_bar_chart(oa_percent_dict, save_fname, x_label=None, plt_text=None, display_values=False):
@@ -128,7 +130,7 @@ def create_OA_percent_bar_chart(oa_percent_dict, save_fname, x_label=None, plt_t
     return ax.get_figure()
 
 
-# In[10]:
+# In[ ]:
 
 
 study_years = [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017]
@@ -164,15 +166,9 @@ study_years = [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017]
 
 
 
-# In[ ]:
-
-
-
-
-
 # # Part A : Granularity Level of University Per Country
 
-# In[11]:
+# In[ ]:
 
 
 def get_plt_univ_papers_OA_stats(country_papers_OA_df, univs_name):
@@ -303,7 +299,7 @@ def get_plt_univ_papers_OA_stats(country_papers_OA_df, univs_name):
     return bar_fig, univs_info, univs_not_found, univs_found
 
 
-# In[12]:
+# In[ ]:
 
 
 all_countries_plot = {}
@@ -357,7 +353,7 @@ for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'
     print("Saved plot for dataset of "+country_name+"\n")
 
 
-# In[13]:
+# In[ ]:
 
 
 # Write text files with the infos
@@ -371,7 +367,7 @@ with open(join(output_dir,'all_countries_all_univs_OA_info.txt'), 'w') as file:
 
 # # Load data from previously saved files
 
-# In[14]:
+# In[ ]:
 
 
 with open(join(output_dir,'all_countries_all_univs_OA_info.txt')) as file:
@@ -382,7 +378,7 @@ with open(join(output_dir,'all_countries_all_univs_OA_info.txt')) as file:
 
 # # Create Representative universities OA percent comparision Scatter plot
 
-# In[263]:
+# In[ ]:
 
 
 def create_representative_univs_line_plot_groups(all_countries_all_univs_OA_info, save_fname, x_label=None, y_label = "Percentage of OA Papers Published", plt_text=None):
@@ -579,7 +575,7 @@ def create_representative_univs_line_plot_groups(all_countries_all_univs_OA_info
     return fig, country_rep_univs
 
 
-# In[264]:
+# In[ ]:
 
 
 rep_univ_OA_plot, country_rep_univs_data = create_representative_univs_line_plot_groups(all_countries_all_univs_OA_info, save_fname = join(output_dir,"all_countries_representative_univs_OA_percent"))
@@ -587,7 +583,7 @@ rep_univ_OA_plot, country_rep_univs_data = create_representative_univs_line_plot
 rep_univ_OA_plot
 
 
-# In[265]:
+# In[ ]:
 
 
 # Write country_rep_univs to file
@@ -642,11 +638,7 @@ with open(join(output_dir,'representative_univs_in_all_countries.txt'), 'w') as 
 # #### This can't build up on the data from univ_level because of duplicate paper. If the same paper(paperid) has authors from multiple univs within the same country, only one instance of it can be considered. 
 # 
 # #### 1. Load country level dataset 2. Retain records from unis in THE_WUR list only. 3. Delete duplicate paperid records 4. records from study_years only 4. Yearwise Breakdown
-
-# In[17]:
-
-
-countries_oa_info = {}
+'''countries_oa_info = {}
 countries_oa_percents = {}  # needed for plot.
 
 for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'].items():
@@ -770,30 +762,28 @@ for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'
     }
     
     
-    print("\nCompleted procesing for dataset of "+country_name+"\n")
+    print("\nCompleted processing for dataset of "+country_name+"\n")
     
-
-
-# In[18]:
+# In[ ]:
 
 
 with open(join(output_dir,'all_countries_OA_info.txt'), 'w') as file:
      file.write(json.dumps(countries_oa_info, sort_keys=True, indent=4, ensure_ascii=False)) 
 
 
-# In[19]:
+# In[ ]:
 
 
 countries_oa_percents
 
 
-# In[20]:
+# In[ ]:
 
 
 countries_oa_percent_bar_plot = create_OA_percent_bar_chart(countries_oa_percents, save_fname = join(output_dir,"all_countries_OA_percent"), x_label = "Countries", display_values=True)
 
 
-# In[21]:
+# In[ ]:
 
 
 countries_oa_percent_bar_plot
@@ -802,16 +792,6 @@ countries_oa_percent_bar_plot
 # In[ ]:
 
 
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[234]:
 
 
 def create_yearwise_OA_percent_line_chart(countries_oa_info, save_fname, x_label = "Year", plt_text=None):
@@ -873,34 +853,44 @@ def create_yearwise_OA_percent_line_chart(countries_oa_info, save_fname, x_label
     
     plt.close()
     
-    return ax.get_figure()
-
-
-# In[235]:
-
-
-countries_OA_percent_each_year_line_plot = create_yearwise_OA_percent_line_chart(countries_oa_info, save_fname = join(output_dir,"all_countries_OA_percent_each_year"), x_label = "Year")
-
-
-# In[236]:
-
-
-countries_OA_percent_each_year_line_plot
-
-
-# In[245]:
+    return ax.get_figure()'''countries_OA_percent_each_year_line_plot = create_yearwise_OA_percent_line_chart(countries_oa_info, save_fname = join(output_dir,"all_countries_OA_percent_each_year"), x_label = "Year")countries_OA_percent_each_year_line_plot
+# In[ ]:
 
 
 countries_oa_info['usa']
 
 
-# In[26]:
+# In[ ]:
 
 
 # countries_oa_info['brazil']
 
 
-# In[27]:
+# In[ ]:
+
+
+# countries_oa_info['germany']
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+countries_oa_info['usa']
+
+
+# In[ ]:
+
+
+# countries_oa_info['brazil']
+
+
+# In[ ]:
 
 
 # countries_oa_info['germany']
@@ -943,12 +933,6 @@ countries_oa_info['usa']
 
 
 # In[ ]:
-
-
-
-
-
-# In[28]:
 
 
 print("\n\n\nCompleted!!!")
