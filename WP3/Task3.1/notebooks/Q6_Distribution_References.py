@@ -5,7 +5,7 @@
 
 # #### The unpaywall dump used was from (April or June) 2018; hence analysis until 2017 only is going to be included.
 
-# ## Question : What is the distribution of incoming citation counts for OA and non-OA papers published by THE WUR univ within each country?
+# ## Question : What is the distribution of references (outgoing) for open access articles vs subscription based articles in papers published by the university?
 
 # In[1]:
 
@@ -85,17 +85,17 @@ cnames_for_plot = {
 # In[7]:
 
 
-output_dir = join(root,"documents/analysis/dataset_selection_question5")
-
-
-# In[ ]:
-
-
-# Create a new directory to save results
-os.makedirs(output_dir)
+output_dir = join(root,"documents/analysis/dataset_selection_question6")
 
 
 # In[8]:
+
+
+# Create a new directory to save results
+# os.makedirs(output_dir)
+
+
+# In[9]:
 
 
 study_years = [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017]
@@ -131,20 +131,14 @@ study_years = [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017]
 
 
 
-# In[ ]:
+# # Extraction of OA and unknown status counts for papers referenced by publications coming from each university.
+
+# In[10]:
 
 
-
-
-
-# # Extraction of Citation Counts of OA and unknown papers for each university
-
-# In[9]:
-
-
-def get_univ_papers_citation_counts(country_papers_OA_df, univs_name):
+def get_univ_papers_references_counts(country_papers_OA_df, univs_name):
     '''
-    Get the plot of count of citations for both OA and non-OA papers for each university in the input country
+    Get the plot of count OA and non-OA papers referenced by all publications from each university in the input country
     '''
     univs_info = {}
     
@@ -192,19 +186,30 @@ def get_univ_papers_citation_counts(country_papers_OA_df, univs_name):
             
             univs_info[org_univ_name] = {}
             
+#           int casting needed to convert numpy int (json-incompatible) to python int
+            count_OA_univ_referenced_papers = int(univ_papers_df['count_OA_references'].sum())
+            count_unknown_univ_referenced_papers = int(univ_papers_df['count_unknown_references'].sum())
             
-            
-            OA_univ_papers_df = univ_papers_df[univ_papers_df['is_OA']=="true"] # stored as a string in csv
-            unknown_univ_papers_df = univ_papers_df[univ_papers_df['is_OA']!="true"] # stored as a string in csv
+            count_total_univ_referenced_papers = count_OA_univ_referenced_papers + count_unknown_univ_referenced_papers
 
-#             Get the total count of citations for OA and unknown papers -- int casting needed to convert numpy int (json-incompatible) to python int
-            univs_info[org_univ_name]["citationcount_OA_papers"] = int(OA_univ_papers_df['citationcount'].sum())
-            univs_info[org_univ_name]["citationcount_unknown_papers"] = int(unknown_univ_papers_df['citationcount'].sum())
+            univ_oa_references_percent = (count_OA_univ_referenced_papers*100.00)/count_total_univ_referenced_papers
+            univ_other_references_percent = (count_unknown_univ_referenced_papers*100.00)/count_total_univ_referenced_papers
+            
+        
+            
+            
+            univs_info[org_univ_name]["count_OA_referenced_papers"] = count_OA_univ_referenced_papers
+            univs_info[org_univ_name]["percent_OA_referenced_papers"] = univ_oa_references_percent
+            
+            univs_info[org_univ_name]["count_unknown_referenced_papers"] = count_unknown_univ_referenced_papers
+            univs_info[org_univ_name]["percent_unknown_referenced_papers"] = univ_other_references_percent
+            
+            univs_info[org_univ_name]["count_total_referenced_papers"] = count_total_univ_referenced_papers
         
     return univs_info, univs_not_found, univs_found
 
 
-# In[10]:
+# In[11]:
 
 
 all_countries_all_univs_OA_info = {}
@@ -215,16 +220,17 @@ for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'
     all_countries_univs_found_not_found[country_name] =  {}
     
     # CSV has repeated header from multiple partitions of the merge on pyspark csv output. Hence need to treat as string.
-    country_papers_OA_df = pd.read_csv(join(root,"data/processed/cc_oa_"+country_name+"_papers.csv"), header=0, sep=",", dtype={'is_OA': object, "url_lists_as_string": object, "year": object, "wikipage": object, "normalizedwikiname": object, "citationcount": object})  # object means string
+    country_papers_OA_df = pd.read_csv(join(root,"data/processed/rc_oa_"+country_name+"_papers.csv"), header=0, sep=",", dtype={"year": object, "wikipage": object, "normalizedwikiname": object, 'count_OA_references': object,  "count_unknown_references": object})  # object means string
     # Then eliminate problematic lines
     #  temp fix until spark csv merge header issue is resolved -- the header line is present in each re-partition's output csv
     country_papers_OA_df.drop(country_papers_OA_df[country_papers_OA_df.paperid == "paperid"].index, inplace=True)
     # Then reset dtypes as needed.
-    country_papers_OA_df = country_papers_OA_df.astype({'year':int})  # todo : for other types too including is_OA and update the check method to boolean type
-    country_papers_OA_df = country_papers_OA_df.astype({'citationcount':int})
+    country_papers_OA_df = country_papers_OA_df.astype({'year':int})
+    country_papers_OA_df = country_papers_OA_df.astype({'count_OA_references':int})
+    country_papers_OA_df = country_papers_OA_df.astype({'count_unknown_references':int})
     
     
-    univs_info, univs_not_found, univs_found = get_univ_papers_citation_counts(country_papers_OA_df, univs_name)
+    univs_info, univs_not_found, univs_found = get_univ_papers_references_counts(country_papers_OA_df, univs_name)
     
     all_countries_all_univs_OA_info[country_name] =  univs_info
     
@@ -250,10 +256,10 @@ for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'
     
     
         
-    print("Computed citation counts for all univs in "+country_name+"\n")
+    print("Computed references counts for all univs in "+country_name+"\n")
 
 
-# In[11]:
+# In[12]:
 
 
 # Write text files with the infos
@@ -273,7 +279,7 @@ with open(join(output_dir,'all_countries_all_univs_OA_info.txt'), 'w') as file:
 
 # # Load data from previously saved files
 
-# In[12]:
+# In[13]:
 
 
 with open(join(output_dir,'all_countries_all_univs_OA_info.txt')) as file:
@@ -284,7 +290,7 @@ with open(join(output_dir,'all_countries_all_univs_OA_info.txt')) as file:
 
 # # Create bar plot for each of the countries
 
-# In[13]:
+# In[14]:
 
 
 def label_bar_with_value(ax, rects, value_labels):
@@ -298,26 +304,26 @@ def label_bar_with_value(ax, rects, value_labels):
                 '%s' % label_value,
                 ha='center', va='bottom')
 
-def create_citation_count_distribution_bar_chart(univs_details, save_fname, x_label, save_file=True):
+def create_reference_count_distribution_bar_chart(univs_details, save_fname, x_label, save_file=True):
     # https://chrisalbon.com/python/data_visualization/matplotlib_grouped_bar_plot/
     # https://stackoverflow.com/a/42498711/530399
     
     univs_name = [x for x in univs_details.keys()]
     univs_data = univs_details.values()
-    univs_oa_citation_counts = [x['citationcount_OA_papers'] for x in univs_data]
-    univs_unknown_citation_counts = [x['citationcount_unknown_papers'] for x in univs_data]
+    univs_oa_reference_counts = [x['count_OA_referenced_papers'] for x in univs_data]
+    univs_unknown_reference_counts = [x['count_unknown_referenced_papers'] for x in univs_data]
     
     
     raw_data = {'univs_name': univs_name,
-        'univs_oa_citation_counts': univs_oa_citation_counts,
-        'univs_unknown_citation_counts': univs_unknown_citation_counts
+        'univs_oa_reference_counts': univs_oa_reference_counts,
+        'univs_unknown_reference_counts': univs_unknown_reference_counts
                }
-    df = pd.DataFrame(raw_data, columns = ['univs_name', 'univs_oa_citation_counts', 'univs_unknown_citation_counts'])
+    df = pd.DataFrame(raw_data, columns = ['univs_name', 'univs_oa_reference_counts', 'univs_unknown_reference_counts'])
     
-    # Compute proportion of univs_oa_citation_counts
-    df['proportion_univs_oa_citation_counts'] = (df['univs_oa_citation_counts'] / (df['univs_oa_citation_counts'] + df['univs_unknown_citation_counts'])) *100
-    # sort the df based on proportion of univs_oa_citation_counts 
-    df = df.sort_values('proportion_univs_oa_citation_counts', ascending=False)[['univs_name', 'univs_oa_citation_counts','univs_unknown_citation_counts', 'proportion_univs_oa_citation_counts']]
+    # Compute proportion of univs_oa_reference_counts
+    df['proportion_univs_oa_reference_counts'] = (df['univs_oa_reference_counts'] / (df['univs_oa_reference_counts'] + df['univs_unknown_reference_counts'])) *100
+    # sort the df based on proportion of univs_oa_reference_counts 
+    df = df.sort_values('proportion_univs_oa_reference_counts', ascending=False)[['univs_name', 'univs_oa_reference_counts','univs_unknown_reference_counts', 'proportion_univs_oa_reference_counts']]
     
     # Setting the positions and width for the bars
     pos = list(range(len(df['univs_name']))) 
@@ -326,11 +332,11 @@ def create_citation_count_distribution_bar_chart(univs_details, save_fname, x_la
     # Plotting the bars
     fig, ax = plt.subplots(figsize=(25,10))
 
-    # Create a bar with oa_citation_count data,
+    # Create a bar with oa_reference_count data,
     # in position pos,
-    oa_citation_count_bars = ax.bar(pos, 
-            #using df['univs_oa_citation_counts'] data,
-            df['univs_oa_citation_counts'], 
+    oa_reference_count_bars = ax.bar(pos, 
+            #using df['univs_oa_reference_counts'] data,
+            df['univs_oa_reference_counts'], 
             # of width
             width, 
             # with alpha 0.5
@@ -339,13 +345,13 @@ def create_citation_count_distribution_bar_chart(univs_details, save_fname, x_la
             color='green', 
             )
     # Set heights based on the percentages
-    oa_citation_counts_proportion_value_labels = [str(int(x))+"%" for x in df['proportion_univs_oa_citation_counts'].values.tolist()]
+    oa_reference_counts_proportion_value_labels = [str(int(x))+"%" for x in df['proportion_univs_oa_reference_counts'].values.tolist()]
 
-    # Create a bar with unknown_citation_count data,
+    # Create a bar with unknown_reference_count data,
     # in position pos + some width buffer,
     plt.bar([p + width for p in pos], 
-            #using df['univs_unknown_citation_counts'] data,
-            df['univs_unknown_citation_counts'],
+            #using df['univs_unknown_reference_counts'] data,
+            df['univs_unknown_reference_counts'],
             # of width
             width, 
             # with alpha 0.5
@@ -355,7 +361,7 @@ def create_citation_count_distribution_bar_chart(univs_details, save_fname, x_la
             ) 
 
     # Set the y axis label
-    ax.set_ylabel('Incoming Citation Counts')
+    ax.set_ylabel('Outgoing Reference Counts')
 
     # Set the x axis label
     ax.set_xlabel(x_label)
@@ -368,13 +374,13 @@ def create_citation_count_distribution_bar_chart(univs_details, save_fname, x_la
 
     # Setting the x-axis and y-axis limits
     plt.xlim(min(pos)-width, max(pos)+width*4)
-    plt.ylim([0, max(df['univs_oa_citation_counts'] + df['univs_unknown_citation_counts'])] )
+    plt.ylim([0, max(df['univs_oa_reference_counts'] + df['univs_unknown_reference_counts'])] )
 
     # Adding the legend and showing the plot
-    plt.legend(['OA papers Citation Counts', 'Unknown papers Citation Counts'], loc='upper left')
+    plt.legend(['OA reference Counts', 'Unknown reference Counts'], loc='upper left')
     plt.grid()
     
-    label_bar_with_value(ax, oa_citation_count_bars, oa_citation_counts_proportion_value_labels)
+    label_bar_with_value(ax, oa_reference_count_bars, oa_reference_counts_proportion_value_labels)
     
     if save_file:
         plt.savefig(save_fname+".png", bbox_inches='tight', dpi=300)
@@ -384,38 +390,32 @@ def create_citation_count_distribution_bar_chart(univs_details, save_fname, x_la
     return fig
 
 
-# In[14]:
-
-
-'''country_name = 'usa'
-univs_details = all_countries_all_univs_OA_info[country_name]
-
-create_citation_count_distribution_bar_chart(univs_details, save_fname = join(output_dir,country_name+"_"+'citationscount_distribution'), x_label = ("Universities in "+country_name), save_file=False)'''
-
-
 # In[15]:
 
 
-for country_name, univs_details in all_countries_all_univs_OA_info.items():
-    create_citation_count_distribution_bar_chart(univs_details, save_fname = join(output_dir,country_name+"_"+'citationscount_distribution'), x_label = ("Universities in "+cnames_for_plot[country_name]), save_file=True)
+country_name = 'austria'
+univs_details = all_countries_all_univs_OA_info[country_name]
 
-
-# In[ ]:
-
-
-
+create_reference_count_distribution_bar_chart(univs_details, save_fname = join(output_dir,country_name+"_"+'referencescount_distribution'), x_label = ("Universities in "+cnames_for_plot[country_name]), save_file=False)
 
 
 # In[16]:
 
 
-print("\n\n\nCompleted!!!")
+for country_name, univs_details in all_countries_all_univs_OA_info.items():
+    create_reference_count_distribution_bar_chart(univs_details, save_fname = join(output_dir,country_name+"_"+'referencescount_distribution'), x_label = ("Universities in "+cnames_for_plot[country_name]), save_file=True)
 
 
 # In[ ]:
 
 
 
+
+
+# In[17]:
+
+
+print("\n\n\nCompleted!!!")
 
 
 # In[ ]:

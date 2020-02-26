@@ -186,7 +186,6 @@ def get_univ_papers_citation_counts(country_papers_OA_df, univs_name):
             univs_found.append(org_univ_name)
             
             univs_info[org_univ_name] = {}
-            univs_info[org_univ_name]["count_total_papers"] = count_total_univ_papers
             
             
             
