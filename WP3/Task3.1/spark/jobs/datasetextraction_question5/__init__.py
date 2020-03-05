@@ -108,7 +108,7 @@ def analyze(ss, cfg):
                 # https://datascience.stackexchange.com/a/27231
                 country_papers_oa_citations_df = country_papers_oa_citations_df.union(univ_papers_oa_citations_df.select(country_papers_oa_citations_df.columns))
 
-            logger.info("\nExtracted dataset for university " + univ_name)
+            logger.info("\nExtracted dataset for the university: " + univ_name)
 
         # save the data for the current country
         output_filename = join(cfg['hdfs']['onmerrit_dir'], "cc_oa_" + country_name + "_papers.csv" )

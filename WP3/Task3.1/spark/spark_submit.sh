@@ -22,6 +22,6 @@ spark-submit \
     --conf spark.kryoserializer.buffer.max=1024m \
     --conf spark.rpc.message.maxSize=2047 \
     --conf spark.yarn.submit.waitAppCompletion=false \
-    --conf spark.driver.maxResultSize=32g \
+    --conf spark.driver.maxResultSize=64g \
     main.py \
     --job $1
