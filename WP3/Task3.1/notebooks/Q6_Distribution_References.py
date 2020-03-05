@@ -92,7 +92,7 @@ output_dir = join(root,"documents/analysis/dataset_selection_question6")
 
 
 # Create a new directory to save results
-# os.makedirs(output_dir)
+os.makedirs(output_dir)
 
 
 # In[9]:
