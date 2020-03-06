@@ -18,3 +18,4 @@ dist/
 
 # Exceptions
 !**/.gitkeep 
+.Rproj.user
