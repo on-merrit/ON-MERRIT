@@ -1,5 +1,6 @@
 library(tidyverse)
 library(vroom)
+library(patchwork)
 source("WP3/Task3.1/R/00-functions.R")
 
 theme_set(theme_bw())
@@ -9,7 +10,7 @@ write_plot <- function(plot, country) {
   ggsave(
     filename = glue::glue("WP3/Task3.1/output/Q7_figures/oa_development_{country}.png"),
     plot = plot, device = "png",
-    width = 10, height = 5)
+    width = 10, height = 10)
 }
 
 do_it <- function(path, country) {
