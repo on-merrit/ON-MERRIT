@@ -3,6 +3,10 @@ library(vroom)
 library(patchwork)
 source("WP3/Task3.1/R/00-functions.R")
 
+# this whole approach is wrong, since papers are counted multiple times. It is
+# also not straightforward to assign papers to universities, since multiple
+# authors from different universities might have contributed to a single paper
+
 theme_set(theme_bw())
 
 # function for saving the plots
