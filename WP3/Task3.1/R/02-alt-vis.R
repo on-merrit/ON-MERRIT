@@ -4,6 +4,7 @@ library(lubridate)
 library(patchwork)
 library(ggforce)
 library(ggridges)
+library(gghalves)
 source("WP3/Task3.1/R/00-functions.R")
 
 df <- vroom(
@@ -46,7 +47,8 @@ distinct_papers %>%
   # sample_n(10000) %>%
   mutate(year = year(year)) %>% 
   ggplot(aes(y = as.character(year), x = perc_oa, group = year)) +
-  geom_density_ridges(quantile_lines = TRUE, scale = 1.2) +
+  geom_density_ridges(quantile_lines = TRUE, scale = 1.2, fill = "#24A8AC",
+                      alpha = .65) +
   scale_x_continuous(labels = scales::percent, limits = c(0, 1)) + 
   labs(y = NULL, x = "Percantage of papers that are OA") +
   theme_ridges()
@@ -62,9 +64,16 @@ distinct_papers %>%
   sample_n(10000) %>%
   ggplot(aes(year, perc_oa, group = year)) +
   geom_boxplot()
+
+
+distinct_papers %>% 
+  sample_n(10000) %>%
+  ggplot(aes(year, perc_oa, group = year)) +
+  geom_half_boxplot() +
+  geom_half_violin(side = "r")
   
 distinct_papers %>% 
-  # sample_n(10000) %>%
+  sample_n(10000) %>%
   ggplot(aes(year, perc_oa, group = year)) +
   geom_sina(alpha = .1)
 
