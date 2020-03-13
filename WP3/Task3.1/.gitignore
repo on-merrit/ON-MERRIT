@@ -27,3 +27,6 @@ dist/
 play_notebook.*
 bikash_todo.txt
 .gitignore
+
+# hide data and figures for Q7
+*/Q7_figures/
