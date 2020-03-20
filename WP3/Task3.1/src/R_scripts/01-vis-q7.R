@@ -19,7 +19,8 @@ write_plot <- function(plot, country) {
 
 do_it <- function(path, country) {
   path %>% 
-    get_data() %>% 
+    import_data() %>% 
+    get_distinct_papers() %>% 
     plot_data(country = country) %>% 
     write_plot(country = country)
 }

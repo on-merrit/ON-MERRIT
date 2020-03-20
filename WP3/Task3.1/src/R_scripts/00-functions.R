@@ -1,5 +1,5 @@
-get_data <- function(file) {
-  df <- vroom(
+import_data <- function(file) {
+  vroom(
     file = file,
     delim = ",",
     col_types = cols(
@@ -14,10 +14,32 @@ get_data <- function(file) {
       count_unknown_references = col_integer()
     ))
   
+}
+
+get_distinct_papers <- function(df) {
   df %>% 
     distinct(paperid, year, count_OA_references, count_unknown_references) %>% 
     mutate(perc_oa = count_OA_references/(count_OA_references + count_unknown_references)) %>% 
     filter(year >= ymd("2007-01-01") & year <= ymd("2017-01-01"))
+}
+
+data_per_university <- function(df) {
+  df %>% 
+    filter(year >= ymd("2007-01-01") & year <= ymd("2017-01-01")) %>% 
+    mutate(perc_oa = count_OA_references/(count_OA_references + count_unknown_references)) %>% 
+    group_by(displayname, year) %>% 
+    summarise(median_oa_perc = median(perc_oa))
+}
+
+oa_quartiles <- function(df) {
+  df %>% 
+    distinct(paperid, year, count_OA_references, count_unknown_references) %>% 
+    filter(year >= ymd("2007-01-01") & year <= ymd("2017-01-01")) %>% 
+    mutate(perc_oa = count_OA_references/(count_OA_references + count_unknown_references)) %>% 
+    group_by(year) %>% 
+    summarise(q25 = quantile(perc_oa, .25),
+              q50 = quantile(perc_oa, .5),
+              q75 = quantile(perc_oa, .75))
 }
 
 plot_data <- function(df, country) {
