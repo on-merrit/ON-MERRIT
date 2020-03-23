@@ -167,7 +167,7 @@ def analyze(ss, cfg):
                 if len(univ_papers_references_oastatus_df.head(1)) > 0:
                     country_papers_oa_references_df = country_papers_oa_references_df.union(univ_papers_references_oastatus_df.select(country_papers_oa_references_df.columns))
 
-            logger.info("\nExtracted dataset for university " + univ_name)
+            logger.info("\nExtracted dataset for the university: " + univ_name)
 
         # save the data for the current country
         output_filename = join(cfg['hdfs']['onmerrit_dir'], "rc_oa_" + country_name + "_papers.csv")
