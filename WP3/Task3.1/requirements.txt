@@ -10,3 +10,4 @@ seaborn
 spacy
 tqdm
 shapely
+gender-guesser
