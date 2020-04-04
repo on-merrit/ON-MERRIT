@@ -5,7 +5,11 @@
 
 # #### This is to be compatible with other analysis questions which used dataset from the period of 2007 to 2017
 
-# # Note: On-MERRIT DoW mentions Agriculture, Climate and Health but MAG has Agriculture, Climatology and Medicine.
+# # Note: 
+# 
+# ## On-MERRIT DoW mentions Agriculture, Climate and Health but MAG has Agriculture, Climatology and Medicine.
+# 
+# ## The same paper can possibly belong to multiple fields of study.
 
 # ## Question : How are papers published by the universities distributed across the three scientific disciplines of our choice?
 
@@ -93,7 +97,7 @@ cnames_for_plot = {
 output_dir = join(root,"documents/analysis/dataset_selection_question2")
 
 
-# In[8]:
+# In[ ]:
 
 
 # Create a new directory to save results
@@ -124,13 +128,13 @@ study_years = [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017]
 
 
 
-# In[9]:
+# In[ ]:
 
 
 # Load the external file -- fos_hierarchy to use for selecting papers that belong to our field of study choices.
 
 
-# In[10]:
+# In[ ]:
 
 
 generic = lambda x: ast.literal_eval(x)
@@ -140,13 +144,13 @@ conv = {"fieldofstudyid": int, "normalizedname": str, "level": int, "child_ids":
 fos_hierarchy = pd.read_csv(join(root,"data/external/fos_hierarchy.csv"), header=0, converters=conv, sep=",")  # object means string
 
 
-# In[11]:
+# In[ ]:
 
 
 fos_hierarchy.head(17).tail(8)
 
 
-# In[12]:
+# In[ ]:
 
 
 fos_hierarchy['child_ids_list'] = [[int(idx) for idx in x.split(",") if x!=''] for x in fos_hierarchy['child_ids']]
@@ -154,7 +158,7 @@ fos_hierarchy['child_ids_list'] = [[int(idx) for idx in x.split(",") if x!=''] f
 fos_hierarchy = fos_hierarchy.drop('child_ids', 1)
 
 
-# In[13]:
+# In[ ]:
 
 
 fos_hierarchy.head(17).tail(8)
@@ -162,7 +166,7 @@ fos_hierarchy.head(17).tail(8)
 
 # ### Identify the path to all the topmost parent (i.e. whose fos_name is eithere agriculture or climatology or medicine) for any the fos id.
 
-# In[14]:
+# In[ ]:
 
 
 relevant_fos_names = ["medicine","climatology", "agriculture"]
@@ -176,7 +180,7 @@ for i in relevant_fos_ids:
 print(relevant_fos_dict)
 
 
-# In[15]:
+# In[ ]:
 
 
 def get_immediate_parent_ids(fos_id):
@@ -190,7 +194,7 @@ def get_immediate_parent_ids(fos_id):
     return all_parent_ids
 
 
-# In[16]:
+# In[ ]:
 
 
 def get_fos_parents(fos_id):
@@ -242,7 +246,7 @@ parent_ids, parent_names = get_fos_parents(eg_fosid)
 print(parent_ids, parent_names)
 
 
-# In[17]:
+# In[ ]:
 
 
 all_fosids = []
@@ -257,7 +261,7 @@ for x in all_fosids:
     all_fosids_parentnames[x] = parent_names
 
 
-# In[18]:
+# In[ ]:
 
 
 def map_disciplines(input_fos_id):
@@ -298,7 +302,7 @@ print(map_disciplines(eg_fosid))
 
 # # Extraction of count of papers in each of the three disciplines for  publications coming from each university.
 
-# In[21]:
+# In[ ]:
 
 
 def get_univ_papers_disciplines_counts(country_papers_fos_df, univs_name):    
@@ -385,7 +389,7 @@ def get_univ_papers_disciplines_counts(country_papers_fos_df, univs_name):
     return univs_info, univs_not_found, univs_found
 
 
-# In[22]:
+# In[ ]:
 
 
 all_countries_all_univs_fos_info = {}
@@ -437,7 +441,7 @@ for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'
     print("Computed counts of papers in each disciplines for all univs in "+country_name+"\n")
 
 
-# In[24]:
+# In[ ]:
 
 
 # Write text files with the infos
@@ -463,7 +467,7 @@ with open(join(output_dir,'all_countries_all_univs_fos_info.txt'), 'w') as file:
 
 # # Load data from previously saved files
 
-# In[25]:
+# In[9]:
 
 
 with open(join(output_dir,'all_countries_all_univs_fos_info.txt')) as file:
@@ -474,10 +478,10 @@ print(all_countries_all_univs_fos_info)
 
 # # Create bar plot for each of the countries
 
-# In[ ]:
+# In[21]:
 
 
-'''def label_bar_with_value(ax, rects, value_labels):
+def label_bar_with_value(ax, rects, value_labels):
     """
     Attach a text label above each bar displaying its height
     """
@@ -488,27 +492,15 @@ print(all_countries_all_univs_fos_info)
                 '%s' % label_value,
                 ha='center', va='bottom')
 
-def create_reference_count_distribution_bar_chart(univs_details, save_fname, x_label, save_file=True):
-    # https://chrisalbon.com/python/data_visualization/matplotlib_grouped_bar_plot/
-    # https://stackoverflow.com/a/42498711/530399
+def create_sorted_plot(input_df, sorting_field_count, sorting_field_percent, other_fields_count, colors2plot, ylabel, xlabel, legend_text, save_fname, save_file):
     
-    univs_name = [x for x in univs_details.keys()]
-    univs_data = univs_details.values()
-    univs_oa_reference_counts = [x['count_OA_referenced_papers'] for x in univs_data]
-    univs_unknown_reference_counts = [x['count_unknown_referenced_papers'] for x in univs_data]
+    second_field_count = other_fields_count[0]
+    third_field_count = other_fields_count[1]
     
-    
-    raw_data = {'univs_name': univs_name,
-        'univs_oa_reference_counts': univs_oa_reference_counts,
-        'univs_unknown_reference_counts': univs_unknown_reference_counts
-               }
-    df = pd.DataFrame(raw_data, columns = ['univs_name', 'univs_oa_reference_counts', 'univs_unknown_reference_counts'])
-    
-    # Compute proportion of univs_oa_reference_counts
-    df['proportion_univs_oa_reference_counts'] = (df['univs_oa_reference_counts'] / (df['univs_oa_reference_counts'] + df['univs_unknown_reference_counts'])) *100
-    # sort the df based on proportion of univs_oa_reference_counts 
-    df = df.sort_values('proportion_univs_oa_reference_counts', ascending=False)[['univs_name', 'univs_oa_reference_counts','univs_unknown_reference_counts', 'proportion_univs_oa_reference_counts']]
-    
+    # sort the df based on the sorting_field_percent
+    df = input_df.sort_values(sorting_field_percent, ascending=False)[['univs_name', sorting_field_count, second_field_count, third_field_count, sorting_field_percent]]
+
+
     # Setting the positions and width for the bars
     pos = list(range(len(df['univs_name']))) 
     width = 0.25 
@@ -516,39 +508,56 @@ def create_reference_count_distribution_bar_chart(univs_details, save_fname, x_l
     # Plotting the bars
     fig, ax = plt.subplots(figsize=(25,10))
 
-    # Create a bar with oa_reference_count data,
+    # Create a bar with sorting_field_count data,
     # in position pos,
-    oa_reference_count_bars = ax.bar(pos, 
-            #using df['univs_oa_reference_counts'] data,
-            df['univs_oa_reference_counts'], 
+    sorting_field_bar = ax.bar(pos, 
+            #using df['proportion_univs_agriculture'] data,
+            df[sorting_field_count], 
             # of width
             width, 
             # with alpha 0.5
             alpha=0.5, 
             # with color
-            color='green', 
+            color= colors2plot[sorting_field_count], 
             )
-    # Set heights based on the percentages
-    oa_reference_counts_proportion_value_labels = [str(int(x))+"%" for x in df['proportion_univs_oa_reference_counts'].values.tolist()]
+    # Create labels with percentage values
+    sorting_field_proportion_value_labels = [str(int(x))+"%" for x in df[sorting_field_percent].values.tolist()]
 
-    # Create a bar with unknown_reference_count data,
+
+    # Create a bar with second_field_count data,
     # in position pos + some width buffer,
     plt.bar([p + width for p in pos], 
-            #using df['univs_unknown_reference_counts'] data,
-            df['univs_unknown_reference_counts'],
+            #using df['univs_climatology_counts'] data,
+            df[second_field_count],
             # of width
             width, 
             # with alpha 0.5
             alpha=0.5, 
             # with color
-            color='red', 
-            ) 
+            color=colors2plot[second_field_count],
+            )
+    
+    # Create a bar with third_field_count data,
+    # in position pos + 2*some width buffer,
+    plt.bar([p + 2*width for p in pos], 
+            #using df['univs_medicine_counts'] data,
+            df[third_field_count],
+            # of width
+            width, 
+            # with alpha 0.5
+            alpha=0.5, 
+            # with color
+            color=colors2plot[third_field_count],
+            )
+    
+    
+    
 
     # Set the y axis label
-    ax.set_ylabel('Outgoing Reference Counts')
+    ax.set_ylabel(ylabel)
 
     # Set the x axis label
-    ax.set_xlabel(x_label)
+    ax.set_xlabel(xlabel)
 
     # Set the position of the x ticks
     ax.set_xticks([p + 0.5 * width for p in pos])
@@ -558,54 +567,109 @@ def create_reference_count_distribution_bar_chart(univs_details, save_fname, x_l
 
     # Setting the x-axis and y-axis limits
     plt.xlim(min(pos)-width, max(pos)+width*4)
-    plt.ylim([0, max(df['univs_oa_reference_counts'] + df['univs_unknown_reference_counts'])] )
+    plt.ylim([0, max(df[sorting_field_count] + df[second_field_count] + df[third_field_count])] )
 
     # Adding the legend and showing the plot
-    plt.legend(['OA reference Counts', 'Unknown reference Counts'], loc='upper left')
+    plt.legend(legend_text, loc='upper left')
     plt.grid()
     
-    label_bar_with_value(ax, oa_reference_count_bars, oa_reference_counts_proportion_value_labels)
+    label_bar_with_value(ax, sorting_field_bar, sorting_field_proportion_value_labels)
     
     if save_file:
         plt.savefig(save_fname+".png", bbox_inches='tight', dpi=300)
         plt.savefig(save_fname+".pdf", bbox_inches='tight', dpi=900)
     
     plt.close()
-    return fig'''
+    return fig
 
 
-# In[ ]:
+def create_fos_count_distribution_bar_chart(univs_details, save_fname, x_label, save_file=True):
+    # https://chrisalbon.com/python/data_visualization/matplotlib_grouped_bar_plot/
+    # https://stackoverflow.com/a/42498711/530399
+    
+    univs_name = [x for x in univs_details.keys()]
+    univs_data = univs_details.values()
+    univs_agriculture_counts = [x['count_agriculture_papers'] for x in univs_data]
+    univs_climatology_counts = [x['count_climatology_papers'] for x in univs_data]
+    univs_medicine_counts = [x['count_medicine_papers'] for x in univs_data]
+    percent_agriculture_papers = [x['percent_agriculture_papers'] for x in univs_data]
+    percent_climatology_papers = [x['percent_climatology_papers'] for x in univs_data]
+    percent_medicine_papers = [x['percent_medicine_papers'] for x in univs_data]
+    
+    
+    raw_data = {'univs_name': univs_name,
+        'univs_agriculture_counts': univs_agriculture_counts,
+        'univs_climatology_counts' : univs_climatology_counts,
+        'univs_medicine_counts': univs_medicine_counts,
+        'percent_agriculture_papers': percent_agriculture_papers,
+        'percent_climatology_papers': percent_climatology_papers,
+        'percent_medicine_papers': percent_medicine_papers
+               }
+    df = pd.DataFrame(raw_data, columns = ['univs_name', 'univs_agriculture_counts', 'univs_climatology_counts', 'univs_medicine_counts', 'percent_agriculture_papers', 'percent_climatology_papers', 'percent_medicine_papers'])
+    
+    
+#     print(df)
+
+    colors2plot={'univs_agriculture_counts':'green', 'univs_climatology_counts':'red', 'univs_medicine_counts':'blue'}
+    xlabel = x_label + " -- Ranked by count of papers in the "
+    ylabel = "Count of Papers Published"
+    
+    
+    
+    sorted_plot1 = create_sorted_plot(df, 'univs_agriculture_counts', 'percent_agriculture_papers', ['univs_climatology_counts', 'univs_medicine_counts'], colors2plot, ylabel, xlabel + "Agriculture"+" discipline", legend_text=['Agriculture paper Counts', 'Climatology Paper Counts', 'Medicine Paper Counts'], save_fname = save_fname+"_sorted_Agriculture", save_file=save_file)
+   
+    sorted_plot2 = create_sorted_plot(df, 'univs_climatology_counts', 'percent_climatology_papers', ['univs_medicine_counts', 'univs_agriculture_counts'], colors2plot, ylabel, xlabel + "Climatology"+" discipline", legend_text=['Climatology Paper Counts', 'Medicine Paper Counts', 'Agriculture paper Counts'], save_fname = save_fname+"_sorted_Climatology", save_file=save_file)
+    
+    sorted_plot3 = create_sorted_plot(df, 'univs_medicine_counts', 'percent_medicine_papers', ['univs_agriculture_counts', 'univs_climatology_counts'], colors2plot, ylabel, xlabel + "Medicine"+" discipline", legend_text=['Medicine Paper Counts', 'Agriculture paper Counts', 'Climatology Paper Counts'], save_fname = save_fname+"_sorted_Medicine", save_file=save_file)
+    
+    return sorted_plot1, sorted_plot2, sorted_plot3
 
 
-'''country_name = 'austria'
+# In[22]:
+
+
+country_name = 'austria'
 univs_details = all_countries_all_univs_fos_info[country_name]
 
-create_reference_count_distribution_bar_chart(univs_details, save_fname = join(output_dir,country_name+"_"+'referencescount_distribution'), x_label = ("Universities in "+cnames_for_plot[country_name]), save_file=False)'''
+
+sorted_plot1, sorted_plot2, sorted_plot3 = create_fos_count_distribution_bar_chart(univs_details, save_fname = join(output_dir,country_name+"_"+'fos_count_distribution'), x_label = ("Universities in "+cnames_for_plot[country_name]), save_file=False)
+
+
+# In[23]:
+
+
+sorted_plot1
+
+
+# In[24]:
+
+
+sorted_plot2
+
+
+# In[25]:
+
+
+sorted_plot3
+
+
+# In[26]:
+
+
+for country_name, univs_details in all_countries_all_univs_fos_info.items():
+    create_fos_count_distribution_bar_chart(univs_details, save_fname = join(output_dir,country_name+"_"+'fos_count_distribution'), x_label = ("Universities in "+cnames_for_plot[country_name]), save_file=True)
 
 
 # In[ ]:
 
 
-'''for country_name, univs_details in all_countries_all_univs_fos_info.items():
-    create_reference_count_distribution_bar_chart(univs_details, save_fname = join(output_dir,country_name+"_"+'referencescount_distribution'), x_label = ("Universities in "+cnames_for_plot[country_name]), save_file=True)'''
-
-
-# In[ ]:
 
 
 
-
-
-# In[ ]:
+# In[27]:
 
 
 print("\n\n\nCompleted!!!")
-
-
-# In[ ]:
-
-
-
 
 
 # In[ ]:

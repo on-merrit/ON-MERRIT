@@ -49,7 +49,7 @@ def analyze(ss, cfg):
     db_name = cfg['mag_db_name']
 
     # tables that will be used =============================================== #
-    aff_df = ss.table(db_name + '.affiliations')  # this will be used to identify institutions
+    aff_df = ss.table(db_name + '.affiliations')  # this will be used to identify institutions names
     paper_author_aff_df = ss.table(db_name + '.paperauthoraffiliations')  # this will be used to identify papers coming from an institution
 
 
