@@ -1,3 +1,5 @@
+# this script servers as a central source for code which is re-used in several
+# other scripts.
 import_data <- function(file) {
   vroom(
     file = file,

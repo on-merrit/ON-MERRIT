@@ -1,3 +1,4 @@
+# This script holds the code for the final figures and .csv files.
 library(tidyverse)
 library(vroom)
 library(lubridate)
