@@ -26,7 +26,8 @@ save_data <- function(df, country) {
     )
   
   write_csv(
-    data_per_university(df),
+    data_per_university(df) %>% 
+      rename(univ_name = displayname),
     glue::glue("WP3/Task3.1/data/processed/Q7_dataset/universities_{country}.csv")
   )
   
