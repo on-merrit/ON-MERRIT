@@ -267,7 +267,7 @@ for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'
 with open(join(output_dir,'all_countries_univs_found_not_found.txt'), 'w') as file:
      file.write(json.dumps(all_countries_univs_found_not_found, sort_keys=True, indent=4, ensure_ascii=False))
         
-with open(join(output_dir,'all_countries_all_univs_OA_info.txt'), 'w') as file:
+with open(join(output_dir,'all_countries_all_univs_rc_info.txt'), 'w') as file:
      file.write(json.dumps(all_countries_all_univs_OA_info, sort_keys=True, indent=4, ensure_ascii=False)) 
 
 
@@ -282,7 +282,7 @@ with open(join(output_dir,'all_countries_all_univs_OA_info.txt'), 'w') as file:
 # In[13]:
 
 
-with open(join(output_dir,'all_countries_all_univs_OA_info.txt')) as file:
+with open(join(output_dir,'all_countries_all_univs_rc_info.txt')) as file:
      all_countries_all_univs_OA_info = json.load(file)
         
 # all_countries_all_univs_OA_info

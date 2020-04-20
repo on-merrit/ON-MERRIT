@@ -38,7 +38,7 @@ from MAG_utils import *
 
 
 
-# In[3]:
+# In[2]:
 
 
 # Built-in
@@ -62,7 +62,7 @@ from statistics import mean
 import ast
 
 
-# In[4]:
+# In[3]:
 
 
 cfg = None
@@ -91,7 +91,7 @@ cnames_for_plot = {
 }
 
 
-# In[7]:
+# In[4]:
 
 
 output_dir = join(root,"documents/analysis/dataset_selection_question2")
@@ -467,13 +467,25 @@ with open(join(output_dir,'all_countries_all_univs_fos_info.txt'), 'w') as file:
 
 # # Load data from previously saved files
 
-# In[9]:
+# In[5]:
 
 
 with open(join(output_dir,'all_countries_all_univs_fos_info.txt')) as file:
      all_countries_all_univs_fos_info = json.load(file)
         
-print(all_countries_all_univs_fos_info)
+# print(all_countries_all_univs_fos_info)
+
+
+# # Get the total count of FOS papers in each country -- This will be less than the count of total papers analysed for Q1.
+
+# In[22]:
+
+
+for country_name, univs_details in all_countries_all_univs_fos_info.items():
+    country_total_papers = 0
+    for x in all_countries_all_univs_fos_info[country_name].values():
+        country_total_papers = country_total_papers + x['count_total_papers']
+    print("Total papers in selected FOS for "+country_name+" = "+str(country_total_papers))
 
 
 # # Create bar plot for each of the countries

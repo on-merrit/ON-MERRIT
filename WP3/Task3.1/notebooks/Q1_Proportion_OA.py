@@ -32,7 +32,7 @@ from MAG_utils import *
 
 
 
-# In[3]:
+# In[5]:
 
 
 # Built-in
@@ -53,7 +53,7 @@ import re
 from statistics import mean 
 
 
-# In[4]:
+# In[6]:
 
 
 cfg = None
@@ -61,16 +61,21 @@ with open(join(root,"spark/config.json")) as fp:
     cfg = json.load(fp)
 
 
-# In[5]:
+# In[7]:
 
 
 # cfg
 
 
-# In[6]:
+# In[8]:
 
 
 output_dir = join(root,"documents/analysis/dataset_selection_question1")
+
+
+# In[ ]:
+
+
 # Create a new directory to save results
 os.makedirs(output_dir)
 
@@ -285,13 +290,25 @@ with open(join(output_dir,'all_countries_all_univs_OA_info.txt'), 'w') as file:
 
 # # Load data from previously saved files
 
-# In[13]:
+# In[9]:
 
 
 with open(join(output_dir,'all_countries_all_univs_OA_info.txt')) as file:
      all_countries_all_univs_OA_info = json.load(file)
         
 # all_countries_all_univs_OA_info
+
+
+# # Get the total count of papers in each country
+
+# In[21]:
+
+
+for country_name, univs_details in all_countries_all_univs_OA_info.items():
+    country_total_papers = 0
+    for x in all_countries_all_univs_OA_info[country_name].values():
+        country_total_papers = country_total_papers + x['count_total_papers']
+    print("Total papers analysed for "+country_name+" = "+str(country_total_papers))
 
 
 # # Create bar plot for each of the countries
