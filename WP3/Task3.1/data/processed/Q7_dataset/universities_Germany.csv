@@ -1,0 +1,419 @@
+univ_name,year,median_oa_perc
+Bielefeld University,2007-01-01,0.08759590792838876
+Bielefeld University,2008-01-01,0.1
+Bielefeld University,2009-01-01,0.1043557168784029
+Bielefeld University,2010-01-01,0.11627906976744186
+Bielefeld University,2011-01-01,0.13819628647214854
+Bielefeld University,2012-01-01,0.125
+Bielefeld University,2013-01-01,0.16666666666666666
+Bielefeld University,2014-01-01,0.18181818181818182
+Bielefeld University,2015-01-01,0.17902930402930403
+Bielefeld University,2016-01-01,0.20833333333333334
+Bielefeld University,2017-01-01,0.2139389736477115
+"Chemnitz University of
+Technology",2007-01-01,0.004545454545454545
+"Chemnitz University of
+Technology",2008-01-01,0.011483753099308365
+"Chemnitz University of
+Technology",2009-01-01,0.03851851851851852
+"Chemnitz University of
+Technology",2010-01-01,0.045454545454545456
+"Chemnitz University of
+Technology",2011-01-01,0.02631578947368421
+"Chemnitz University of
+Technology",2012-01-01,0.05
+"Chemnitz University of
+Technology",2013-01-01,0.057692307692307696
+"Chemnitz University of
+Technology",2014-01-01,0.0625
+"Chemnitz University of
+Technology",2015-01-01,0.08511066398390342
+"Chemnitz University of
+Technology",2016-01-01,0.09090909090909091
+"Chemnitz University of
+Technology",2017-01-01,0.11483516483516484
+Free University of Berlin,2007-01-01,0.07142857142857142
+Free University of Berlin,2008-01-01,0.07692307692307693
+Free University of Berlin,2009-01-01,0.09803921568627451
+Free University of Berlin,2010-01-01,0.0975609756097561
+Free University of Berlin,2011-01-01,0.125
+Free University of Berlin,2012-01-01,0.1284965034965035
+Free University of Berlin,2013-01-01,0.13333333333333333
+Free University of Berlin,2014-01-01,0.14285714285714285
+Free University of Berlin,2015-01-01,0.15384615384615385
+Free University of Berlin,2016-01-01,0.1724137931034483
+Free University of Berlin,2017-01-01,0.2
+Goethe University Frankfurt,2007-01-01,0.1111111111111111
+Goethe University Frankfurt,2008-01-01,0.125
+Goethe University Frankfurt,2009-01-01,0.1509433962264151
+Goethe University Frankfurt,2010-01-01,0.15384615384615385
+Goethe University Frankfurt,2011-01-01,0.17391304347826086
+Goethe University Frankfurt,2012-01-01,0.19047619047619047
+Goethe University Frankfurt,2013-01-01,0.18808962264150944
+Goethe University Frankfurt,2014-01-01,0.21428571428571427
+Goethe University Frankfurt,2015-01-01,0.21329749103942652
+Goethe University Frankfurt,2016-01-01,0.23529411764705882
+Goethe University Frankfurt,2017-01-01,0.25806451612903225
+"Hamburg University of
+Technology",2007-01-01,0
+"Hamburg University of
+Technology",2008-01-01,0
+"Hamburg University of
+Technology",2009-01-01,0.03252247488101534
+"Hamburg University of
+Technology",2010-01-01,0.04706533776301218
+"Hamburg University of
+Technology",2011-01-01,0.057692307692307696
+"Hamburg University of
+Technology",2012-01-01,0.07142857142857142
+"Hamburg University of
+Technology",2013-01-01,0.07142857142857142
+"Hamburg University of
+Technology",2014-01-01,0.08333333333333333
+"Hamburg University of
+Technology",2015-01-01,0.08333333333333333
+"Hamburg University of
+Technology",2016-01-01,0.0967741935483871
+"Hamburg University of
+Technology",2017-01-01,0.10791925465838509
+Heidelberg University,2007-01-01,0.14285714285714285
+Heidelberg University,2008-01-01,0.16666666666666666
+Heidelberg University,2009-01-01,0.18181818181818182
+Heidelberg University,2010-01-01,0.19444444444444445
+Heidelberg University,2011-01-01,0.21875
+Heidelberg University,2012-01-01,0.23404255319148937
+Heidelberg University,2013-01-01,0.23684210526315788
+Heidelberg University,2014-01-01,0.25
+Heidelberg University,2015-01-01,0.27586206896551724
+Heidelberg University,2016-01-01,0.2962962962962963
+Heidelberg University,2017-01-01,0.3018867924528302
+Humboldt University of Berlin,2007-01-01,0.1044776119402985
+Humboldt University of Berlin,2008-01-01,0.09523809523809523
+Humboldt University of Berlin,2009-01-01,0.1111111111111111
+Humboldt University of Berlin,2010-01-01,0.0625
+Humboldt University of Berlin,2011-01-01,0.14285714285714285
+Humboldt University of Berlin,2012-01-01,0.15227743271221533
+Humboldt University of Berlin,2013-01-01,0.16666666666666666
+Humboldt University of Berlin,2014-01-01,0.171072038503338
+Humboldt University of Berlin,2015-01-01,0.18181818181818182
+Humboldt University of Berlin,2016-01-01,0.20454545454545456
+Humboldt University of Berlin,2017-01-01,0.2164997164997165
+"Karlsruhe Institute of
+Technology",2007-01-01,0.045454545454545456
+"Karlsruhe Institute of
+Technology",2008-01-01,0.06451612903225806
+"Karlsruhe Institute of
+Technology",2009-01-01,0.06666666666666667
+"Karlsruhe Institute of
+Technology",2010-01-01,0.07407407407407407
+"Karlsruhe Institute of
+Technology",2011-01-01,0.07692307692307693
+"Karlsruhe Institute of
+Technology",2012-01-01,0.08333333333333333
+"Karlsruhe Institute of
+Technology",2013-01-01,0.0851063829787234
+"Karlsruhe Institute of
+Technology",2014-01-01,0.09280792420327304
+"Karlsruhe Institute of
+Technology",2015-01-01,0.10186786579038395
+"Karlsruhe Institute of
+Technology",2016-01-01,0.12
+"Karlsruhe Institute of
+Technology",2017-01-01,0.12903225806451613
+Ruhr University Bochum,2007-01-01,0.08823529411764706
+Ruhr University Bochum,2008-01-01,0.1
+Ruhr University Bochum,2009-01-01,0.10810810810810811
+Ruhr University Bochum,2010-01-01,0.1111111111111111
+Ruhr University Bochum,2011-01-01,0.12903225806451613
+Ruhr University Bochum,2012-01-01,0.14285714285714285
+Ruhr University Bochum,2013-01-01,0.15
+Ruhr University Bochum,2014-01-01,0.15151515151515152
+Ruhr University Bochum,2015-01-01,0.16666666666666666
+Ruhr University Bochum,2016-01-01,0.17647058823529413
+Ruhr University Bochum,2017-01-01,0.2
+RWTH Aachen University,2007-01-01,0.058823529411764705
+RWTH Aachen University,2008-01-01,0.0625
+RWTH Aachen University,2009-01-01,0.06666666666666667
+RWTH Aachen University,2010-01-01,0.07971014492753623
+RWTH Aachen University,2011-01-01,0.08333333333333333
+RWTH Aachen University,2012-01-01,0.09185415829650462
+RWTH Aachen University,2013-01-01,0.1
+RWTH Aachen University,2014-01-01,0.1
+RWTH Aachen University,2015-01-01,0.12
+RWTH Aachen University,2016-01-01,0.13333333333333333
+RWTH Aachen University,2017-01-01,0.1568627450980392
+Technical University of Berlin,2007-01-01,0.038461538461538464
+Technical University of Berlin,2008-01-01,0.05263157894736842
+Technical University of Berlin,2009-01-01,0.05714285714285714
+Technical University of Berlin,2010-01-01,0.06493506493506493
+Technical University of Berlin,2011-01-01,0.0684931506849315
+Technical University of Berlin,2012-01-01,0.07352941176470588
+Technical University of Berlin,2013-01-01,0.08888888888888889
+Technical University of Berlin,2014-01-01,0.09615384615384616
+Technical University of Berlin,2015-01-01,0.10380747126436782
+Technical University of Berlin,2016-01-01,0.12390350877192982
+Technical University of Berlin,2017-01-01,0.13333333333333333
+Technische Universität München,2007-01-01,0.08571428571428572
+Technische Universität München,2008-01-01,0.10714285714285714
+Technische Universität München,2009-01-01,0.10526315789473684
+Technische Universität München,2010-01-01,0.11363636363636363
+Technische Universität München,2011-01-01,0.1111111111111111
+Technische Universität München,2012-01-01,0.1282051282051282
+Technische Universität München,2013-01-01,0.15
+Technische Universität München,2014-01-01,0.15384615384615385
+Technische Universität München,2015-01-01,0.15789473684210525
+Technische Universität München,2016-01-01,0.17857142857142858
+Technische Universität München,2017-01-01,0.19753086419753085
+University of Bayreuth,2007-01-01,0.049429657794676805
+University of Bayreuth,2008-01-01,0.057692307692307696
+University of Bayreuth,2009-01-01,0.07692307692307693
+University of Bayreuth,2010-01-01,0.07575757575757576
+University of Bayreuth,2011-01-01,0.08333333333333333
+University of Bayreuth,2012-01-01,0.08571428571428572
+University of Bayreuth,2013-01-01,0.10344827586206896
+University of Bayreuth,2014-01-01,0.1111111111111111
+University of Bayreuth,2015-01-01,0.12
+University of Bayreuth,2016-01-01,0.14285714285714285
+University of Bayreuth,2017-01-01,0.14018691588785046
+University of Bonn,2007-01-01,0.125
+University of Bonn,2008-01-01,0.1568627450980392
+University of Bonn,2009-01-01,0.15789473684210525
+University of Bonn,2010-01-01,0.17073170731707318
+University of Bonn,2011-01-01,0.2
+University of Bonn,2012-01-01,0.20454545454545456
+University of Bonn,2013-01-01,0.2222222222222222
+University of Bonn,2014-01-01,0.23076923076923078
+University of Bonn,2015-01-01,0.2542372881355932
+University of Bonn,2016-01-01,0.2682926829268293
+University of Bonn,2017-01-01,0.2826086956521739
+University of Bremen,2007-01-01,0.04
+University of Bremen,2008-01-01,0.05
+University of Bremen,2009-01-01,0.0625
+University of Bremen,2010-01-01,0.07982300884955752
+University of Bremen,2011-01-01,0.08695652173913043
+University of Bremen,2012-01-01,0.1111111111111111
+University of Bremen,2013-01-01,0.1
+University of Bremen,2014-01-01,0.1111111111111111
+University of Bremen,2015-01-01,0.12121212121212122
+University of Bremen,2016-01-01,0.13793103448275862
+University of Bremen,2017-01-01,0.14285714285714285
+University of Cologne,2007-01-01,0.1320754716981132
+University of Cologne,2008-01-01,0.14285714285714285
+University of Cologne,2009-01-01,0.16129032258064516
+University of Cologne,2010-01-01,0.1792452830188679
+University of Cologne,2011-01-01,0.18616051071591427
+University of Cologne,2012-01-01,0.1935483870967742
+University of Cologne,2013-01-01,0.21153846153846154
+University of Cologne,2014-01-01,0.2222222222222222
+University of Cologne,2015-01-01,0.23684210526315788
+University of Cologne,2016-01-01,0.25
+University of Cologne,2017-01-01,0.2631578947368421
+University of Duisburg-Essen,2007-01-01,0.08571428571428572
+University of Duisburg-Essen,2008-01-01,0.1
+University of Duisburg-Essen,2009-01-01,0.1111111111111111
+University of Duisburg-Essen,2010-01-01,0.125
+University of Duisburg-Essen,2011-01-01,0.13636363636363635
+University of Duisburg-Essen,2012-01-01,0.125
+University of Duisburg-Essen,2013-01-01,0.14670014347202295
+University of Duisburg-Essen,2014-01-01,0.14634146341463414
+University of Duisburg-Essen,2015-01-01,0.14814814814814814
+University of Duisburg-Essen,2016-01-01,0.18181818181818182
+University of Duisburg-Essen,2017-01-01,0.2
+"University of Erlangen-
+Nuremberg",2007-01-01,0.06896551724137931
+"University of Erlangen-
+Nuremberg",2008-01-01,0.08
+"University of Erlangen-
+Nuremberg",2009-01-01,0.08333333333333333
+"University of Erlangen-
+Nuremberg",2010-01-01,0.08695652173913043
+"University of Erlangen-
+Nuremberg",2011-01-01,0.1
+"University of Erlangen-
+Nuremberg",2012-01-01,0.1174172794117647
+"University of Erlangen-
+Nuremberg",2013-01-01,0.11428571428571428
+"University of Erlangen-
+Nuremberg",2014-01-01,0.12
+"University of Erlangen-
+Nuremberg",2015-01-01,0.14814814814814814
+"University of Erlangen-
+Nuremberg",2016-01-01,0.15217391304347827
+"University of Erlangen-
+Nuremberg",2017-01-01,0.17142857142857143
+University of Freiburg,2007-01-01,0.1111111111111111
+University of Freiburg,2008-01-01,0.1111111111111111
+University of Freiburg,2009-01-01,0.1111111111111111
+University of Freiburg,2010-01-01,0.15789473684210525
+University of Freiburg,2011-01-01,0.16
+University of Freiburg,2012-01-01,0.17073170731707318
+University of Freiburg,2013-01-01,0.1875
+University of Freiburg,2014-01-01,0.1935483870967742
+University of Freiburg,2015-01-01,0.21052631578947367
+University of Freiburg,2016-01-01,0.2413793103448276
+University of Freiburg,2017-01-01,0.2687617260787992
+University of Göttingen,2007-01-01,0.1
+University of Göttingen,2008-01-01,0.125
+University of Göttingen,2009-01-01,0.10869565217391304
+University of Göttingen,2010-01-01,0.14285714285714285
+University of Göttingen,2011-01-01,0.16455696202531644
+University of Göttingen,2012-01-01,0.16901408450704225
+University of Göttingen,2013-01-01,0.18421052631578946
+University of Göttingen,2014-01-01,0.2
+University of Göttingen,2015-01-01,0.20930232558139536
+University of Göttingen,2016-01-01,0.21875
+University of Göttingen,2017-01-01,0.24528301886792453
+University of Greifswald,2007-01-01,0.11363636363636363
+University of Greifswald,2008-01-01,0.125
+University of Greifswald,2009-01-01,0.15301003344481606
+University of Greifswald,2010-01-01,0.17391304347826086
+University of Greifswald,2011-01-01,0.17647058823529413
+University of Greifswald,2012-01-01,0.17647058823529413
+University of Greifswald,2013-01-01,0.17857142857142858
+University of Greifswald,2014-01-01,0.20185185185185184
+University of Greifswald,2015-01-01,0.20923520923520922
+University of Greifswald,2016-01-01,0.2650060024009604
+University of Greifswald,2017-01-01,0.2583426028921023
+University of Hamburg,2007-01-01,0.09297180489812719
+University of Hamburg,2008-01-01,0.09243697478991597
+University of Hamburg,2009-01-01,0.11696306429548564
+University of Hamburg,2010-01-01,0.13636363636363635
+University of Hamburg,2011-01-01,0.14285714285714285
+University of Hamburg,2012-01-01,0.16666666666666666
+University of Hamburg,2013-01-01,0.1724137931034483
+University of Hamburg,2014-01-01,0.19047619047619047
+University of Hamburg,2015-01-01,0.2
+University of Hamburg,2016-01-01,0.23529411764705882
+University of Hamburg,2017-01-01,0.2413793103448276
+University of Hohenheim,2007-01-01,0.05555555555555555
+University of Hohenheim,2008-01-01,0.07692307692307693
+University of Hohenheim,2009-01-01,0.09375
+University of Hohenheim,2010-01-01,0.08108108108108109
+University of Hohenheim,2011-01-01,0.10300618921308577
+University of Hohenheim,2012-01-01,0.1
+University of Hohenheim,2013-01-01,0.12095088819226751
+University of Hohenheim,2014-01-01,0.14705882352941177
+University of Hohenheim,2015-01-01,0.14285714285714285
+University of Hohenheim,2016-01-01,0.16594202898550725
+University of Hohenheim,2017-01-01,0.20091743119266056
+University of Kiel,2007-01-01,0.10526315789473684
+University of Kiel,2008-01-01,0.10526315789473684
+University of Kiel,2009-01-01,0.11940298507462686
+University of Kiel,2010-01-01,0.10810810810810811
+University of Kiel,2011-01-01,0.14285714285714285
+University of Kiel,2012-01-01,0.1509433962264151
+University of Kiel,2013-01-01,0.15018796992481204
+University of Kiel,2014-01-01,0.16
+University of Kiel,2015-01-01,0.1864406779661017
+University of Kiel,2016-01-01,0.2
+University of Kiel,2017-01-01,0.21875
+University of Konstanz,2007-01-01,0.14174107142857142
+University of Konstanz,2008-01-01,0.13725490196078433
+University of Konstanz,2009-01-01,0.15151515151515152
+University of Konstanz,2010-01-01,0.14634146341463414
+University of Konstanz,2011-01-01,0.1565563725490196
+University of Konstanz,2012-01-01,0.16666666666666666
+University of Konstanz,2013-01-01,0.19774955436720143
+University of Konstanz,2014-01-01,0.1724137931034483
+University of Konstanz,2015-01-01,0.19230769230769232
+University of Konstanz,2016-01-01,0.2222222222222222
+University of Konstanz,2017-01-01,0.23629112662013957
+University of Mannheim,2007-01-01,0.08333333333333333
+University of Mannheim,2008-01-01,0.08333333333333333
+University of Mannheim,2009-01-01,0.1
+University of Mannheim,2010-01-01,0.1191683569979716
+University of Mannheim,2011-01-01,0.11305538648813146
+University of Mannheim,2012-01-01,0.11506935687263556
+University of Mannheim,2013-01-01,0.125
+University of Mannheim,2014-01-01,0.14814814814814814
+University of Mannheim,2015-01-01,0.1282051282051282
+University of Mannheim,2016-01-01,0.14285714285714285
+University of Mannheim,2017-01-01,0.14705882352941177
+University of Marburg,2007-01-01,0.08333333333333333
+University of Marburg,2008-01-01,0.08955223880597014
+University of Marburg,2009-01-01,0.125
+University of Marburg,2010-01-01,0.12861869313482216
+University of Marburg,2011-01-01,0.14119601328903653
+University of Marburg,2012-01-01,0.15384615384615385
+University of Marburg,2013-01-01,0.15517241379310345
+University of Marburg,2014-01-01,0.18181818181818182
+University of Marburg,2015-01-01,0.18518518518518517
+University of Marburg,2016-01-01,0.19047619047619047
+University of Marburg,2017-01-01,0.2222222222222222
+University of Münster,2007-01-01,0.13636363636363635
+University of Münster,2008-01-01,0.125
+University of Münster,2009-01-01,0.14814814814814814
+University of Münster,2010-01-01,0.16
+University of Münster,2011-01-01,0.17391304347826086
+University of Münster,2012-01-01,0.17647058823529413
+University of Münster,2013-01-01,0.17782738095238096
+University of Münster,2014-01-01,0.19672131147540983
+University of Münster,2015-01-01,0.1956521739130435
+University of Münster,2016-01-01,0.23404255319148937
+University of Münster,2017-01-01,0.25
+University of Potsdam,2007-01-01,0.07692307692307693
+University of Potsdam,2008-01-01,0.09090909090909091
+University of Potsdam,2009-01-01,0.0851063829787234
+University of Potsdam,2010-01-01,0.10526315789473684
+University of Potsdam,2011-01-01,0.1111111111111111
+University of Potsdam,2012-01-01,0.125
+University of Potsdam,2013-01-01,0.14285714285714285
+University of Potsdam,2014-01-01,0.15384615384615385
+University of Potsdam,2015-01-01,0.16666666666666666
+University of Potsdam,2016-01-01,0.17543859649122806
+University of Potsdam,2017-01-01,0.20722186076772936
+University of Siegen,2007-01-01,0
+University of Siegen,2008-01-01,0.024695121951219513
+University of Siegen,2009-01-01,0.03785714285714285
+University of Siegen,2010-01-01,0.043478260869565216
+University of Siegen,2011-01-01,0.06451612903225806
+University of Siegen,2012-01-01,0.0625
+University of Siegen,2013-01-01,0.08265027322404371
+University of Siegen,2014-01-01,0.08695652173913043
+University of Siegen,2015-01-01,0.0975609756097561
+University of Siegen,2016-01-01,0.10487038491751767
+University of Siegen,2017-01-01,0.125
+University of Stuttgart,2007-01-01,0
+University of Stuttgart,2008-01-01,0.022222222222222223
+University of Stuttgart,2009-01-01,0.042705167173252276
+University of Stuttgart,2010-01-01,0.05263157894736842
+University of Stuttgart,2011-01-01,0.05555555555555555
+University of Stuttgart,2012-01-01,0.07142857142857142
+University of Stuttgart,2013-01-01,0.07272727272727272
+University of Stuttgart,2014-01-01,0.07692307692307693
+University of Stuttgart,2015-01-01,0.08823529411764706
+University of Stuttgart,2016-01-01,0.10204081632653061
+University of Stuttgart,2017-01-01,0.10526315789473684
+University of Tübingen,2007-01-01,0.1388888888888889
+University of Tübingen,2008-01-01,0.14285714285714285
+University of Tübingen,2009-01-01,0.16666666666666666
+University of Tübingen,2010-01-01,0.17647058823529413
+University of Tübingen,2011-01-01,0.1935483870967742
+University of Tübingen,2012-01-01,0.20754716981132076
+University of Tübingen,2013-01-01,0.22621064314504352
+University of Tübingen,2014-01-01,0.22996794871794873
+University of Tübingen,2015-01-01,0.25
+University of Tübingen,2016-01-01,0.2692307692307692
+University of Tübingen,2017-01-01,0.2727272727272727
+University of Wuppertal,2007-01-01,0.0625
+University of Wuppertal,2008-01-01,0.047619047619047616
+University of Wuppertal,2009-01-01,0.05
+University of Wuppertal,2010-01-01,0.07692307692307693
+University of Wuppertal,2011-01-01,0.07275132275132275
+University of Wuppertal,2012-01-01,0.08333333333333333
+University of Wuppertal,2013-01-01,0.10263157894736842
+University of Wuppertal,2014-01-01,0.12727272727272726
+University of Wuppertal,2015-01-01,0.125
+University of Wuppertal,2016-01-01,0.15075757575757576
+University of Wuppertal,2017-01-01,0.14583333333333334
+University of Würzburg,2007-01-01,0.1624764299182904
+University of Würzburg,2008-01-01,0.1794871794871795
+University of Würzburg,2009-01-01,0.2
+University of Würzburg,2010-01-01,0.22
+University of Würzburg,2011-01-01,0.21818181818181817
+University of Würzburg,2012-01-01,0.22727272727272727
+University of Würzburg,2013-01-01,0.2373491037678332
+University of Würzburg,2014-01-01,0.2727272727272727
+University of Würzburg,2015-01-01,0.28
+University of Würzburg,2016-01-01,0.290994623655914
+University of Würzburg,2017-01-01,0.2835820895522388

@@ -1,3 +1,5 @@
+# this script servers as a central source for code which is re-used in several
+# other scripts.
 import_data <- function(file) {
   vroom(
     file = file,
@@ -28,7 +30,9 @@ data_per_university <- function(df) {
     filter(year >= ymd("2007-01-01") & year <= ymd("2017-01-01")) %>% 
     mutate(perc_oa = count_OA_references/(count_OA_references + count_unknown_references)) %>% 
     group_by(displayname, year) %>% 
-    summarise(median_oa_perc = median(perc_oa))
+    summarise(median_oa_perc = median(perc_oa)) %>% 
+    ungroup() %>% 
+    mutate(displayname = str_wrap(displayname, 30))
 }
 
 oa_quartiles <- function(df) {

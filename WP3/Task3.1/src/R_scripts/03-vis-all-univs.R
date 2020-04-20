@@ -1,3 +1,4 @@
+# This script holds the code for the final figures and .csv files.
 library(tidyverse)
 library(vroom)
 library(lubridate)
@@ -17,6 +18,23 @@ write_plot <- function(plot, country) {
     width = 10, height = 10)
 }
 
+save_data <- function(df, country) {
+  df %>% 
+    oa_quartiles() %>% 
+    pivot_longer(-year, names_to = "quantile") %>%
+    write_csv(
+      glue::glue("WP3/Task3.1/data/processed/Q7_dataset/quantiles_{country}.csv")
+    )
+  
+  write_csv(
+    data_per_university(df) %>% 
+      rename(univ_name = displayname),
+    glue::glue("WP3/Task3.1/data/processed/Q7_dataset/universities_{country}.csv")
+  )
+  
+  invisible(df)
+}
+
 
 plot_median <- function(df, country) {
   # top part of plot
@@ -32,10 +50,7 @@ plot_median <- function(df, country) {
          subtitle = "Quartiles: q25, q50, q75")
   
   # bottom part
-  df_per_uni <-  df %>% 
-    data_per_university() %>% 
-    ungroup() %>% 
-    mutate(displayname = str_wrap(displayname, 30))
+  df_per_uni <- data_per_university(df)
   
   top_univs <- df_per_uni %>% 
     ungroup() %>% 
@@ -67,6 +82,7 @@ plot_median <- function(df, country) {
 do_it <- function(path, country) {
   path %>% 
     import_data() %>% 
+    save_data(country = country) %>% 
     plot_median(country = country) %>% 
     write_plot(country = country)
 }

@@ -1,0 +1,603 @@
+univ_name,year,median_oa_perc
+Federal University of Alagoas,2007-01-01,0.02638888888888889
+Federal University of Alagoas,2008-01-01,0.036375661375661374
+Federal University of Alagoas,2009-01-01,0.02564102564102564
+Federal University of Alagoas,2010-01-01,0.05
+Federal University of Alagoas,2011-01-01,0.05798319327731093
+Federal University of Alagoas,2012-01-01,0.07142857142857142
+Federal University of Alagoas,2013-01-01,0.06666666666666667
+Federal University of Alagoas,2014-01-01,0.07692307692307693
+Federal University of Alagoas,2015-01-01,0.10762548262548263
+Federal University of Alagoas,2016-01-01,0.14285714285714285
+Federal University of Alagoas,2017-01-01,0.17391304347826086
+Federal University of Bahia,2007-01-01,0.05
+Federal University of Bahia,2008-01-01,0.045454545454545456
+Federal University of Bahia,2009-01-01,0.05555555555555555
+Federal University of Bahia,2010-01-01,0.05555555555555555
+Federal University of Bahia,2011-01-01,0.07142857142857142
+Federal University of Bahia,2012-01-01,0.07692307692307693
+Federal University of Bahia,2013-01-01,0.08333333333333333
+Federal University of Bahia,2014-01-01,0.1
+Federal University of Bahia,2015-01-01,0.12121212121212122
+Federal University of Bahia,2016-01-01,0.14705882352941177
+Federal University of Bahia,2017-01-01,0.17142857142857143
+Federal University of Ceará,2007-01-01,0
+Federal University of Ceará,2008-01-01,0.03571428571428571
+Federal University of Ceará,2009-01-01,0.029857397504456328
+Federal University of Ceará,2010-01-01,0.05714285714285714
+Federal University of Ceará,2011-01-01,0.0625
+Federal University of Ceará,2012-01-01,0.07142857142857142
+Federal University of Ceará,2013-01-01,0.09090909090909091
+Federal University of Ceará,2014-01-01,0.10344827586206896
+Federal University of Ceará,2015-01-01,0.1111111111111111
+Federal University of Ceará,2016-01-01,0.13157894736842105
+Federal University of Ceará,2017-01-01,0.1794871794871795
+"Federal University of Mato
+Grosso do Sul",2007-01-01,0.0625
+"Federal University of Mato
+Grosso do Sul",2008-01-01,0.058823529411764705
+"Federal University of Mato
+Grosso do Sul",2009-01-01,0.038461538461538464
+"Federal University of Mato
+Grosso do Sul",2010-01-01,0.04083333333333333
+"Federal University of Mato
+Grosso do Sul",2011-01-01,0.04878048780487805
+"Federal University of Mato
+Grosso do Sul",2012-01-01,0.045454545454545456
+"Federal University of Mato
+Grosso do Sul",2013-01-01,0.06666666666666667
+"Federal University of Mato
+Grosso do Sul",2014-01-01,0.09600614439324116
+"Federal University of Mato
+Grosso do Sul",2015-01-01,0.1111111111111111
+"Federal University of Mato
+Grosso do Sul",2016-01-01,0.12
+"Federal University of Mato
+Grosso do Sul",2017-01-01,0.16666666666666666
+Federal University of Paraná,2007-01-01,0.018575851393188854
+Federal University of Paraná,2008-01-01,0.04
+Federal University of Paraná,2009-01-01,0.037037037037037035
+Federal University of Paraná,2010-01-01,0.043961352657004835
+Federal University of Paraná,2011-01-01,0.0625
+Federal University of Paraná,2012-01-01,0.06666666666666667
+Federal University of Paraná,2013-01-01,0.08
+Federal University of Paraná,2014-01-01,0.08955223880597014
+Federal University of Paraná,2015-01-01,0.1
+Federal University of Paraná,2016-01-01,0.14160401002506265
+Federal University of Paraná,2017-01-01,0.16216216216216217
+"Federal University of
+Pernambuco",2007-01-01,0.038461538461538464
+"Federal University of
+Pernambuco",2008-01-01,0.05195681511470985
+"Federal University of
+Pernambuco",2009-01-01,0.0625
+"Federal University of
+Pernambuco",2010-01-01,0.058823529411764705
+"Federal University of
+Pernambuco",2011-01-01,0.07142857142857142
+"Federal University of
+Pernambuco",2012-01-01,0.07407407407407407
+"Federal University of
+Pernambuco",2013-01-01,0.08333333333333333
+"Federal University of
+Pernambuco",2014-01-01,0.09375
+"Federal University of
+Pernambuco",2015-01-01,0.1111111111111111
+"Federal University of
+Pernambuco",2016-01-01,0.1308411214953271
+"Federal University of
+Pernambuco",2017-01-01,0.16176470588235295
+"Federal University of Rio de
+Janeiro",2007-01-01,0.05
+"Federal University of Rio de
+Janeiro",2008-01-01,0.0582579185520362
+"Federal University of Rio de
+Janeiro",2009-01-01,0.0625
+"Federal University of Rio de
+Janeiro",2010-01-01,0.06666666666666667
+"Federal University of Rio de
+Janeiro",2011-01-01,0.08695652173913043
+"Federal University of Rio de
+Janeiro",2012-01-01,0.1016949152542373
+"Federal University of Rio de
+Janeiro",2013-01-01,0.10810810810810811
+"Federal University of Rio de
+Janeiro",2014-01-01,0.125
+"Federal University of Rio de
+Janeiro",2015-01-01,0.14285714285714285
+"Federal University of Rio de
+Janeiro",2016-01-01,0.1700120433560819
+"Federal University of Rio de
+Janeiro",2017-01-01,0.19423714759535654
+"Federal University of Rio
+Grande do Norte",2007-01-01,0.04494949494949495
+"Federal University of Rio
+Grande do Norte",2008-01-01,0.041666666666666664
+"Federal University of Rio
+Grande do Norte",2009-01-01,0.05989956958393113
+"Federal University of Rio
+Grande do Norte",2010-01-01,0.05798319327731093
+"Federal University of Rio
+Grande do Norte",2011-01-01,0.0625
+"Federal University of Rio
+Grande do Norte",2012-01-01,0.07692307692307693
+"Federal University of Rio
+Grande do Norte",2013-01-01,0.07692307692307693
+"Federal University of Rio
+Grande do Norte",2014-01-01,0.09090909090909091
+"Federal University of Rio
+Grande do Norte",2015-01-01,0.1
+"Federal University of Rio
+Grande do Norte",2016-01-01,0.14705882352941177
+"Federal University of Rio
+Grande do Norte",2017-01-01,0.16666666666666666
+"Federal University of São
+Carlos",2007-01-01,0.011363636363636364
+"Federal University of São
+Carlos",2008-01-01,0
+"Federal University of São
+Carlos",2009-01-01,0.03333333333333333
+"Federal University of São
+Carlos",2010-01-01,0.045454545454545456
+"Federal University of São
+Carlos",2011-01-01,0.05
+"Federal University of São
+Carlos",2012-01-01,0.058823529411764705
+"Federal University of São
+Carlos",2013-01-01,0.06349206349206349
+"Federal University of São
+Carlos",2014-01-01,0.07692307692307693
+"Federal University of São
+Carlos",2015-01-01,0.08695652173913043
+"Federal University of São
+Carlos",2016-01-01,0.1111111111111111
+"Federal University of São
+Carlos",2017-01-01,0.13513513513513514
+"Federal University of São
+Paulo",2007-01-01,0.10526315789473684
+"Federal University of São
+Paulo",2008-01-01,0.10714285714285714
+"Federal University of São
+Paulo",2009-01-01,0.125
+"Federal University of São
+Paulo",2010-01-01,0.14705882352941177
+"Federal University of São
+Paulo",2011-01-01,0.14285714285714285
+"Federal University of São
+Paulo",2012-01-01,0.15384615384615385
+"Federal University of São
+Paulo",2013-01-01,0.17647058823529413
+"Federal University of São
+Paulo",2014-01-01,0.18181818181818182
+"Federal University of São
+Paulo",2015-01-01,0.21052631578947367
+"Federal University of São
+Paulo",2016-01-01,0.22580645161290322
+"Federal University of São
+Paulo",2017-01-01,0.25
+"Federal University of
+Technology - Paraná",2007-01-01,0
+"Federal University of
+Technology - Paraná",2008-01-01,0.013888888888888888
+"Federal University of
+Technology - Paraná",2009-01-01,0
+"Federal University of
+Technology - Paraná",2010-01-01,0
+"Federal University of
+Technology - Paraná",2011-01-01,0.03333333333333333
+"Federal University of
+Technology - Paraná",2012-01-01,0
+"Federal University of
+Technology - Paraná",2013-01-01,0.05263157894736842
+"Federal University of
+Technology - Paraná",2014-01-01,0.043560606060606064
+"Federal University of
+Technology - Paraná",2015-01-01,0.043478260869565216
+"Federal University of
+Technology - Paraná",2016-01-01,0.08333333333333333
+"Federal University of
+Technology - Paraná",2017-01-01,0.09449404761904762
+Ponta Grossa State University,2007-01-01,0.08888888888888889
+Ponta Grossa State University,2008-01-01,0.13636363636363635
+Ponta Grossa State University,2009-01-01,0.02857142857142857
+Ponta Grossa State University,2010-01-01,0.04285714285714286
+Ponta Grossa State University,2011-01-01,0.040079365079365076
+Ponta Grossa State University,2012-01-01,0.03128054740957967
+Ponta Grossa State University,2013-01-01,0.07692307692307693
+Ponta Grossa State University,2014-01-01,0.09523809523809523
+Ponta Grossa State University,2015-01-01,0.05185185185185185
+Ponta Grossa State University,2016-01-01,0.08823529411764706
+Ponta Grossa State University,2017-01-01,0.16539365452408933
+"Pontifical Catholic University
+of Rio de Janeiro",2007-01-01,0
+"Pontifical Catholic University
+of Rio de Janeiro",2008-01-01,0.033516483516483515
+"Pontifical Catholic University
+of Rio de Janeiro",2009-01-01,0.045454545454545456
+"Pontifical Catholic University
+of Rio de Janeiro",2010-01-01,0.058823529411764705
+"Pontifical Catholic University
+of Rio de Janeiro",2011-01-01,0.05555555555555555
+"Pontifical Catholic University
+of Rio de Janeiro",2012-01-01,0.06666666666666667
+"Pontifical Catholic University
+of Rio de Janeiro",2013-01-01,0.06666666666666667
+"Pontifical Catholic University
+of Rio de Janeiro",2014-01-01,0.08695652173913043
+"Pontifical Catholic University
+of Rio de Janeiro",2015-01-01,0.07692307692307693
+"Pontifical Catholic University
+of Rio de Janeiro",2016-01-01,0.09523809523809523
+"Pontifical Catholic University
+of Rio de Janeiro",2017-01-01,0.11286264643446811
+"Pontifícia Universidade
+Católica de Minas Gerais",2007-01-01,0
+"Pontifícia Universidade
+Católica de Minas Gerais",2008-01-01,0.028169014084507043
+"Pontifícia Universidade
+Católica de Minas Gerais",2009-01-01,0
+"Pontifícia Universidade
+Católica de Minas Gerais",2010-01-01,0.03571428571428571
+"Pontifícia Universidade
+Católica de Minas Gerais",2011-01-01,0.03125
+"Pontifícia Universidade
+Católica de Minas Gerais",2012-01-01,0.05245075584058635
+"Pontifícia Universidade
+Católica de Minas Gerais",2013-01-01,0.046511627906976744
+"Pontifícia Universidade
+Católica de Minas Gerais",2014-01-01,0.05
+"Pontifícia Universidade
+Católica de Minas Gerais",2015-01-01,0.07142857142857142
+"Pontifícia Universidade
+Católica de Minas Gerais",2016-01-01,0.08452380952380953
+"Pontifícia Universidade
+Católica de Minas Gerais",2017-01-01,0.125
+"Pontifícia Universidade
+Católica do Paraná",2007-01-01,0.034482758620689655
+"Pontifícia Universidade
+Católica do Paraná",2008-01-01,0.047619047619047616
+"Pontifícia Universidade
+Católica do Paraná",2009-01-01,0.04083333333333333
+"Pontifícia Universidade
+Católica do Paraná",2010-01-01,0.06299603174603174
+"Pontifícia Universidade
+Católica do Paraná",2011-01-01,0.067816091954023
+"Pontifícia Universidade
+Católica do Paraná",2012-01-01,0.07894736842105263
+"Pontifícia Universidade
+Católica do Paraná",2013-01-01,0.075
+"Pontifícia Universidade
+Católica do Paraná",2014-01-01,0.09523809523809523
+"Pontifícia Universidade
+Católica do Paraná",2015-01-01,0.1111111111111111
+"Pontifícia Universidade
+Católica do Paraná",2016-01-01,0.12701612903225806
+"Pontifícia Universidade
+Católica do Paraná",2017-01-01,0.13962025316455695
+"Pontifícia Universidade
+Católica do Rio Grande do Sul",2007-01-01,0.06125
+"Pontifícia Universidade
+Católica do Rio Grande do Sul",2008-01-01,0.07692307692307693
+"Pontifícia Universidade
+Católica do Rio Grande do Sul",2009-01-01,0.0625
+"Pontifícia Universidade
+Católica do Rio Grande do Sul",2010-01-01,0.06818181818181818
+"Pontifícia Universidade
+Católica do Rio Grande do Sul",2011-01-01,0.08108108108108109
+"Pontifícia Universidade
+Católica do Rio Grande do Sul",2012-01-01,0.09150717703349281
+"Pontifícia Universidade
+Católica do Rio Grande do Sul",2013-01-01,0.08695652173913043
+"Pontifícia Universidade
+Católica do Rio Grande do Sul",2014-01-01,0.10714285714285714
+"Pontifícia Universidade
+Católica do Rio Grande do Sul",2015-01-01,0.11764705882352941
+"Pontifícia Universidade
+Católica do Rio Grande do Sul",2016-01-01,0.16666666666666666
+"Pontifícia Universidade
+Católica do Rio Grande do Sul",2017-01-01,0.2
+"Rio de Janeiro State
+University",2007-01-01,0.043478260869565216
+"Rio de Janeiro State
+University",2008-01-01,0.03774928774928775
+"Rio de Janeiro State
+University",2009-01-01,0.05263157894736842
+"Rio de Janeiro State
+University",2010-01-01,0.07142857142857142
+"Rio de Janeiro State
+University",2011-01-01,0.09090909090909091
+"Rio de Janeiro State
+University",2012-01-01,0.09090909090909091
+"Rio de Janeiro State
+University",2013-01-01,0.1
+"Rio de Janeiro State
+University",2014-01-01,0.10526315789473684
+"Rio de Janeiro State
+University",2015-01-01,0.13953488372093023
+"Rio de Janeiro State
+University",2016-01-01,0.16129032258064516
+"Rio de Janeiro State
+University",2017-01-01,0.19230769230769232
+Sao Paulo State University,2007-01-01,0.02817460317460317
+Sao Paulo State University,2008-01-01,0.034482758620689655
+Sao Paulo State University,2009-01-01,0.045454545454545456
+Sao Paulo State University,2010-01-01,0.047619047619047616
+Sao Paulo State University,2011-01-01,0.0625
+Sao Paulo State University,2012-01-01,0.06896551724137931
+Sao Paulo State University,2013-01-01,0.08333333333333333
+Sao Paulo State University,2014-01-01,0.09615384615384616
+Sao Paulo State University,2015-01-01,0.1111111111111111
+Sao Paulo State University,2016-01-01,0.14285714285714285
+Sao Paulo State University,2017-01-01,0.16326530612244897
+State University of Campinas,2007-01-01,0.038461538461538464
+State University of Campinas,2008-01-01,0.0425531914893617
+State University of Campinas,2009-01-01,0.047619047619047616
+State University of Campinas,2010-01-01,0.058823529411764705
+State University of Campinas,2011-01-01,0.07142857142857142
+State University of Campinas,2012-01-01,0.08333333333333333
+State University of Campinas,2013-01-01,0.08571428571428572
+State University of Campinas,2014-01-01,0.10638297872340426
+State University of Campinas,2015-01-01,0.11320754716981132
+State University of Campinas,2016-01-01,0.14285714285714285
+State University of Campinas,2017-01-01,0.16666666666666666
+State University of Ceará,2007-01-01,0.08249158249158249
+State University of Ceará,2008-01-01,0.16620689655172416
+State University of Ceará,2009-01-01,0.14835164835164835
+State University of Ceará,2010-01-01,0.11764705882352941
+State University of Ceará,2011-01-01,0.1875
+State University of Ceará,2012-01-01,0.15535444947209653
+State University of Ceará,2013-01-01,0.16666666666666666
+State University of Ceará,2014-01-01,0.18181818181818182
+State University of Ceará,2015-01-01,0.18518518518518517
+State University of Ceará,2016-01-01,0.20673076923076922
+State University of Ceará,2017-01-01,0.23809523809523808
+"Universidade do Estado de
+Santa Catarina",2007-01-01,0
+"Universidade do Estado de
+Santa Catarina",2008-01-01,0
+"Universidade do Estado de
+Santa Catarina",2009-01-01,0
+"Universidade do Estado de
+Santa Catarina",2010-01-01,0.02857142857142857
+"Universidade do Estado de
+Santa Catarina",2011-01-01,0.047619047619047616
+"Universidade do Estado de
+Santa Catarina",2012-01-01,0.047619047619047616
+"Universidade do Estado de
+Santa Catarina",2013-01-01,0.044466403162055336
+"Universidade do Estado de
+Santa Catarina",2014-01-01,0.06458333333333333
+"Universidade do Estado de
+Santa Catarina",2015-01-01,0.09090909090909091
+"Universidade do Estado de
+Santa Catarina",2016-01-01,0.11764705882352941
+"Universidade do Estado de
+Santa Catarina",2017-01-01,0.13333333333333333
+"Universidade Estadual de
+Maringá",2007-01-01,0.045454545454545456
+"Universidade Estadual de
+Maringá",2008-01-01,0.041666666666666664
+"Universidade Estadual de
+Maringá",2009-01-01,0.041666666666666664
+"Universidade Estadual de
+Maringá",2010-01-01,0.04
+"Universidade Estadual de
+Maringá",2011-01-01,0.05
+"Universidade Estadual de
+Maringá",2012-01-01,0.05555555555555555
+"Universidade Estadual de
+Maringá",2013-01-01,0.0625
+"Universidade Estadual de
+Maringá",2014-01-01,0.0748134328358209
+"Universidade Estadual de
+Maringá",2015-01-01,0.1
+"Universidade Estadual de
+Maringá",2016-01-01,0.125
+"Universidade Estadual de
+Maringá",2017-01-01,0.13015245623941274
+"Universidade Federal de
+Ciências da Saúde de Porto
+Alegre",2008-01-01,0.14047842401500937
+"Universidade Federal de
+Ciências da Saúde de Porto
+Alegre",2009-01-01,0.16333333333333333
+"Universidade Federal de
+Ciências da Saúde de Porto
+Alegre",2010-01-01,0.15384615384615385
+"Universidade Federal de
+Ciências da Saúde de Porto
+Alegre",2011-01-01,0.12771739130434784
+"Universidade Federal de
+Ciências da Saúde de Porto
+Alegre",2012-01-01,0.14583333333333334
+"Universidade Federal de
+Ciências da Saúde de Porto
+Alegre",2013-01-01,0.18697033898305085
+"Universidade Federal de
+Ciências da Saúde de Porto
+Alegre",2014-01-01,0.18990384615384615
+"Universidade Federal de
+Ciências da Saúde de Porto
+Alegre",2015-01-01,0.2
+"Universidade Federal de
+Ciências da Saúde de Porto
+Alegre",2016-01-01,0.24468085106382978
+"Universidade Federal de
+Ciências da Saúde de Porto
+Alegre",2017-01-01,0.27586206896551724
+Universidade Federal de Goiás,2007-01-01,0.05334281650071124
+Universidade Federal de Goiás,2008-01-01,0.07142857142857142
+Universidade Federal de Goiás,2009-01-01,0.05634920634920634
+Universidade Federal de Goiás,2010-01-01,0.06060606060606061
+Universidade Federal de Goiás,2011-01-01,0.07142857142857142
+Universidade Federal de Goiás,2012-01-01,0.06666666666666667
+Universidade Federal de Goiás,2013-01-01,0.08403954802259886
+Universidade Federal de Goiás,2014-01-01,0.10526315789473684
+Universidade Federal de Goiás,2015-01-01,0.1111111111111111
+Universidade Federal de Goiás,2016-01-01,0.14285714285714285
+Universidade Federal de Goiás,2017-01-01,0.1935483870967742
+"Universidade Federal de
+Itajubá",2007-01-01,0
+"Universidade Federal de
+Itajubá",2008-01-01,0
+"Universidade Federal de
+Itajubá",2009-01-01,0.023255813953488372
+"Universidade Federal de
+Itajubá",2010-01-01,0
+"Universidade Federal de
+Itajubá",2011-01-01,0.0339080459770115
+"Universidade Federal de
+Itajubá",2012-01-01,0
+"Universidade Federal de
+Itajubá",2013-01-01,0.04257246376811594
+"Universidade Federal de
+Itajubá",2014-01-01,0.038461538461538464
+"Universidade Federal de
+Itajubá",2015-01-01,0.07692307692307693
+"Universidade Federal de
+Itajubá",2016-01-01,0.05555555555555555
+"Universidade Federal de
+Itajubá",2017-01-01,0.1
+"Universidade Federal de Ouro
+Preto",2007-01-01,0.02
+"Universidade Federal de Ouro
+Preto",2008-01-01,0.047619047619047616
+"Universidade Federal de Ouro
+Preto",2009-01-01,0.07692307692307693
+"Universidade Federal de Ouro
+Preto",2010-01-01,0.07207792207792207
+"Universidade Federal de Ouro
+Preto",2011-01-01,0.08108108108108109
+"Universidade Federal de Ouro
+Preto",2012-01-01,0.07142857142857142
+"Universidade Federal de Ouro
+Preto",2013-01-01,0.07142857142857142
+"Universidade Federal de Ouro
+Preto",2014-01-01,0.12121212121212122
+"Universidade Federal de Ouro
+Preto",2015-01-01,0.08603145235892692
+"Universidade Federal de Ouro
+Preto",2016-01-01,0.1111111111111111
+"Universidade Federal de Ouro
+Preto",2017-01-01,0.14285714285714285
+"Universidade Federal de Santa
+Catarina",2007-01-01,0
+"Universidade Federal de Santa
+Catarina",2008-01-01,0
+"Universidade Federal de Santa
+Catarina",2009-01-01,0
+"Universidade Federal de Santa
+Catarina",2010-01-01,0.024096385542168676
+"Universidade Federal de Santa
+Catarina",2011-01-01,0.045454545454545456
+"Universidade Federal de Santa
+Catarina",2012-01-01,0.05555555555555555
+"Universidade Federal de Santa
+Catarina",2013-01-01,0.0625
+"Universidade Federal de Santa
+Catarina",2014-01-01,0.07142857142857142
+"Universidade Federal de Santa
+Catarina",2015-01-01,0.08054054054054055
+"Universidade Federal de Santa
+Catarina",2016-01-01,0.10526315789473684
+"Universidade Federal de Santa
+Catarina",2017-01-01,0.14285714285714285
+"Universidade Federal de Santa
+Maria",2007-01-01,0.029411764705882353
+"Universidade Federal de Santa
+Maria",2008-01-01,0.037037037037037035
+"Universidade Federal de Santa
+Maria",2009-01-01,0
+"Universidade Federal de Santa
+Maria",2010-01-01,0.03333333333333333
+"Universidade Federal de Santa
+Maria",2011-01-01,0.043478260869565216
+"Universidade Federal de Santa
+Maria",2012-01-01,0.043478260869565216
+"Universidade Federal de Santa
+Maria",2013-01-01,0.05263157894736842
+"Universidade Federal de Santa
+Maria",2014-01-01,0.07142857142857142
+"Universidade Federal de Santa
+Maria",2015-01-01,0.07894736842105263
+"Universidade Federal de Santa
+Maria",2016-01-01,0.1111111111111111
+"Universidade Federal de Santa
+Maria",2017-01-01,0.14634146341463414
+Universidade Federal de Viçosa,2007-01-01,0
+Universidade Federal de Viçosa,2008-01-01,0
+Universidade Federal de Viçosa,2009-01-01,0.039607843137254906
+Universidade Federal de Viçosa,2010-01-01,0.045454545454545456
+Universidade Federal de Viçosa,2011-01-01,0.05
+Universidade Federal de Viçosa,2012-01-01,0.058823529411764705
+Universidade Federal de Viçosa,2013-01-01,0.06666666666666667
+Universidade Federal de Viçosa,2014-01-01,0.08333333333333333
+Universidade Federal de Viçosa,2015-01-01,0.11566332218506131
+Universidade Federal de Viçosa,2016-01-01,0.1274661508704062
+Universidade Federal de Viçosa,2017-01-01,0.16666666666666666
+Universidade Federal do ABC,2007-01-01,0.05
+Universidade Federal do ABC,2008-01-01,0.027402402402402402
+Universidade Federal do ABC,2009-01-01,0.058823529411764705
+Universidade Federal do ABC,2010-01-01,0.06009615384615385
+Universidade Federal do ABC,2011-01-01,0.08333333333333333
+Universidade Federal do ABC,2012-01-01,0.10526315789473684
+Universidade Federal do ABC,2013-01-01,0.10471491228070176
+Universidade Federal do ABC,2014-01-01,0.136986301369863
+Universidade Federal do ABC,2015-01-01,0.1547008547008547
+Universidade Federal do ABC,2016-01-01,0.18181818181818182
+Universidade Federal do ABC,2017-01-01,0.20689655172413793
+"Universidade Federal Rural do
+Semi-Árido",2007-01-01,0
+"Universidade Federal Rural do
+Semi-Árido",2008-01-01,0
+"Universidade Federal Rural do
+Semi-Árido",2009-01-01,0
+"Universidade Federal Rural do
+Semi-Árido",2010-01-01,0
+"Universidade Federal Rural do
+Semi-Árido",2011-01-01,0
+"Universidade Federal Rural do
+Semi-Árido",2012-01-01,0
+"Universidade Federal Rural do
+Semi-Árido",2013-01-01,0.058823529411764705
+"Universidade Federal Rural do
+Semi-Árido",2014-01-01,0.07142857142857142
+"Universidade Federal Rural do
+Semi-Árido",2015-01-01,0.1111111111111111
+"Universidade Federal Rural do
+Semi-Árido",2016-01-01,0.1111111111111111
+"Universidade Federal Rural do
+Semi-Árido",2017-01-01,0.13333333333333333
+University of Brasília,2007-01-01,0.03571428571428571
+University of Brasília,2008-01-01,0.05555555555555555
+University of Brasília,2009-01-01,0.05555555555555555
+University of Brasília,2010-01-01,0.0625
+University of Brasília,2011-01-01,0.07142857142857142
+University of Brasília,2012-01-01,0.06666666666666667
+University of Brasília,2013-01-01,0.07692307692307693
+University of Brasília,2014-01-01,0.09523809523809523
+University of Brasília,2015-01-01,0.10526315789473684
+University of Brasília,2016-01-01,0.13636363636363635
+University of Brasília,2017-01-01,0.16129032258064516
+University of Caxias do Sul,2007-01-01,0.07692307692307693
+University of Caxias do Sul,2008-01-01,0.027777777777777776
+University of Caxias do Sul,2009-01-01,0.05
+University of Caxias do Sul,2010-01-01,0.046536796536796536
+University of Caxias do Sul,2011-01-01,0.06612021857923497
+University of Caxias do Sul,2012-01-01,0.05
+University of Caxias do Sul,2013-01-01,0.06173780487804878
+University of Caxias do Sul,2014-01-01,0.0625
+University of Caxias do Sul,2015-01-01,0.05263157894736842
+University of Caxias do Sul,2016-01-01,0.09375
+University of Caxias do Sul,2017-01-01,0.09605263157894736
+University of São Paulo,2007-01-01,0.058823529411764705
+University of São Paulo,2008-01-01,0.06666666666666667
+University of São Paulo,2009-01-01,0.075
+University of São Paulo,2010-01-01,0.08108108108108109
+University of São Paulo,2011-01-01,0.09302325581395349
+University of São Paulo,2012-01-01,0.10526315789473684
+University of São Paulo,2013-01-01,0.11538461538461539
+University of São Paulo,2014-01-01,0.1282051282051282
+University of São Paulo,2015-01-01,0.15151515151515152
+University of São Paulo,2016-01-01,0.1724137931034483
+University of São Paulo,2017-01-01,0.2

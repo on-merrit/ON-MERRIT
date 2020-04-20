@@ -1,0 +1,122 @@
+univ_name,year,median_oa_perc
+Graz University of Technology,2007-01-01,0.047619047619047616
+Graz University of Technology,2008-01-01,0
+Graz University of Technology,2009-01-01,0.0625
+Graz University of Technology,2010-01-01,0.07142857142857142
+Graz University of Technology,2011-01-01,0.08333333333333333
+Graz University of Technology,2012-01-01,0.08333333333333333
+Graz University of Technology,2013-01-01,0.09090909090909091
+Graz University of Technology,2014-01-01,0.1
+Graz University of Technology,2015-01-01,0.10294117647058823
+Graz University of Technology,2016-01-01,0.11396103896103896
+Graz University of Technology,2017-01-01,0.12195121951219512
+"Johannes Kepler University of
+Linz",2007-01-01,0.05
+"Johannes Kepler University of
+Linz",2008-01-01,0.05
+"Johannes Kepler University of
+Linz",2009-01-01,0.07407407407407407
+"Johannes Kepler University of
+Linz",2010-01-01,0.07142857142857142
+"Johannes Kepler University of
+Linz",2011-01-01,0.07142857142857142
+"Johannes Kepler University of
+Linz",2012-01-01,0.1043557168784029
+"Johannes Kepler University of
+Linz",2013-01-01,0.09090909090909091
+"Johannes Kepler University of
+Linz",2014-01-01,0.09615384615384616
+"Johannes Kepler University of
+Linz",2015-01-01,0.1
+"Johannes Kepler University of
+Linz",2016-01-01,0.125
+"Johannes Kepler University of
+Linz",2017-01-01,0.14035087719298245
+Medical University of Graz,2007-01-01,0.14814814814814814
+Medical University of Graz,2008-01-01,0.16666666666666666
+Medical University of Graz,2009-01-01,0.18181818181818182
+Medical University of Graz,2010-01-01,0.21052631578947367
+Medical University of Graz,2011-01-01,0.2222222222222222
+Medical University of Graz,2012-01-01,0.23076923076923078
+Medical University of Graz,2013-01-01,0.24517625231910944
+Medical University of Graz,2014-01-01,0.280625
+Medical University of Graz,2015-01-01,0.2923076923076923
+Medical University of Graz,2016-01-01,0.3225806451612903
+Medical University of Graz,2017-01-01,0.3333333333333333
+Medical University of Vienna,2007-01-01,0.16393442622950818
+Medical University of Vienna,2008-01-01,0.1875
+Medical University of Vienna,2009-01-01,0.2
+Medical University of Vienna,2010-01-01,0.2222222222222222
+Medical University of Vienna,2011-01-01,0.225
+Medical University of Vienna,2012-01-01,0.25
+Medical University of Vienna,2013-01-01,0.25
+Medical University of Vienna,2014-01-01,0.28125
+Medical University of Vienna,2015-01-01,0.3075221238938053
+Medical University of Vienna,2016-01-01,0.32142857142857145
+Medical University of Vienna,2017-01-01,0.3333333333333333
+University of Graz,2007-01-01,0.09090909090909091
+University of Graz,2008-01-01,0.09523809523809523
+University of Graz,2009-01-01,0.1
+University of Graz,2010-01-01,0.11864406779661017
+University of Graz,2011-01-01,0.125
+University of Graz,2012-01-01,0.13655788655788656
+University of Graz,2013-01-01,0.15217391304347827
+University of Graz,2014-01-01,0.17777777777777778
+University of Graz,2015-01-01,0.18181818181818182
+University of Graz,2016-01-01,0.20512820512820512
+University of Graz,2017-01-01,0.22580645161290322
+University of Innsbruck,2007-01-01,0.09090909090909091
+University of Innsbruck,2008-01-01,0.09090909090909091
+University of Innsbruck,2009-01-01,0.1
+University of Innsbruck,2010-01-01,0.1111111111111111
+University of Innsbruck,2011-01-01,0.12195121951219512
+University of Innsbruck,2012-01-01,0.12345679012345678
+University of Innsbruck,2013-01-01,0.1509493670886076
+University of Innsbruck,2014-01-01,0.16372220530003045
+University of Innsbruck,2015-01-01,0.18181818181818182
+University of Innsbruck,2016-01-01,0.20512820512820512
+University of Innsbruck,2017-01-01,0.2
+University of Leoben,2007-01-01,0
+University of Leoben,2008-01-01,0
+University of Leoben,2009-01-01,0
+University of Leoben,2010-01-01,0.02667140825035562
+University of Leoben,2011-01-01,0.025657894736842105
+University of Leoben,2012-01-01,0.043478260869565216
+University of Leoben,2013-01-01,0.046511627906976744
+University of Leoben,2014-01-01,0.05
+University of Leoben,2015-01-01,0.05375180375180375
+University of Leoben,2016-01-01,0.04838709677419355
+University of Leoben,2017-01-01,0.09838709677419355
+University of Vienna,2007-01-01,0.08333333333333333
+University of Vienna,2008-01-01,0.09210526315789473
+University of Vienna,2009-01-01,0.10308349146110057
+University of Vienna,2010-01-01,0.12087912087912088
+University of Vienna,2011-01-01,0.13636363636363635
+University of Vienna,2012-01-01,0.14285714285714285
+University of Vienna,2013-01-01,0.16
+University of Vienna,2014-01-01,0.16666666666666666
+University of Vienna,2015-01-01,0.1791044776119403
+University of Vienna,2016-01-01,0.2
+University of Vienna,2017-01-01,0.20588235294117646
+"Vienna University of
+Technology",2007-01-01,0.017241379310344827
+"Vienna University of
+Technology",2008-01-01,0.04
+"Vienna University of
+Technology",2009-01-01,0.054804804804804805
+"Vienna University of
+Technology",2010-01-01,0.06451612903225806
+"Vienna University of
+Technology",2011-01-01,0.07207207207207207
+"Vienna University of
+Technology",2012-01-01,0.08823529411764706
+"Vienna University of
+Technology",2013-01-01,0.0967741935483871
+"Vienna University of
+Technology",2014-01-01,0.1
+"Vienna University of
+Technology",2015-01-01,0.12
+"Vienna University of
+Technology",2016-01-01,0.12903225806451613
+"Vienna University of
+Technology",2017-01-01,0.14285714285714285
