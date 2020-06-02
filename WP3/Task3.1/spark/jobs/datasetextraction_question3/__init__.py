@@ -56,9 +56,9 @@ def analyze(ss, cfg):
     papers_df = ss.table(db_name + '.papers').select(['paperid', 'year']).drop_duplicates()  # this will be used to extract publication year for papers.
     paper_author_affiliation_df = ss.table(db_name + '.paperauthoraffiliations').select(['paperid', 'authorid', 'affiliationid']).drop_duplicates()  # this will be used to extract authorid for papers -- A paper may have multiple authors but their authorid will be distinct.
     aff_df = ss.table(db_name + '.affiliations').select('affiliationid', 'normalizedname', 'displayname', 'wikipage')  # this will be used to identify institutions names
-    author_df = ss.table(db_name + '.authors').select(['authorid', 'normalizedname', 'displayname']).drop_duplicates()  # this will be used to get names of authors of papers. Based on the names, an external script will determine the gender.
+    author_df = ss.table(db_name + '.authors').select(['authorid', 'rank', 'normalizedname', 'displayname']).drop_duplicates()  # this will be used to get names of authors of papers. Based on the names, an external script will determine the gender.
     # To avoid conflict with the filednames coming from the aff_df
-    author_df = author_df.withColumnRenamed("normalizedname", "author_normalizedname").withColumnRenamed("displayname", "author_displayname")
+    author_df = author_df.withColumnRenamed("normalizedname", "author_normalizedname").withColumnRenamed("displayname", "author_displayname").withColumnRenamed("rank", "author_rank")
 
 
     for country_name, univ_names in cfg['data']['all_THE_WUR_institutions_by_country'].items():
