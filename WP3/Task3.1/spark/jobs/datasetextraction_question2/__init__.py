@@ -1,4 +1,6 @@
 '''
+Q2: How are papers published by the universities distributed across the three scientific disciplines of our choice?
+
 Extracts dataset of all papers for all the universities listed in THE WUR with the information of fieldofstudy they belong to.
 
 A separate csv will be generated for each country with records of all papers of all THE WUR universities in that country.

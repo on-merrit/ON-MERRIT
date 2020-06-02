@@ -1,14 +1,13 @@
 '''
-Q3: What is the gender distribution in authorship of papers published by the universities?
+Q4: Distribution of seniority of the staff (number of years since their first publication until the last publication in the given university) at a particular university.
 
-Extracts dataset of papers with their author names for all the universities listed in THE WUR.
+Extracts dataset of papers for authors with their publication year  for all the universities listed in THE WUR.
 
-A separate csv will be generated for each country with records of all papers of all THE WUR universities in that country.
+A separate csv will be generated for each country with records of all authors of all THE WUR universities in that country.
 
 Important considerations about this work :
-1. MAG can generate duplicate entries for papers published by any university because the same paperid could belong to different authors from the same university. This dataset WILL contain such duplicate paperids(authorship) from the same university but with different author names.  Papers with authorship from multiple universities are counted once towards each of the universities concerned.
+1. MAG can generate duplicate entries for papers published by any university because the same paperid could belong to different authors from the same university. This dataset WILL contain such duplicate paperids(authorship) from the same university but with different author ids.  Papers with authorship from multiple universities are counted once towards each of the universities concerned.
 2. When there are multiple collaborators(authors) for the same paper, this dataset makes sure that only the records for collaborators from within selected universities are preserved.
-3. External script shall be executed to determine the gender of those authors.
 '''
 
 
@@ -34,7 +33,7 @@ __email__ = 'bikash.gyawali@open.ac.uk'
 
 
 # ============================================================================ #
-# MAIN FUNCTION -- name of the task is datasetextraction_question3  #
+    # MAIN FUNCTION -- name of the task is datasetextraction_question4  #
 # ============================================================================ #
 def analyze(ss, cfg):
     """
@@ -46,7 +45,7 @@ def analyze(ss, cfg):
 
     logger = logging.getLogger(__name__)
     logger.info('Python version: {}'.format(sys.version))
-    logger.info('Extracting dataset of author names for all papers published by all THE WUR universities in the countries of our choice.')
+    logger.info('Extracting dataset of author publication years for all papers published by all THE WUR universities in the countries of our choice.')
 
     # MAG dataset to use
     db_name = cfg['mag_db_name']
@@ -56,9 +55,7 @@ def analyze(ss, cfg):
     papers_df = ss.table(db_name + '.papers').select(['paperid', 'year']).drop_duplicates()  # this will be used to extract publication year for papers.
     paper_author_affiliation_df = ss.table(db_name + '.paperauthoraffiliations').select(['paperid', 'authorid', 'affiliationid']).drop_duplicates()  # this will be used to extract authorid for papers -- A paper may have multiple authors but their authorid will be distinct.
     aff_df = ss.table(db_name + '.affiliations').select('affiliationid', 'normalizedname', 'displayname', 'wikipage')  # this will be used to identify institutions names
-    author_df = ss.table(db_name + '.authors').select(['authorid', 'normalizedname', 'displayname']).drop_duplicates()  # this will be used to get names of authors of papers. Based on the names, an external script will determine the gender.
-    # To avoid conflict with the filednames coming from the aff_df
-    author_df = author_df.withColumnRenamed("normalizedname", "author_normalizedname").withColumnRenamed("displayname", "author_displayname")
+    # Based on the authorid (from paper_author_affiliation_df) and the year of publication (from papers_df), the analysis script will determine the seniority of each author within the university.
 
 
     for country_name, univ_names in cfg['data']['all_THE_WUR_institutions_by_country'].items():
@@ -111,22 +108,18 @@ def analyze(ss, cfg):
             univ_papers_authorid_df = univ_papers_authorid_df.dropDuplicates()
 
 
-            # Get the author names for the authorids
-            univ_papers_authorname_df = univ_papers_authorid_df.join(author_df, ['authorid'], how='inner')
-
-
             # Update the total results for the country
-            if country_papers_author_names_df is None and len(univ_papers_authorname_df.head(1)) > 0:
-                country_papers_author_names_df = univ_papers_authorname_df
+            if country_papers_author_names_df is None and len(univ_papers_authorid_df.head(1)) > 0:
+                country_papers_author_names_df = univ_papers_authorid_df
             else:
                 # https://datascience.stackexchange.com/a/27231
-                if len(univ_papers_authorname_df.head(1)) > 0:
-                    country_papers_author_names_df = country_papers_author_names_df.union(univ_papers_authorname_df.select(country_papers_author_names_df.columns))
+                if len(univ_papers_authorid_df.head(1)) > 0:
+                    country_papers_author_names_df = country_papers_author_names_df.union(univ_papers_authorid_df.select(country_papers_author_names_df.columns))
 
             logger.info("\nExtracted dataset for the university: " + univ_name)
 
         # save the data for the current country
-        output_filename = join(cfg['hdfs']['onmerrit_dir'], "author_names_" + country_name + "_papers.csv" )
+        output_filename = join(cfg['hdfs']['onmerrit_dir'], "author_ids_" + country_name + "_papers.csv" )
         country_papers_author_names_df.write.csv(output_filename, mode="overwrite", header=True, sep=",", quoteAll=True)
         logger.info("\n\nWrote dataset for country: " + country_name + " to file " + output_filename + "\n\n")
 

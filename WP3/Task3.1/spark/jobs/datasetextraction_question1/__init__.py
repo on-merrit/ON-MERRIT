@@ -1,4 +1,6 @@
 '''
+Q1: What % of papers coming from a university are OA.
+
 Extracts dataset of OA status of all papers of all the universities listed in THE WUR.
 
 A separate csv will be generated for each country with records of all papers of all THE WUR universities in that country.

@@ -1,4 +1,6 @@
 '''
+Q5: Distribution of citation counts (incoming) of open access vs subscription papers published by the university.
+
 Extracts dataset of OA status of all papers of all the universities listed in THE WUR and for each of those, gets the
 count of incoming citations available in MAG.
 

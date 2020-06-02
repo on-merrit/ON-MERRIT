@@ -252,7 +252,7 @@ for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'
     
     
         
-    print("Computed counts of gender for all authors in all univs "+country_name+"\n")
+    print("Computed gender distribution of authors in all univs in "+country_name+"\n")
 
 
 # In[13]:

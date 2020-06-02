@@ -1,4 +1,6 @@
 '''
+Q6: Distribution of references (outgoing) for open access articles vs subscription based articles?
+
 Extracts dataset of count of all OA and unknown papers referenced by all papers published by all the universities listed in THE WUR.
 # (University A publishes paper X which references m papers; how many of those m papers are OA/non-OA)
 The references are whatever is identified by MAG.
