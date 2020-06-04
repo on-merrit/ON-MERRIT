@@ -11,3 +11,5 @@ spacy
 tqdm
 shapely
 gender-guesser
+scholarly
+free-proxy

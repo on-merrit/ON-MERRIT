@@ -33,7 +33,7 @@ def create_author_gender_dataset() -> None:
 
     # setup
     logger.info('Loading config')
-    app_cfg = ConfigLoader.load_config()
+    app_cfg = ConfigLoader.load_config("config_gender_dataset.json")
     
 
     logger.info('Mapping Author names to their Gender')
