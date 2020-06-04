@@ -21,19 +21,18 @@ def create_author_gender_dataset() -> None:
     """Creates a csv mapping names of author to their gender (based on first name) as determined by the
      gender-guesser library -- https://pypi.org/project/gender-guesser/ .
 
-     The input is a csv file with authornames (as extracted from ../spark/jobs/datasetextraction_question2).
+     The input is a csv file with authornames (as extracted from ../spark/jobs/datasetextraction_question3).
      Output is a csv with the gender label.
     
     :return: The result will be one of unknown (name not found), andy (androgynous), male, female, mostly_male, or mostly_female.
     The difference between andy and unknown is that the former is found to have the same probability to be male than to be female, while the later means that the name wasn’t found in the database.
-    :rtype: str
     """
     logger = logging.getLogger(__name__)
     logger.info(f'Running {create_author_gender_dataset.__name__}')
 
     # setup
     logger.info('Loading config')
-    app_cfg = ConfigLoader.load_config()
+    app_cfg = ConfigLoader.load_config("config_gender_dataset.json")
     
 
     logger.info('Mapping Author names to their Gender')
@@ -69,6 +68,7 @@ def create_author_gender_dataset() -> None:
 
     for x in app_cfg['cname_in_file_names']:
         logger.info('Processing dataset for ' + x)
+        print('Processing dataset for ' + x)
         author_name_filepath = join(app_cfg['paths']['data_dir'], 'author_names_'+x+'_papers.csv')
         author_names_df = load_df(author_name_filepath)
 

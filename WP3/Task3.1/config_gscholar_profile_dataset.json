@@ -1,0 +1,9 @@
+{
+    "comment": "App Config used for obtaining Google Scholar profile for authors from author names csv",
+    "paths": {
+        "data_dir": "data/interim/author_names/",
+        "output_dir": "output/"
+    },
+  "cname_in_file_names": ["austria","brazil","germany","india","portugal","russia","uk","usa"],
+  "model": {"config": "models/configs/empty.json"}
+}

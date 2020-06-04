@@ -18,6 +18,7 @@ from src.tasks.analysis import parse_results
 from src.tasks.hello_world import hello_world
 from src.tasks.create_instituitons_countries_dataset import create_instituitons_countries_dataset
 from src.tasks.create_author_gender_dataset import create_author_gender_dataset
+from src.tasks.create_author_GScholar_profile_dataset import create_author_GScholar_profile_dataset
 
 __author__ = 'dh8835'
 __email__ = 'dasha.herrmannova@open.ac.uk'
@@ -82,6 +83,7 @@ menu_actions = {
     '3': hello_world,
     '4': create_instituitons_countries_dataset,
     '5': create_author_gender_dataset,
+    '6': create_author_GScholar_profile_dataset,
 
     'x': exit_app,
     'm': menu

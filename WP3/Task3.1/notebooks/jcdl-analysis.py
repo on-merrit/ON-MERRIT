@@ -93,25 +93,31 @@ cnames_for_plot = {
 }
 
 
-# In[8]:
+# In[21]:
 
 
-def create_OA_percent_bar_chart(oa_percent_dict, save_fname, x_label=None, plt_text=None, display_values=False):
+def create_OA_percent_bar_chart(oa_percent_dict, save_fname, x_label=None, plt_text=None, display_values=False, sort_by_keys=True, figuresize=(15,10), ylimit=[0,100]):
     #     https://stackoverflow.com/a/37266356/530399
-    sort_by_vals = sorted(oa_percent_dict.items(), key=lambda kv: kv[0]) # sorted by keys, return a list of tuples
-    x, y = zip(*sort_by_vals) # unpack a list of pairs into two tuples
+    if sort_by_keys:
+        sorted_dict = sorted(oa_percent_dict.items(), key=lambda kv: kv[0]) # sorted by keys, return a list of tuples
+    else:
+        sorted_dict = sorted(oa_percent_dict.items(), key=lambda kv: kv[1]) # sorted by values
+    x, y = zip(*sorted_dict) # unpack a list of pairs into two tuples
     
     
-    plt.figure(figsize=(15,10))
+    plt.figure(figsize=figuresize)
     
     plt.bar(x,y)
     
     ax = plt.gca()
     if x_label:
-        ax.set_xlabel(x_label)
-    ax.set_ylabel("Percentage of OA papers published")
+        ax.set_xlabel(x_label, fontsize=20)
+    ax.set_ylabel("Percentage of OA papers published", fontsize=20)
     
-    ax.set_ylim([0,100])
+    ax.xaxis.set_tick_params(labelsize=20)
+    ax.yaxis.set_tick_params(labelsize=20)
+    
+    ax.set_ylim(ylimit)
     
     if plt_text:
 #     https://stackoverflow.com/a/8482667/530399
@@ -119,7 +125,7 @@ def create_OA_percent_bar_chart(oa_percent_dict, save_fname, x_label=None, plt_t
     
     if display_values:
         for i, v in enumerate(y):
-            ax.text(i-.25, v + 3, str(round(v,3)), color='blue', fontweight='bold')
+            ax.text(i-.15, v + 2, str(round(v,2)), rotation=90, color='blue', fontweight='bold')
     
     plt.xticks(x, rotation='vertical')
     
@@ -368,7 +374,7 @@ with open(join(output_dir,'all_countries_all_univs_OA_info.txt'), 'w') as file:
 
 # # Load data from previously saved files
 
-# In[11]:
+# In[10]:
 
 
 with open(join(output_dir,'all_countries_all_univs_OA_info.txt')) as file:
@@ -640,7 +646,7 @@ with open(join(output_dir,'representative_univs_in_all_countries.txt'), 'w') as 
 # 
 # #### 1. Load country level dataset 2. Retain records from unis in THE_WUR list only. 3. Delete duplicate paperid records 4. records from study_years only 4. Yearwise Breakdown
 
-# In[18]:
+# In[11]:
 
 
 countries_oa_info = {}
@@ -771,26 +777,26 @@ for country_name,univs_name in cfg['data']['all_THE_WUR_institutions_by_country'
     
 
 
-# In[19]:
+# In[12]:
 
 
 with open(join(output_dir,'all_countries_OA_info.txt'), 'w') as file:
      file.write(json.dumps(countries_oa_info, sort_keys=True, indent=4, ensure_ascii=False)) 
 
 
-# In[20]:
+# In[13]:
 
 
 countries_oa_percents
 
 
-# In[21]:
+# In[24]:
 
 
-countries_oa_percent_bar_plot = create_OA_percent_bar_chart(countries_oa_percents, save_fname = join(output_dir,"all_countries_OA_percent"), x_label = "Countries", display_values=True)
+countries_oa_percent_bar_plot = create_OA_percent_bar_chart({cnames_for_plot[key]:value for key, value in countries_oa_percents.items()}, save_fname = join(output_dir,"all_countries_OA_percent"), x_label = "Countries", display_values=True, sort_by_keys=False, figuresize=(8,8), ylimit=[0,40])
 
 
-# In[22]:
+# In[25]:
 
 
 countries_oa_percent_bar_plot
