@@ -38,9 +38,9 @@ def analyze(ss, cfg):
             header=True, mode="DROPMALFORMED")
 
         # select relevant columns
-        country_papers_oa_df = country_papers_oa_df.select(
-            'paperid', 'affiliationid', 'normalizedname', 'displayname',
-            'is_OA', 'year')
+        country_papers_oa_df = country_papers_oa_df \
+            .select('paperid', 'affiliationid', 'normalizedname', 'displayname',
+                    'is_OA', 'year')
 
         # get authors for selected institutions in THE ranking
         country_authors_df = ss.read.csv(
@@ -49,34 +49,33 @@ def analyze(ss, cfg):
             header=True, mode="DROPMALFORMED")
 
         # select relevant columns
-        country_authors_df = country_authors_df.select(
-            'authorid', 'paperid', 'author_normalizedname', 'author_displayname'
-        )
+        country_authors_df = country_authors_df. \
+            select('authorid', 'paperid', 'author_normalizedname',
+                   'author_displayname')
 
         # merge papers with authors
-        country_merged = country_papers_oa_df.join(
-            country_authors_df, ['paperid'], how='left')
+        country_merged = country_papers_oa_df \
+            .join(country_authors_df, ['paperid'], how='left')
 
         # get papers and author/paper dataset to calculate first paper (year)
-        papers_df = ss.table(db_name + '.papers').select(
-            ['paperid', 'year']).drop_duplicates()
-        paper_author_affiliation_df = ss.table(
-            db_name + '.paperauthoraffiliations').select(
-            ['paperid', 'authorid', 'affiliationid']
-        ).drop_duplicates()
+        papers_df = ss \
+            .table(db_name + '.papers') \
+            .select(['paperid', 'year']) \
+            .drop_duplicates()
+        paper_author_affiliation_df = ss \
+            .table(db_name + '.paperauthoraffiliations') \
+            .select(['paperid', 'authorid', 'affiliationid']) \
+            .drop_duplicates()
 
         # only look at our authors
         selected_authors = country_merged['authorid']
 
         # find all papers from our authors
-        all_paper_ids = selected_authors.join(
-            paper_author_affiliation_df, ['authorid'], how='left'
-        )
+        all_paper_ids = selected_authors \
+            .join(paper_author_affiliation_df, ['authorid'], how='left')
 
         # find the full papers including year information
-        all_papers = all_paper_ids.join(
-            papers_df, ['paperid'], how='left'
-        )
+        all_papers = all_paper_ids.join(papers_df, ['paperid'], how='left')
 
         # select relevant cols
         all_papers = all_papers.select(['authorid', 'paperid', 'year'])
