@@ -95,7 +95,9 @@ def analyze(ss, cfg):
         first_papers = first_papers.withColumnRenamed('year', 'first_paper')
 
         country_merged_with_year = country_merged. \
-            join(first_papers, ['paperid'], how='left')
+            join(first_papers, ['paperid', 'authorid'], how='left')
+
+        # todo: calculate average oa rate per age group
 
         # save the data for the current country
         output_filename = join(cfg['hdfs']['onmerrit_dir'], "oa_and_authors_" +
