@@ -68,7 +68,7 @@ def analyze(ss, cfg):
             .drop_duplicates()
 
         # only look at our authors
-        selected_authors = country_merged['authorid']
+        selected_authors = country_merged.select(['authorid'])
 
         # find all papers from our authors
         all_paper_ids = selected_authors \
