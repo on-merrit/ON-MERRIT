@@ -29,6 +29,7 @@ def analyze(ss, cfg):
 
         logger.info("\n\n\nProcessing dataset of papers from " + country_name)
 
+        logger.info('Reading files.')
         # get papers including oa status
         country_papers_oa_df = ss.read.csv(
             join(cfg['hdfs']['onmerrit_dir'],
@@ -56,6 +57,7 @@ def analyze(ss, cfg):
             .join(country_authors_df, ['paperid'], how='left')
 
         # get papers and author/paper dataset to calculate first paper (year)
+        logger.info('Calculate year of first paper.')
         papers_df = ss \
             .table(db_name + '.papers') \
             .select(['paperid', 'year']) \
@@ -93,6 +95,7 @@ def analyze(ss, cfg):
 
         # todo: calculate average oa rate per age group
 
+        logger.info('Write to file (' + country_name + ').')
         # save the data for the current country
         output_filename = join(cfg['hdfs']['onmerrit_dir'], "oa_and_authors_" +
                                country_name + ".csv")
