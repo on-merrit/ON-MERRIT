@@ -23,6 +23,15 @@ def analyze(ss, cfg):
     # MAG dataset to use
     db_name = cfg['mag_db_name']
 
+    papers_df = ss \
+        .table(db_name + '.papers') \
+        .select(['paperid', 'year']) \
+        .drop_duplicates()
+    paper_author_affiliation_df = ss \
+        .table(db_name + '.paperauthoraffiliations') \
+        .select(['paperid', 'authorid', 'affiliationid']) \
+        .drop_duplicates()
+
     for country_name, univ_names in cfg['data']['all_THE_WUR_institutions_by_country'].items():
         # for country_name in ['austria']:
 
@@ -57,14 +66,6 @@ def analyze(ss, cfg):
 
         # get papers and author/paper dataset to calculate first paper (year)
         logger.info('Calculate year of first paper.')
-        papers_df = ss \
-            .table(db_name + '.papers') \
-            .select(['paperid', 'year']) \
-            .drop_duplicates()
-        paper_author_affiliation_df = ss \
-            .table(db_name + '.paperauthoraffiliations') \
-            .select(['paperid', 'authorid', 'affiliationid']) \
-            .drop_duplicates()
 
         # only look at our authors
         selected_authors = country_merged.select(['authorid'])
