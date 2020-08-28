@@ -7,9 +7,6 @@ import sys
 import logging
 from os.path import join
 
-from pyspark.sql.window import Window
-from pyspark.sql.functions import rank, col
-
 
 def analyze(ss, cfg):
     """
@@ -27,6 +24,7 @@ def analyze(ss, cfg):
     db_name = cfg['mag_db_name']
 
     # for country_name, univ_names in cfg['data']['all_THE_WUR_institutions_by_country'].items():
+    # noinspection SpellCheckingInspection
     for country_name in ['austria']:
 
         logger.info("\n\n\nProcessing dataset of papers from " + country_name)
@@ -81,18 +79,14 @@ def analyze(ss, cfg):
         all_papers = all_papers.select(['authorid', 'paperid', 'year'])
 
         # we want to find the first year (i.e. paper) per author
-        # this works by grouping by authors and then arranging by year
-        # then taking the first entry
-        # https://stackoverflow.com/a/38398563/3149349
-        window = Window \
-            .partitionBy(all_papers['authorid']) \
-            .orderBy(all_papers['year'])
+        # get min year per author
+        first_papers = all_papers.groupby('authorid').min('year')
 
+        # rejoin with all papers, since .groupby drops the paperid
         first_papers = all_papers \
-            .select('*', rank().over(window).alias('rank')) \
-            .filter(col('rank') == 1)
-
-        first_papers = first_papers.withColumnRenamed('year', 'first_paper')
+            .join(first_papers, ['authorid'], how='left') \
+            .withColumnRenamed('min(year)', 'first_paper') \
+            .select(['authorid', 'paperid', 'first_paper'])
 
         country_merged_with_year = country_merged. \
             join(first_papers, ['paperid', 'authorid'], how='left')
