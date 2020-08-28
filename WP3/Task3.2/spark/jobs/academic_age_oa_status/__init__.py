@@ -23,9 +23,8 @@ def analyze(ss, cfg):
     # MAG dataset to use
     db_name = cfg['mag_db_name']
 
-    # for country_name, univ_names in cfg['data']['all_THE_WUR_institutions_by_country'].items():
-    # noinspection SpellCheckingInspection
-    for country_name in ['austria']:
+    for country_name, univ_names in cfg['data']['all_THE_WUR_institutions_by_country'].items():
+        # for country_name in ['austria']:
 
         logger.info("\n\n\nProcessing dataset of papers from " + country_name)
 
