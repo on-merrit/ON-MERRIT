@@ -93,6 +93,9 @@ def analyze(ss, cfg):
         country_merged_with_year = country_merged. \
             join(first_papers, ['paperid', 'authorid'], how='left')
 
+        # all the above processes somehow introduce many duplicates
+        country_merged_with_year = country_merged_with_year.drop_duplicates()
+
         # todo: calculate average oa rate per age group
 
         logger.info('Write to file (' + country_name + ').')
