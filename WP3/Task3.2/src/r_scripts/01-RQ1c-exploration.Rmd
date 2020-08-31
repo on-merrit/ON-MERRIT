@@ -1,58 +1,18 @@
+---
+title: "RQ1c exploration"
+author: "Thomas Klebel"
+date: "31 8 2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r}
 library(tidyverse)
 
-df <- read_csv("WP3/Task3.2/data/raw/author_ids_austria_papers.csv",
-               col_types = cols(
-                 affiliationid = col_character(),
-                 paperid = col_character(),
-                 year = col_character(),
-                 authorid = col_character(),
-                 normalizedname = col_character(),
-                 displayname = col_character(),
-                 wikipage = col_character(),
-                 normalizedwikiname = col_character()
-               ))
-
-
-df_clean <- df %>% 
-  filter(year != "year") %>% 
-  mutate(year = as.integer(year)) %>% 
-  distinct(paperid, year, authorid)
-
-
-
-ages <- df_clean %>% 
-  group_by(authorid) %>% 
-  mutate(first_pub = min(year),
-         current_acad_age = year - first_pub)
-
-
-ages %>% 
-  ggplot(aes(year)) +
-  geom_density()
-# almost no data before 1950, most of the data after 2000
-
-ages_2000 <- ages %>% 
-  filter(year > 2000) %>% 
-  ungroup()
-  
-ages_2000 %>% 
-  ggplot(aes(current_acad_age)) +
-  geom_histogram() +
-  facet_wrap(~year)
-
-ages %>% 
-  slice_sample(n = 10000) %>% 
-  ggplot(aes(year, current_acad_age)) +
-  geom_smooth()
-# this is interesting. Why is the mean academic age at publication rising?
-
-# overall: for our hypothesis we need to combine this with OA data, either
-# on the article itself or the cited references (cant remember the hyp
-# precisely)
-
-
-# New approach with correct year of first paper -----
-df_full <- read_csv("WP3/Task3.2/data/raw/oa_authors_austria.csv")
+df_full <- read_csv(here::here("WP3/Task3.2/data/raw/oa_authors_austria.csv"))
 
 df_full_clean <- df_full %>% 
   filter(!is.na(paperid)) # filter out headers
@@ -68,7 +28,10 @@ with_age %>%
 
 with_age %>% 
   filter(age_at_publication > 60) %>% 
-  arrange(desc(age_at_publication)) 
+  arrange(desc(age_at_publication)) %>% 
+  head(20) %>% 
+  select(displayname, is_OA, year, author_displayname, first_paper, age_at_publication) %>% 
+  knitr::kable()
 # clearly there are issues with author disambiguation, i.e. a paper being
 # attributed to ludiwg boltzmann from 1979
 # use the median for now
@@ -94,7 +57,10 @@ our_sample %>%
 
 our_sample %>% 
   filter(age_at_publication == 0) %>% 
-  arrange(year)
+  arrange(year) %>% 
+  select(displayname, is_OA, year, author_displayname, first_paper, age_at_publication) %>% 
+  head(10) %>%  
+  knitr::kable()
 # need to check whether this is genuine or an error
 # then check age groups
 
@@ -104,7 +70,8 @@ our_sample %>%
   group_by(year) %>% 
   summarise(med_age = median(age_at_publication),
             sd = sd(age_at_publication),
-            n = n())
+            n = n()) %>% 
+  knitr::kable()
 
 p <- our_sample %>% 
   ggplot(aes(year, age_at_publication, group = year)) +
@@ -113,6 +80,9 @@ p
 
 p + coord_cartesian(ylim = c(0, 60))
 
+```
+
+```{r, fig.width=9}
 
 # age group per year
 p1 <- our_sample %>% 
@@ -125,6 +95,7 @@ p1 <- our_sample %>%
   labs(y = NULL)
 p1
 p1 + coord_cartesian(xlim = c(0, 60))
+
 
 # why are there these bands? maybe there is still some duplication here?
 set_2017 <- our_sample %>% 
@@ -148,7 +119,11 @@ set_2016 <- our_sample %>%
 # also: read this: https://www.microsoft.com/en-us/research/project/academic/
 # articles/microsoft-academic-uses-knowledge-address-problem-conflation-disambiguation/
 
-# look into oa ----
+```
+
+# OA status
+
+```{r, fig.width=9}
 oa_percentage <- our_sample %>% 
   mutate(is_OA = case_when(is_OA ~ TRUE,
                            TRUE ~ FALSE)) %>% 
@@ -158,7 +133,10 @@ oa_percentage <- our_sample %>%
 p <- oa_percentage %>% 
   ggplot(aes(age_at_publication, as.factor(year), fill = oa_perc)) +
   geom_tile() +
-  scale_fill_viridis_c()
+  scale_fill_viridis_c() +
+  scale_x_continuous(breaks = scales::pretty_breaks(10)) +
+  theme(legend.position = "top") +
+  labs(y = NULL)
 p
 
 p + scale_x_continuous(limits = c(0, 60))
@@ -167,8 +145,9 @@ p + scale_x_continuous(limits = c(0, 60))
 p + scale_x_binned(breaks = seq(0, 60, by = 3), limits = c(0, 60))
 
 p + scale_x_binned(n.breaks = 20)
+```
 
-
+```{r}
 oa_percentage %>% 
   ggplot(aes(as.factor(year), oa_perc)) +
   geom_boxplot()
@@ -182,3 +161,5 @@ oa_percentage %>%
   ggplot(aes(age_at_publication, oa_perc)) +
   geom_smooth() +
   coord_cartesian(xlim = c(0, 60))
+```
+
