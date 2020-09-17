@@ -68,7 +68,9 @@ def analyze(ss, cfg):
         logger.info('Calculate year of first paper.')
 
         # only look at our authors
-        selected_authors = country_merged.select(['authorid'])
+        # need to drop duplicates since we are taking all papers of the authors
+        # otherwise this results in many duplicates per individual
+        selected_authors = country_merged.select(['authorid']).drop_duplicates()
 
         # find all papers from our authors
         all_paper_ids = selected_authors \
