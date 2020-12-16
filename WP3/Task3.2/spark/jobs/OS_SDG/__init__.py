@@ -26,7 +26,6 @@ def analyze(ss, cfg):
 
     papers_df = ss \
         .table(db_name + '.papers') \
-        .select(['paperid', 'year']) \
         .drop_duplicates()
     paper_field_of_study = ss \
         .table(db_name + '.paperfieldsofstudy')
