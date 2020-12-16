@@ -3,7 +3,7 @@
         "core_dir": "/project/core/",
         "onmerrit_dir": "/project/core/bikash_dataset/"
     },
-    "mag_db_name" : "academicgraph",
+    "mag_db_name" : "mag2020",
     "data": {
         "fields_of_study": ["agriculture", "climatology", "medicine"],
         "all_THE_WUR_institutions_by_country": {
