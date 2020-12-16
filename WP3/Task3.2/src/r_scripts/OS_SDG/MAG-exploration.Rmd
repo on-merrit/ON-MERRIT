@@ -1,0 +1,75 @@
+---
+title: "Open Science & SDGs"
+author: "Thomas Klebel"
+date: "16 12 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(visdat)
+library(forcats)
+
+extrafont::loadfonts()
+theme_set(theme_bw())
+```
+
+
+```{r}
+sdg <- read_csv(here::here("WP3/Task3.2/data/raw/sdg_sample.csv"), 
+                col_types = cols(
+                  .default = col_character()
+                )) %>% 
+  filter(paperid != "paperid")
+```
+
+# Missing values
+```{r, cache=TRUE}
+vis_miss(sdg, cluster = TRUE)
+```
+
+# Document Types
+```{r}
+sdg %>% 
+  count(displayname, doctype) %>% 
+  mutate(doctype = fct_explicit_na(doctype)) %>% 
+  arrange(displayname, desc(n)) %>% 
+  knitr::kable()
+```
+
+
+
+```{r}
+sdg %>% 
+  count(displayname, doctype) %>% 
+  mutate(doctype = fct_explicit_na(doctype)) %>% 
+  group_by(displayname) %>% 
+  mutate(prop = n/sum(n)) %>% 
+  ggplot(aes(doctype, prop, fill = displayname)) +
+  geom_col(position = "dodge") +
+  scale_y_continuous(labels = scales::percent_format()) +
+  coord_flip() +
+  scale_fill_brewer(palette = "Set1")
+```
+
+
+## What are datasets actually?
+```{r}
+sdg %>% 
+  filter(doctype == "Dataset" | doctype == "Repository") %>% 
+  select_if(~!all(is.na(.x))) %>% 
+  knitr::kable()
+```
+
+## What are patents?
+```{r}
+sdg %>% 
+  filter(doctype == "Patent") %>% 
+  select_if(~!all(is.na(.x))) %>%
+  group_by(displayname) %>% 
+  slice_sample(n = 5) %>% 
+  knitr::kable()
+```
+
