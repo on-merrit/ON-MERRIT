@@ -55,7 +55,7 @@ def analyze(ss, cfg):
     }
 
     logger.info("Sampling from SDG disciplines...")
-    stratified_sample = sdg_papers.sampleBy(col('normalizedname'), fractions,
+    stratified_sample = sdg_papers.sampleBy('normalizedname', fractions,
                                             seed=0)
 
     logger.info('Writing to file...')
