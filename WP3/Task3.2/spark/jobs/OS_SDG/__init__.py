@@ -51,7 +51,7 @@ def analyze(ss, cfg):
     fractions = {
         'medicine': 0.000168,
         'agricultural science': 0.02,
-        'climatology': 0.14,
+        'climatology': 0.014,
     }
 
     logger.info("Sampling from SDG disciplines...")
