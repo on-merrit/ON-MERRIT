@@ -47,17 +47,16 @@ def analyze(ss, cfg):
 
     logger.info("Selected all papers.")
 
-    logger.info("Printing the number of papers we found:\n")
+    # logger.info("Printing the number of papers we found:\n")
+    ## print out what we sampled
+    # sdg_papers.groupby(sdg_papers.fieldofstudyid).count().show()
 
-    # print out what we sampled
-    sdg_papers.groupby(sdg_papers.fieldofstudyid).count().show()
+    logger.info('Writing to file...')
+    # save the data for the current country
+    output_filename = join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
 
-    # logger.info('Writing to file...')
-    # # save the data for the current country
-    # output_filename = join(cfg['hdfs']['onmerrit_dir'], "sdg_sample.csv")
-    #
-    # stratified_sample. \
-    #     write.csv(output_filename, mode="overwrite", header=True,
-    #               sep=",", quoteAll=True)
+    stratified_sample. \
+        write.csv(output_filename, mode="overwrite", header=True,
+                  sep=",", quoteAll=True)
 
     logger.info('Done.')
