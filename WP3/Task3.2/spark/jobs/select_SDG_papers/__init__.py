@@ -50,7 +50,7 @@ def analyze(ss, cfg):
     logger.info("Printing the number of papers we found:\n")
 
     # print out what we sampled
-    print(sdg_papers.groupby(sdg_papers.fieldofstudyid).count())
+    sdg_papers.groupby(sdg_papers.fieldofstudyid).count().show()
 
     # logger.info('Writing to file...')
     # # save the data for the current country
