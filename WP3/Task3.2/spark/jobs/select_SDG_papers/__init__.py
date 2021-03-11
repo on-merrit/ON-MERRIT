@@ -5,6 +5,7 @@ This script takes a sample of papers from climate, health and agriculture for fu
 
 import sys
 import logging
+from os.path import join
 from pyspark.sql.functions import col
 
 
@@ -48,14 +49,14 @@ def analyze(ss, cfg):
     logger.info("Selected all papers.")
 
     # logger.info("Printing the number of papers we found:\n")
-    ## print out what we sampled
+    # print out what we sampled
     # sdg_papers.groupby(sdg_papers.fieldofstudyid).count().show()
 
     logger.info('Writing to file...')
     # save the data for the current country
     output_filename = join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
 
-    stratified_sample. \
+    sdg_papers. \
         write.csv(output_filename, mode="overwrite", header=True,
                   sep=",", quoteAll=True)
 
