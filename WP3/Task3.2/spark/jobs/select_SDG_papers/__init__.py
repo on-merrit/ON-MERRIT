@@ -5,7 +5,7 @@ This script takes a sample of papers from climate, health and agriculture for fu
 
 import sys
 import logging
-from os.path import join
+from os import path
 from pyspark.sql.functions import col
 
 
@@ -32,6 +32,14 @@ def analyze(ss, cfg):
     field_of_study = ss \
         .table(db_name + '.fieldsofstudy') \
         .select(['fieldofstudyid', 'displayname', 'normalizedname'])
+    authors = ss \
+        .table(db_name + '.authors') \
+        .select(['authorid', 'normalizedname', 'displayname',
+                 'lastknownaffiliationid'])
+    paper_author_affil = ss \
+        .table(db_name + '.paperauthoraffiliations')
+    affiliations = ss \
+        .table(db_name + '.affiliations')
 
     # select Climate change, Agriculture, Medicine and Virus
     sdg_fields = [132651083, 118518473, 71924100, 2522874641]
@@ -52,12 +60,34 @@ def analyze(ss, cfg):
     # print out what we sampled
     # sdg_papers.groupby(sdg_papers.fieldofstudyid).count().show()
 
-    logger.info('Writing to file...')
-    # save the data for the current country
-    output_filename = join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
+    # write papers to file
+    output_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
 
-    sdg_papers. \
-        write.csv(output_filename, mode="overwrite", header=True,
-                  sep=",", quoteAll=True)
+    if not path.exists(output_filename):
+        logger.info('Writing papers to file...')
+        sdg_papers. \
+            write.csv(output_filename, mode="error", header=True,
+                      sep=",", quoteAll=True)
+    else:
+        logger.info('Papers csv already exists.')
+
+    # Find all authors of the papers
+    refs_to_authors_and_affils = sdg_papers.join(paper_author_affil, ['paperid'],
+                                                 how='left')
+    sdg_authors = refs_to_authors_and_affils.join(authors, ['authorid'],
+                                                  how='left')
+
+    sdg_authors = sdg_authors.drop(*['affiliationid', 'originalaffiliation'])
+
+    # write authors to file
+    author_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_authors.csv")
+
+    if not path.exists(author_filename):
+        logger.info('Writing authors to file...')
+        sdg_authors. \
+            write.csv(author_filename, mode="error", header=True,
+                      sep=",", quoteAll=True)
+    else:
+        logger.info('Authors csv already exists.')
 
     logger.info('Done.')
