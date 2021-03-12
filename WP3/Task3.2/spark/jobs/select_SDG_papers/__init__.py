@@ -34,6 +34,7 @@ def analyze(ss, cfg):
         .select(['fieldofstudyid', 'displayname', 'normalizedname']) \
         .withColumnRenamed('displayname', 'fos_displayname') \
         .withColumnRenamed('normalizedname', 'fos_normalizedname')
+    # ref for renaming cols: https://stackoverflow.com/a/36302241/3149349
     authors = ss \
         .table(db_name + '.authors') \
         .select(['authorid', 'normalizedname', 'displayname',
