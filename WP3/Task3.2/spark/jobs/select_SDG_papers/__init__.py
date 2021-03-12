@@ -67,17 +67,17 @@ def analyze(ss, cfg):
     # sdg_papers.groupby(sdg_papers.fieldofstudyid).count().show()
 
     # write papers to file
-    output_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
+    paper_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
 
     # check whether path to output already exists
     # https://stackoverflow.com/a/48708649/3149349
     fs = ss._jvm.org.apache.hadoop.fs.FileSystem.get(ss._jsc.hadoopConfiguration())
-    output_exists = fs.exists(ss._jvm.org.apache.hadoop.fs.Path(output_filename))
+    papers_exist = fs.exists(ss._jvm.org.apache.hadoop.fs.Path(paper_filename))
 
-    if not output_exists:
+    if not papers_exist:
         logger.info('Writing papers to file...')
         sdg_papers. \
-            write.csv(output_filename, mode="error", header=True,
+            write.csv(paper_filename, mode="error", header=True,
                       sep=",", quoteAll=True)
     else:
         logger.info('Papers csv already exists.')
@@ -93,7 +93,9 @@ def analyze(ss, cfg):
     # write authors to file
     author_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_authors.csv")
 
-    if not path.exists(author_filename):
+    authors_exist = fs.exists(ss._jvm.org.apache.hadoop.fs.Path(author_filename))
+
+    if not authors_exist:
         logger.info('Writing authors to file...')
         sdg_authors. \
             write.csv(author_filename, mode="error", header=True,
