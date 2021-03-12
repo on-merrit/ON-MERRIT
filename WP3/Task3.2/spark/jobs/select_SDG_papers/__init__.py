@@ -63,7 +63,12 @@ def analyze(ss, cfg):
     # write papers to file
     output_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
 
-    if not path.exists(output_filename):
+    # check whether path to output already exists
+    # https://stackoverflow.com/a/48708649/3149349
+    fs = ss._jvm.org.apache.hadoop.fs.FileSystem.get(ss._jsc.hadoopConfiguration())
+    output_exists = fs.exists(ss._jvm.org.apache.hadoop.fs.Path(output_filename))
+
+    if not output_exists:
         logger.info('Writing papers to file...')
         sdg_papers. \
             write.csv(output_filename, mode="error", header=True,
