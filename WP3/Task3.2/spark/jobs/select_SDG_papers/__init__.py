@@ -31,11 +31,16 @@ def analyze(ss, cfg):
         .table(db_name + '.paperfieldsofstudy')
     field_of_study = ss \
         .table(db_name + '.fieldsofstudy') \
-        .select(['fieldofstudyid', 'displayname', 'normalizedname'])
+        .select(['fieldofstudyid', 'displayname', 'normalizedname']) \
+        .withColumnRenamed('displayname', 'fos_displayname') \
+        .withColumnRenamed('normalizedname', 'fos_normalizedname')
     authors = ss \
         .table(db_name + '.authors') \
         .select(['authorid', 'normalizedname', 'displayname',
-                 'lastknownaffiliationid'])
+                 'lastknownaffiliationid'])\
+        .withColumnRenamed('displayname', 'author_displayname') \
+        .withColumnRenamed('normalizedname', 'author_normalizedname')
+
     paper_author_affil = ss \
         .table(db_name + '.paperauthoraffiliations')
     affiliations = ss \
