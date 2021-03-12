@@ -83,8 +83,9 @@ def analyze(ss, cfg):
         logger.info('Papers csv already exists.')
 
     # Find all authors of the papers
-    refs_to_authors_and_affils = sdg_papers.join(paper_author_affil, ['paperid'],
-                                                 how='left')
+    refs_to_authors_and_affils = sdg_papers \
+        .select(['paperid']) \
+        .join(paper_author_affil, ['paperid'], how='left')
     sdg_authors = refs_to_authors_and_affils.join(authors, ['authorid'],
                                                   how='left')
 
