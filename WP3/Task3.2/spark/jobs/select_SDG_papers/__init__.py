@@ -89,8 +89,6 @@ def analyze(ss, cfg):
     sdg_authors = refs_to_authors_and_affils.join(authors, ['authorid'],
                                                   how='left')
 
-    sdg_authors = sdg_authors.drop(*['affiliationid', 'originalaffiliation'])
-
     # write authors to file
     author_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_authors.csv")
 
