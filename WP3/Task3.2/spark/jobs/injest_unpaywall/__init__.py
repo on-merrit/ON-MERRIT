@@ -7,7 +7,6 @@ import sys
 import logging
 
 
-
 def analyze(ss, cfg):
     """
     Run job
@@ -29,6 +28,9 @@ def analyze(ss, cfg):
 
     logger.info('Print the schema')
     unpaywall.printSchema()
+
+    logger.info('Repartitioning.')
+    unpaywall = unpaywall.repartition(300)
 
     logger.info('Write to disk.')
     unpaywall.write.parquet("/project/core/unpaywall/unpaywall.parquet")
