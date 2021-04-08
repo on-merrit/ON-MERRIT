@@ -23,13 +23,16 @@ def analyze(ss, cfg):
     spark = ss
 
     logger.info('Reading the beast.')
-    path = "/project/core/unpaywall/unpaywall_snapshot_2021-02-18T160139.jsonl.gz"
-    unpaywall = spark.read.json(path)
+    path = "/project/core/unpaywall/unpaywall_single.parquet"
+    unpaywall = spark.read.parquet(path)
 
     logger.info('Print the schema')
     unpaywall.printSchema()
 
+    logger.info('Repartitioning.')
+    unpaywall = unpaywall.repartition(300)
+
     logger.info('Write to disk.')
-    unpaywall.write.parquet("/project/core/unpaywall/unpaywall_single.parquet")
+    unpaywall.write.parquet("/project/core/unpaywall/unpaywall.parquet")
 
     logger.info('Done.')
