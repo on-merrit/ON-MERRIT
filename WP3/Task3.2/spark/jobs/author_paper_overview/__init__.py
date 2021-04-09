@@ -28,7 +28,7 @@ def analyze(ss, cfg):
 
     logger.info('Reading the tables')
     author_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_authors.csv")
-    sdg_authors = spark.read.csv(author_filename)
+    sdg_authors = spark.read.csv(author_filename, header=True)
 
     paper_author_affil = spark \
         .table(db_name + '.paperauthoraffiliations')
@@ -39,7 +39,7 @@ def analyze(ss, cfg):
 
     logger.info('Counting the papers per author')
     paper_counts = all_papers_from_authors \
-        .groubpy(all_papers_from_authors.authorid).count()
+        .groupby(all_papers_from_authors.authorid).count()
 
     papers_filename = path.join(cfg['hdfs']['onmerrit_dir'],
                                 "sdg_author_paper_counts.csv")
