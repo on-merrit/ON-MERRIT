@@ -33,12 +33,8 @@ def analyze(ss, cfg):
     paper_author_affil = spark \
         .table(db_name + '.paperauthoraffiliations')
 
-    logger.info('Joining with keys')
-    sdg_paper_author = sdg_authors \
-        .join(paper_author_affil, ['paperid'], how='left')
-
     logger.info('Joining with all papers')
-    all_papers_from_authors = sdg_paper_author \
+    all_papers_from_authors = sdg_authors \
         .join(paper_author_affil, ['authorid'], how='left')
 
     logger.info('Counting the papers per author')
