@@ -28,7 +28,18 @@ def analyze(ss, cfg):
 
     logger.info('Reading the tables')
     author_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_authors.csv")
-    sdg_authors = spark.read.csv(author_filename, header=True)
+    sdg_authors = spark.read.csv(author_filename, header=True) \
+        .select(['authorid'])
+
+    logger.info('Deduplicating authors...')
+    sdg_authors_before = sdg_authors
+    n_sdg_authors_before = sdg_authors_before.count()
+    logger.info(f'Rows before: {n_sdg_authors_before}')
+
+    sdg_authors = sdg_authors.drop_duplicates()
+    n_after = sdg_authors.count()
+    logger.info(f'Rows after: {n_after}')
+    logger.info(f'Difference: {n_sdg_authors_before - n_after}')
 
     paper_author_affil = spark \
         .table(db_name + '.paperauthoraffiliations')
