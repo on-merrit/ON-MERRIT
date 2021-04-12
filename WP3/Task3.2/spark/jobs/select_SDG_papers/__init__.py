@@ -44,8 +44,6 @@ def analyze(ss, cfg):
 
     paper_author_affil = ss \
         .table(db_name + '.paperauthoraffiliations')
-    affiliations = ss \
-        .table(db_name + '.affiliations')
 
     # select Climate change, Agriculture, Medicine and Virus
     sdg_fields = [132651083, 118518473, 71924100, 2522874641]
@@ -59,6 +57,9 @@ def analyze(ss, cfg):
         .join(paper_field_of_study, ['fieldofstudyid'], how='left')
 
     sdg_papers = sdg_paper_ids.join(papers_df, ['paperid'], how='left')
+
+    # only keep papers in our window (2008-2018)
+    sdg_papers = sdg_papers.filter(sdg_papers.year > 2007 & sdg_papers.year < 2019)
 
     logger.info("Selected all papers.")
 
