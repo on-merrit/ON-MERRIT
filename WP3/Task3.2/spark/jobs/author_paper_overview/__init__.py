@@ -37,16 +37,31 @@ def analyze(ss, cfg):
     all_papers_from_authors = sdg_authors \
         .join(paper_author_affil, ['authorid'], how='left')
 
+    # make sure we have unambiguous authors here
+    logger.info(f'Number of rows before deduplication: {all_papers_from_authors.count()}')
+
+    all_papers_dedup = all_papers_from_authors \
+        .select(['authorid', 'paperid']) \
+        .drop_duplicates()
+
+    logger.info(f'Number of rows after deduplication: {all_papers_dedup.count()}')
+
+    # alternatively, we could have used
+    # df.groupBy('authorid').agg(countDistinct('col_name'))
+    # see https://stackoverflow.com/a/46422580/3149349
+    # (also needs from pyspark.sql.functions import countDistinct)
+
+    # count the number of papers per author
     logger.info('Counting the papers per author')
-    paper_counts = all_papers_from_authors \
-        .groupby(all_papers_from_authors.authorid).count()
+    paper_counts = all_papers_dedup \
+        .groupby(all_papers_dedup.authorid).count()
 
     papers_filename = path.join(cfg['hdfs']['onmerrit_dir'],
                                 "sdg_author_paper_counts.csv")
 
     logger.info('Writing counts to file...')
     paper_counts. \
-        write.csv(papers_filename, mode="error", header=True, sep=",",
+        write.csv(papers_filename, mode="overwrite", header=True, sep=",",
                   quoteAll=True)
 
     logger.info('Done.')
