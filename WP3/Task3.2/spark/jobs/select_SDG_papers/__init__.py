@@ -59,7 +59,7 @@ def analyze(ss, cfg):
     sdg_papers = sdg_paper_ids.join(papers_df, ['paperid'], how='left')
 
     # only keep papers in our window (2008-2018)
-    sdg_papers = sdg_papers.filter(sdg_papers.year > 2007 & sdg_papers.year < 2019)
+    sdg_papers = sdg_papers.filter((sdg_papers.year > 2007) & (sdg_papers.year < 2019))
 
     logger.info("Selected all papers.")
 
