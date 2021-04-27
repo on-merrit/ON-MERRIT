@@ -3,10 +3,12 @@
 for f in `cat file_list.txt`; do
    wget ${f};
 done;
+echo "downloaded all files"
 
 for f in *.tar; do
   tar -xvf ${f};
 done;
+echo "extracted all files"
 
 
 # list the directories and upload them to keep order on the HDFS
@@ -14,4 +16,4 @@ done;
 for f in `ls -d */ `; do
   hdfs dfs -put ${f} /project/core/openaire_funders/;
 done;
-
+echo "uploaded all files to the hdfs"
