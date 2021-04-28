@@ -22,4 +22,16 @@ def analyze(ss, cfg):
     # avoid nazis
     spark = ss
 
+    logger.info('Reading the bunch')
+
+    # https://stackoverflow.com/a/32233865/3149349
+    path = "/project/core/openaire_funders/*/*.json.gz"
+    funder_data = spark.read.json(path)
+
+    logger.info('Print the schema')
+    funder_data.printSchema()
+
+    logger.info('Write to disk.')
+    funder_data.write.parquet("/project/core/openaire_funders/openaire_funders.parquet")
+
     logger.info('Done.')
