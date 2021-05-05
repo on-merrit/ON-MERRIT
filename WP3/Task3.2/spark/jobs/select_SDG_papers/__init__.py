@@ -121,6 +121,7 @@ def analyze(ss, cfg):
     validation_paper = first_and_last_authors \
         .where(f.col('paperid') == validation_paper_id)
 
+    # check output interactively
     print(validation_paper.show())
 
     if validation_paper.count() > 2:
