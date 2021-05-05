@@ -6,7 +6,8 @@ This script takes a sample of papers from climate, health and agriculture for fu
 import sys
 import logging
 from os import path
-from pyspark.sql.functions import col
+import pyspark.sql.functions as f
+from pyspark.sql import Window
 
 
 def analyze(ss, cfg):
@@ -51,7 +52,7 @@ def analyze(ss, cfg):
     # adapted from:
     # https://stackoverflow.com/questions/35870760/filtering-a-pyspark-dataframe-with-sql-like-in-clause
     field_of_study_selection = field_of_study\
-        .where(col("fieldofstudyid").isin(sdg_fields))
+        .where(f.col("fieldofstudyid").isin(sdg_fields))
 
     sdg_paper_ids = field_of_study_selection \
         .join(paper_field_of_study, ['fieldofstudyid'], how='left')
@@ -87,11 +88,51 @@ def analyze(ss, cfg):
     refs_to_authors_and_affils = sdg_papers \
         .select(['paperid']) \
         .join(paper_author_affil, ['paperid'], how='left')
-    sdg_authors = refs_to_authors_and_affils.join(authors, ['authorid'],
-                                                  how='left')
+
+    # keep only first and last authors
+    # using this stackoverflow as template: https://stackoverflow.com/a/48830780/3149349
+    w = Window.partitionBy('paperid')
+
+    first_authors = refs_to_authors_and_affils \
+        .withColumn('min_authorsequencenumber',
+                    f.min('authorsequencenumber').over(w)) \
+        .where(f.col('authorsequencenumber') == f.col('min_authorsequencenumber')) \
+        .drop('min_authorsequencenumber')
+
+    last_authors = refs_to_authors_and_affils \
+        .withColumn('max_authorsequencenumber',
+                    f.max('authorsequencenumber').over(w)) \
+        .where(f.col('authorsequencenumber') == f.col('max_authorsequencenumber')) \
+        .drop('max_authorsequencenumber')
+
+    first_and_last_authors = first_authors.union(last_authors) \
+        .drop_duplicates()
+
+    # Take a paper for validation
+    validation_paper_id = 2039052682
+    # this paper has these authors:
+    # M Slupski ,
+    # K Szadujkis-Szadurska ,
+    # R Szadujkis-Szadurski ,
+    # M Jasinski ,
+    # G Grzesk
+    # but it should only have the first and the last left
+
+    validation_paper = first_and_last_authors \
+        .where(f.col('paperid') == validation_paper_id)
+
+    print(validation_paper.show())
+
+    if validation_paper.count() > 2:
+        raise AssertionError
+
+    # if all went well, join with full author table and continue
+    sdg_authors = first_and_last_authors.join(authors, ['authorid'],
+                                              how='left')
 
     # write authors to file
-    author_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_authors.csv")
+    author_filename = path.join(cfg['hdfs']['onmerrit_dir'],
+                                "sdg_first_last_authors.csv")
 
     authors_exist = fs.exists(ss._jvm.org.apache.hadoop.fs.Path(author_filename))
 
