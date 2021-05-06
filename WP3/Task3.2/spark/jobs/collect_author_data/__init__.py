@@ -71,7 +71,7 @@ def analyze(ss, cfg):
 
     # merge the newly generated information to our table
     full_author_table = sdg_authors \
-        .join(first_papers, ['author_id'], how='left')
+        .join(first_papers, ['authorid'], how='left')
 
     out_file = path.join(cfg['hdfs']['onmerrit_dir'],
                          "sdg_author_data.csv")
