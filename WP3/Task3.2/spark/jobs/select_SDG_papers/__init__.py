@@ -39,7 +39,7 @@ def analyze(ss, cfg):
     authors = ss \
         .table(db_name + '.authors') \
         .select(['authorid', 'normalizedname', 'displayname',
-                 'lastknownaffiliationid'])\
+                 'lastknownaffiliationid', 'papercount'])\
         .withColumnRenamed('displayname', 'author_displayname') \
         .withColumnRenamed('normalizedname', 'author_normalizedname')
 
