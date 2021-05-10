@@ -38,7 +38,7 @@ def analyze(ss, cfg):
                 )
 
     # MAG dataset to use
-    db_name = "academicgraph"
+    db_name = "mag2020"
     sql_sc = SQLContext(ss)
     q1a = sql_sc.read.parquet("hdfs:///project/core/Q1A_aggregated")
 

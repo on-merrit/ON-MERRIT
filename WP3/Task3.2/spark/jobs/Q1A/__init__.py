@@ -41,7 +41,7 @@ def analyze(ss, cfg):
                 )
 
     # MAG dataset to use
-    db_name = "academicgraph"
+    db_name = "mag2020"
     sql_sc = SQLContext(ss)
 
     # tables that will be used =============================================== #
