@@ -40,6 +40,10 @@ def analyze(ss, cfg):
         .parquet("hdfs:///project/core/unpaywall/unpaywall.parquet")\
         .select('doi', 'is_oa', 'oa_status')
 
+    funder_data = spark.read \
+        .csv("/project/core/openaire_funders/openaire_funders_clean.csv",
+             header=True)
+
 
     ##  select columns ---------------------------
     # available columns:
@@ -57,12 +61,29 @@ def analyze(ss, cfg):
     )
 
 
-    # join with unpaywall
+    # join with unpaywall -------
     logger.info('Joining with unpaywall')
     with_oa = sdg_papers_selected \
         .join(unpaywall, ['doi'], how='left')
 
-    # join with funder data
+    # join with funder data -------------
+    sdg_dois = with_oa.select("paperid", "doi")
+
+    # create new col
+    # https://stackoverflow.com/a/48984783/3149349
+    funder_data = funder_data.withColumn("is_funded", f.lit(True))
+
+    # only keep funded status for now to be included in the papers dataset
+    funded_status = sdg_dois.join(funder_data.select("doi", "is_funded"), "doi", how="left")
+
+    # fill sdg articles without funding with "false"
+    funded_status = funded_status.fillna({'is_funded': False})
+
+    # join with the oa information
+    with_funded_status = with_oa.join(funded_status, "doi", how="left")
+
+    # also restrict the funder dataset to our papers
+    funder_data_in_sdg_set = funder_data.join(sdg_dois, "doi", how="inner")
 
     # get first author id and affil
 
@@ -74,8 +95,14 @@ def analyze(ss, cfg):
                          "sdg_papers_collated.csv")
 
     logger.info('Writing paper table to file...')
-    with_oa. \
+    with_funded_status. \
         write.csv(out_file, mode="overwrite", header=True, sep=",",
+                  quoteAll=True)
+
+    out_path = "/project/core/openaire_funders/openaire_funders_injoin_w_sdg.csv"
+    logger.info('Writing paper table to file...')
+    funder_data_in_sdg_set. \
+        write.csv(out_path, mode="overwrite", header=True, sep=",",
                   quoteAll=True)
 
     logger.info('Done.')
