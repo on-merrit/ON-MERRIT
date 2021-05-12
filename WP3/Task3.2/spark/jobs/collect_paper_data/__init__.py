@@ -80,7 +80,7 @@ def analyze(ss, cfg):
     funded_status = funded_status.fillna({'is_funded': False})
 
     # join with the oa information
-    with_funded_status = with_oa.join(funded_status, "doi", how="left")
+    with_funded_status = with_oa.join(funded_status, ["doi", "paperid"], how="left")
 
     # also restrict the funder dataset to our papers
     funder_data_in_sdg_set = funder_data.join(sdg_dois, "doi", how="inner")
