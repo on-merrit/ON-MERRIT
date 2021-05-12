@@ -69,7 +69,7 @@ def analyze(ss, cfg):
     q1a_source_oa_agg.write.csv("hdfs:///project/core/Q1A_sourceoa")
 
 
-    q1a_source_oa_agg = q1a_source_oa_latlon.filter(F.col("year") < 2011).filter(F.col("year") >= 2006).distinct() \
+    q1a_source_oa_agg = q1a_source_oa_latlon.filter(F.col("source_year") < 2011).filter(F.col("source_year") >= 2006).distinct() \
         .groupby("affiliationid") \
         .agg(F.first("latitude"),
              F.first("longitude"),
@@ -84,7 +84,7 @@ def analyze(ss, cfg):
     q1a_source_oa_agg = q1a_source_oa_agg.withColumn("source_oa_green", col("count_green") / col("count_oa"))
     q1a_source_oa_agg.write.csv("hdfs:///project/core/Q1A_sourceoa_2006_2011")
 
-    q1a_source_oa_agg = q1a_source_oa_latlon.filter(F.col("year") <= 2015).filter(F.col("year") >= 2011).distinct() \
+    q1a_source_oa_agg = q1a_source_oa_latlon.filter(F.col("source_year") <= 2015).filter(F.col("source_year") >= 2011).distinct() \
         .groupby("affiliationid") \
         .agg(F.first("latitude"),
              F.first("longitude"),
@@ -100,7 +100,7 @@ def analyze(ss, cfg):
     q1a_source_oa_agg.write.csv("hdfs:///project/core/Q1A_sourceoa_2011_2015")
 
 
-    q1a_source_oa_agg = q1a_source_oa_latlon.filter(F.col("year") > 2015).filter(F.col("year") <= 2020).distinct() \
+    q1a_source_oa_agg = q1a_source_oa_latlon.filter(F.col("source_year") > 2015).filter(F.col("source_year") <= 2020).distinct() \
         .groupby("affiliationid") \
         .agg(F.first("latitude"),
              F.first("longitude"),
