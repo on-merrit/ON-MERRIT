@@ -60,7 +60,7 @@ def analyze(ss, cfg):
     # join with unpaywall
     logger.info('Joining with unpaywall')
     with_oa = sdg_papers_selected \
-        .join(unpaywall, sdg_papers_selected.doi==unpaywall.doi, how='left')
+        .join(unpaywall, ['doi'], how='left')
 
     # join with funder data
 
