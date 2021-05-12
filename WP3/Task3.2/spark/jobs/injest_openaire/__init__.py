@@ -34,7 +34,7 @@ def analyze(ss, cfg):
 
     # explode the doi column
     logger.info('Get the DOIs')
-    explodeDF = funders_10.select(explode("pid").alias("pid"), "projects")
+    explodeDF = funder_data.select(explode("pid").alias("pid"), "projects")
     flattenDF = explodeDF.selectExpr("pid.scheme", "pid.value", "projects")
     only_dois = flattenDF.filter(flattenDF.scheme == "doi")
     only_dois.printSchema()
@@ -56,12 +56,10 @@ def analyze(ss, cfg):
         .withColumnRenamed("shortName", "funder_shortname")
     funders_renamed.printSchema()
 
-
     logger.info('Writing cleaned funding data to file...')
     out_file = "/project/core/openaire_funders/openaire_funders_clean.csv"
     funders_renamed. \
         write.csv(out_file, mode="overwrite", header=True, sep=",",
                   quoteAll=True)
-
 
     logger.info('Done.')
