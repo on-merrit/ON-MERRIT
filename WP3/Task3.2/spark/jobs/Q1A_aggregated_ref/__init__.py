@@ -47,8 +47,15 @@ def analyze(ss, cfg):
 
     # "source_paperid", "source_doi", "source_year", "ref_paperid", "ref_doi", "is_oa", "oa_status"
     #q1a_aggregate = q1a.groupby("source_paperid").agg(count("ref_paperid").alias("count_ref"), count("ref_doi").alias("count_doi"),count("is_oa").alias("oa_count"))
-    q1a_aggregate_ref = q1a.groupby("source_paperid").agg(count("ref_paperid").alias("count_ref"), first("source_year").alias("year"))
-    q1a_aggregate_oa = q1a.filter(col("is_oa") == True).groupby("source_paperid").agg(count("is_oa").alias("count_oa"))
-    q1a_aggregate = q1a_aggregate_ref.join(q1a_aggregate_oa, ["source_paperid"])
-    q1a_aggregate=q1a_aggregate.withColumn("oa_score", col("count_oa")/col("count_ref"))
-    q1a_aggregate.write.save("hdfs:///project/core/Q1A_aggregated")
+    q1a_aggregate_ref = q1a.groupby("source_paperid").agg(
+        count("ref_paperid").alias("count_ref"),
+        first("source_year").alias("year"),
+        F.sum(F.when(F.col("is_oa") == True, 1).otherwise(0)).alias("count_oa_ref"),
+        F.sum(F.when(F.col("oa_status") == "green", 1).otherwise(0)).alias("count_green_ref"),
+        F.sum(F.when(F.col("oa_status") == "gold", 1).otherwise(0)).alias("count_gold_ref"))
+
+    q1a_aggregate_ref=q1a_aggregate_ref.withColumn("ref_oa_score", col("count_oa_ref")/col("count_ref"))
+    q1a_aggregate_ref=q1a_aggregate_ref.withColumn("ref_green_score", col("count_green_ref")/col("count_oa_ref"))
+    q1a_aggregate_ref=q1a_aggregate_ref.withColumn("ref_gold_score", col("count_gold_ref")/col("count_oa_ref"))
+
+    q1a_aggregate_ref.write.save("hdfs:///project/core/Q1A_aggregated_ref")
