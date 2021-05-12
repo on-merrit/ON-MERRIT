@@ -43,7 +43,7 @@ def analyze(ss, cfg):
     q1a = sql_sc.read.parquet("hdfs:///project/core/Q1A_raw")
     unpaywall = sql_sc.read.parquet("hdfs:///project/core/unpaywall/unpaywall.parquet").withColumnRenamed("is_oa", "source_is_oa").withColumnRenamed("oa_status", "source_oa_status")
 
-    q1a_source_oa = q1a.join(unpaywall, q1a.source_doi==unpaywall.doi, "left").select("source_paperid", "source_doi", "source_year", "source_is_oa", "source_oa_status").distinct("source_paperid")
+    q1a_source_oa = q1a.join(unpaywall, q1a.source_doi==unpaywall.doi, "left").select("source_paperid", "source_doi", "source_year", "source_is_oa", "source_oa_status").distinct()
 
 
     paperauthoraffiliations = ss.table(db_name+".paperauthoraffiliations").select("paperid", "affiliationid")
