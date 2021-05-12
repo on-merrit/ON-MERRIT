@@ -24,9 +24,6 @@ def analyze(ss, cfg):
     # avoid nazis
     spark = ss
 
-    # MAG dataset to use
-    db_name = cfg['mag_db_name']
-
     logger.info('Reading the tables')
 
     # read our papers
@@ -43,6 +40,10 @@ def analyze(ss, cfg):
     funder_data = spark.read \
         .csv("/project/core/openaire_funders/openaire_funders_clean.csv",
              header=True)
+
+    journal_averages = spark.read \
+        .csv("/project/core/bikash_dataset/journal_averages.csv", header=True) \
+        .select("journalid", "year", "mean_citations")
 
 
     ##  select columns ---------------------------
@@ -85,17 +86,19 @@ def analyze(ss, cfg):
     # also restrict the funder dataset to our papers
     funder_data_in_sdg_set = funder_data.join(sdg_dois, "doi", how="inner")
 
-    # get first author id and affil
-
-    # get last author id and affil
-
+    # normalise citations (by dividing raw citations by mean citations per
+    # journal and year
+    norm_citations = with_funded_status \
+        .join(journal_averages, ["journalid", "year"], "left") \
+        .withColumn("citations_norm",
+                    f.col("citationcount") / f.col("mean_citations"))
 
 
     out_file = path.join(cfg['hdfs']['onmerrit_dir'],
                          "sdg_papers_collated.csv")
 
     logger.info('Writing paper table to file...')
-    with_funded_status. \
+    norm_citations. \
         write.csv(out_file, mode="overwrite", header=True, sep=",",
                   quoteAll=True)
 
