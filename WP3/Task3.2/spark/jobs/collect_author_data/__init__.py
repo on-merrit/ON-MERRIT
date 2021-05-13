@@ -89,12 +89,30 @@ def analyze(ss, cfg):
     full_author_table = full_author_table \
         .join(citations, "authorid", how="left")
 
-    out_file = path.join(cfg['hdfs']['onmerrit_dir'],
-                         "sdg_author_data.csv")
+    # split our table in two. currently we have a table with one row per
+    # publication of our author. this is a lot of duplication
+    # new tables: table a with affiliation data per paper
+    # table b with author level information
+    sdg_paper_author_affiliations = full_author_table \
+        .select("authorid", "paperid", "affiliationid", "authorsequencenumber",
+                "originalauthor", "originalaffiliation",
+                "author_normalizedname")
+
+    sdg_author_table = full_author_table \
+        .select("authorid", "author_normalizedname", "author_displayname",
+                "lastknownaffiliationid", "papercount", "year_first_paper",
+                "n_citations", "n_citations_norm") \
+        .drop_duplicates()
 
     logger.info('Writing author table to file...')
-    full_author_table. \
+    out_file = path.join(cfg['hdfs']['onmerrit_dir'],
+                         "sdg_author_data.csv")
+    sdg_author_table. \
         write.csv(out_file, mode="overwrite", header=True, sep=",",
                   quoteAll=True)
+
+    sdg_paper_author_affiliations \
+        .write.csv("/project/core/bikash_dataset/sdg_author_paper_affil.csv",
+                   mode="overwrite", header=True, sep=",", quoteAll=True)
 
     logger.info('Done.')
