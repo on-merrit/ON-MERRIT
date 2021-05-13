@@ -83,7 +83,8 @@ def analyze(ss, cfg):
         .withColumn("citations_norm",         # normalise citations on paper level
                     f.col("citationcount") / f.col("mean_citations")) \
         .groupBy("authorid") \
-        .agg(f.avg(f.col("citations_norm")).alias("n_citations_norm"))
+        .agg(f.sum(f.col("citationcount")).alias("n_citations"),
+             f.sum(f.col("citations_norm")).alias("n_citations_norm"))
 
     full_author_table = full_author_table \
         .join(citations, "authorid", how="left")
