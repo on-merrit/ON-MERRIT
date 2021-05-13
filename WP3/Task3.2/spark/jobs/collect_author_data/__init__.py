@@ -39,15 +39,15 @@ def analyze(ss, cfg):
         .table(db_name + '.paperauthoraffiliations')
 
     # also get all papers
-    papers_df = ss \
+    papers_df = spark \
         .table(db_name + '.papers') \
-        .select(['paperid', 'year']) \
+        .select(['paperid', 'year', 'citationcount', 'journalid']) \
         .drop_duplicates()
 
     # and get the journal averages
     journal_averages = spark.read \
         .csv("/project/core/bikash_dataset/journal_averages.csv", header=True) \
-        .select("journalid", "mean_citations", "mean_authors")
+        .select("journalid", "year", "mean_citations", "mean_authors")
 
     # calculate academic age for our authors ----------------
     logger.info('Calculate year of first paper.')
@@ -64,7 +64,7 @@ def analyze(ss, cfg):
     # find the full papers including year information
     all_papers = all_paper_ids \
         .join(papers_df, ['paperid'], how='left') \
-        .select(['authorid', 'paperid', 'year', 'citationcount'])
+        .select(['authorid', 'paperid', 'year', 'citationcount', 'journalid'])
 
     # we want to find the first year (i.e. paper) per author
     # get min year per author
@@ -79,7 +79,7 @@ def analyze(ss, cfg):
 
     # get total citations per author and normalise
     citations = all_papers \
-        .join(journal_averages, "journalid", "left") \
+        .join(journal_averages, ["journalid", "year"], "left") \
         .withColumn("citations_norm",         # normalise citations on paper level
                     f.col("citationcount") / f.col("mean_citations")) \
         .groupBy("authorid") \
