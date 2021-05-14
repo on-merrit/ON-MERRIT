@@ -89,6 +89,24 @@ def analyze(ss, cfg):
     full_author_table = full_author_table \
         .join(citations, "authorid", how="left")
 
+    # get number of co-authors
+    # first summarise the total number of authors per paper
+    total_co_authors = paper_author_affil \
+        .groupBy("paperid") \
+        .agg(f.max(f.col("authorsequencenumber")).alias("n_co_authors"))
+
+    co_authors = all_paper_ids \
+        .join(total_co_authors, "paperid", "left") \
+        .groupBy("authorid") \
+        .agg(f.sum(f.col("n_co_authors")).alias("total_co_authors"),
+             f.median(f.col("n_co_authors")).alias("median_co_authors"),
+             f.mean(f.col("n_co_authors")).alias("mean_co_authors"))
+
+    # this could be more efficient by not joining the full table but
+    # selecting the distinct columns before, but whatever.
+    full_author_table = full_author_table \
+        .join(co_authors, "authorid", how="left")
+
     # split our table in two. currently we have a table with one row per
     # publication of our author. this is a lot of duplication
     # new tables: table a with affiliation data per paper
