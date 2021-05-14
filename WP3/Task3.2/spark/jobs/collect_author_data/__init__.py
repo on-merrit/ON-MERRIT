@@ -119,7 +119,8 @@ def analyze(ss, cfg):
     sdg_author_table = full_author_table \
         .select("authorid", "author_normalizedname", "author_displayname",
                 "lastknownaffiliationid", "papercount", "year_first_paper",
-                "n_citations", "n_citations_norm") \
+                "n_citations", "n_citations_norm", "total_co_authors",
+                "median_co_authors", "mean_co_authors") \
         .drop_duplicates()
 
     logger.info('Writing author table to file...')
