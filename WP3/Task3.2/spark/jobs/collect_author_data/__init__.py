@@ -99,7 +99,6 @@ def analyze(ss, cfg):
         .join(total_co_authors, "paperid", "left") \
         .groupBy("authorid") \
         .agg(f.sum(f.col("n_co_authors")).alias("total_co_authors"),
-             f.median(f.col("n_co_authors")).alias("median_co_authors"),
              f.mean(f.col("n_co_authors")).alias("mean_co_authors"))
 
     # this could be more efficient by not joining the full table but
@@ -120,7 +119,7 @@ def analyze(ss, cfg):
         .select("authorid", "author_normalizedname", "author_displayname",
                 "lastknownaffiliationid", "papercount", "year_first_paper",
                 "n_citations", "n_citations_norm", "total_co_authors",
-                "median_co_authors", "mean_co_authors") \
+                "mean_co_authors") \
         .drop_duplicates()
 
     logger.info('Writing author table to file...')
