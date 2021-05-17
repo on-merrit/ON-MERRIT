@@ -93,12 +93,12 @@ def analyze(ss, cfg):
         .withColumn("citations_norm",
                     f.col("citationcount") / f.col("mean_citations"))
 
-
     out_file = path.join(cfg['hdfs']['onmerrit_dir'],
                          "sdg_papers_collated.parquet")
 
     logger.info('Writing paper table to file...')
     norm_citations. \
+        drop_duplicates(). \
         write.csv(out_file, mode="overwrite", header=True, sep=",",
                   quoteAll=True)
 
