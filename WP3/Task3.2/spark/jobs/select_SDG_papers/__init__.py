@@ -69,7 +69,7 @@ def analyze(ss, cfg):
     # sdg_papers.groupby(sdg_papers.fieldofstudyid).count().show()
 
     # write papers to file
-    paper_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
+    paper_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.parquet")
 
     # check whether path to output already exists
     # https://stackoverflow.com/a/48708649/3149349
@@ -82,7 +82,7 @@ def analyze(ss, cfg):
             write.csv(paper_filename, mode="error", header=True,
                       sep=",", quoteAll=True)
     else:
-        logger.info('Papers csv already exists.')
+        logger.info('Papers file already exists.')
 
     # Find all authors of the papers
     refs_to_authors_and_affils = sdg_papers \
@@ -133,7 +133,7 @@ def analyze(ss, cfg):
 
     # write authors to file
     author_filename = path.join(cfg['hdfs']['onmerrit_dir'],
-                                "sdg_first_last_authors.csv")
+                                "sdg_authors.parquet")
 
     authors_exist = fs.exists(ss._jvm.org.apache.hadoop.fs.Path(author_filename))
 
@@ -143,6 +143,6 @@ def analyze(ss, cfg):
             write.csv(author_filename, mode="error", header=True,
                       sep=",", quoteAll=True)
     else:
-        logger.info('Authors csv already exists.')
+        logger.info('Authors file already exists.')
 
     logger.info('Done.')
