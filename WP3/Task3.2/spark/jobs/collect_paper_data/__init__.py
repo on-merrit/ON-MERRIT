@@ -28,7 +28,7 @@ def analyze(ss, cfg):
 
     # read our papers
     paper_path = path.join(cfg['hdfs']['onmerrit_dir'],
-                                "sdg_papers.csv")
+                                "sdg_papers.parquet")
     sdg_papers = spark.read.csv(paper_path, header=True)
 
 
@@ -95,14 +95,14 @@ def analyze(ss, cfg):
 
 
     out_file = path.join(cfg['hdfs']['onmerrit_dir'],
-                         "sdg_papers_collated.csv")
+                         "sdg_papers_collated.parquet")
 
     logger.info('Writing paper table to file...')
     norm_citations. \
         write.csv(out_file, mode="overwrite", header=True, sep=",",
                   quoteAll=True)
 
-    out_path = "/project/core/openaire_funders/openaire_funders_injoin_w_sdg.csv"
+    out_path = "/project/core/openaire_funders/openaire_funders_injoin_w_sdg.parquet"
     logger.info('Writing paper table to file...')
     funder_data_in_sdg_set. \
         write.csv(out_path, mode="overwrite", header=True, sep=",",

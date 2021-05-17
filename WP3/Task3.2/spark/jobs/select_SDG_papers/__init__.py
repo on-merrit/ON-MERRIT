@@ -93,7 +93,7 @@ def analyze(ss, cfg):
 
     # write authors to file
     author_filename = path.join(cfg['hdfs']['onmerrit_dir'],
-                                "sdg_paper_author_affil.parquet")
+                                "sdg_author_paper_affil.parquet")
 
     authors_exist = fs.exists(ss._jvm.org.apache.hadoop.fs.Path(author_filename))
 
