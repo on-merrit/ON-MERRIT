@@ -85,61 +85,21 @@ def analyze(ss, cfg):
         logger.info('Papers file already exists.')
 
     # Find all authors of the papers
-    refs_to_authors_and_affils = sdg_papers \
+    sdg_author_affils = sdg_papers \
         .select(['paperid']) \
         .join(paper_author_affil, ['paperid'], how='left')
 
-    # keep only first and last authors
-    # using this stackoverflow as template: https://stackoverflow.com/a/48830780/3149349
-    w = Window.partitionBy('paperid')
 
-    first_authors = refs_to_authors_and_affils \
-        .withColumn('min_authorsequencenumber',
-                    f.min('authorsequencenumber').over(w)) \
-        .where(f.col('authorsequencenumber') == f.col('min_authorsequencenumber')) \
-        .drop('min_authorsequencenumber')
-
-    last_authors = refs_to_authors_and_affils \
-        .withColumn('max_authorsequencenumber',
-                    f.max('authorsequencenumber').over(w)) \
-        .where(f.col('authorsequencenumber') == f.col('max_authorsequencenumber')) \
-        .drop('max_authorsequencenumber')
-
-    first_and_last_authors = first_authors.union(last_authors) \
-        .drop_duplicates()
-
-    # Take a paper for validation
-    validation_paper_id = 2039052682
-    # this paper has these authors:
-    # M Slupski ,
-    # K Szadujkis-Szadurska ,
-    # R Szadujkis-Szadurski ,
-    # M Jasinski ,
-    # G Grzesk
-    # but it should only have the first and the last left
-
-    validation_paper = first_and_last_authors \
-        .where(f.col('paperid') == validation_paper_id)
-
-    # check output interactively
-    print(validation_paper.show())
-
-    if validation_paper.count() > 2:
-        raise AssertionError
-
-    # if all went well, join with full author table and continue
-    sdg_authors = first_and_last_authors.join(authors, ['authorid'],
-                                              how='left')
 
     # write authors to file
     author_filename = path.join(cfg['hdfs']['onmerrit_dir'],
-                                "sdg_authors.parquet")
+                                "sdg_paper_author_affil.parquet")
 
     authors_exist = fs.exists(ss._jvm.org.apache.hadoop.fs.Path(author_filename))
 
     if not authors_exist:
         logger.info('Writing authors to file...')
-        sdg_authors. \
+        sdg_author_affils. \
             write.csv(author_filename, mode="error", header=True,
                       sep=",", quoteAll=True)
     else:
