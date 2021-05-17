@@ -120,7 +120,6 @@ def analyze(ss, cfg):
     out_file = path.join(cfg['hdfs']['onmerrit_dir'],
                          "sdg_author_data.parquet")
     sdg_author_table. \
-        write.csv(out_file, mode="overwrite", header=True, sep=",",
-                  quoteAll=True)
+        write.parquet(out_file
 
     logger.info('Done.')

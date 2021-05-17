@@ -29,7 +29,7 @@ def analyze(ss, cfg):
     # read our papers
     paper_path = path.join(cfg['hdfs']['onmerrit_dir'],
                                 "sdg_papers.parquet")
-    sdg_papers = spark.read.csv(paper_path, header=True)
+    sdg_papers = spark.read.parquet(paper_path)
 
 
     # read unpaywall data
@@ -38,8 +38,7 @@ def analyze(ss, cfg):
         .select('doi', 'is_oa', 'oa_status')
 
     funder_data = spark.read \
-        .csv("/project/core/openaire_funders/openaire_funders_clean.csv",
-             header=True)
+        .parquet("/project/core/openaire_funders/openaire_funders_clean.parquet")
 
     journal_averages = spark.read \
         .csv("/project/core/bikash_dataset/journal_averages.csv", header=True) \
@@ -99,13 +98,11 @@ def analyze(ss, cfg):
     logger.info('Writing paper table to file...')
     norm_citations. \
         drop_duplicates(). \
-        write.csv(out_file, mode="overwrite", header=True, sep=",",
-                  quoteAll=True)
+        write.parquet(out_file)
 
     out_path = "/project/core/openaire_funders/openaire_funders_injoin_w_sdg.parquet"
     logger.info('Writing paper table to file...')
     funder_data_in_sdg_set. \
-        write.csv(out_path, mode="overwrite", header=True, sep=",",
-                  quoteAll=True)
+        write.parquet(out_path)
 
     logger.info('Done.')
