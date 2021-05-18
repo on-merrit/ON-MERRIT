@@ -44,6 +44,13 @@ def analyze(ss, cfg):
         .select(['paperid', 'year', 'citationcount', 'journalid']) \
         .drop_duplicates()
 
+    authors_df = spark \
+        .table(db_name + '.authors') \
+        .select(['authorid', 'displayname', 'normalizedname',
+                 'lastknownaffiliationid', 'papercount']) \
+        .withColumnRenamed('displayname', 'author_displayname') \
+        .withColumnRenamed('normalizedname', 'author_normalizedname')
+
     # and get the journal averages
     journal_averages = spark.read \
         .csv("/project/core/bikash_dataset/journal_averages.csv", header=True) \
@@ -110,6 +117,7 @@ def analyze(ss, cfg):
     # the authors
 
     sdg_author_table = full_author_table \
+        .join(authors_df, "authorid", how="left") \
         .select("authorid", "author_normalizedname", "author_displayname",
                 "lastknownaffiliationid", "papercount", "year_first_paper",
                 "n_citations", "n_citations_norm", "total_co_authors",
