@@ -31,7 +31,7 @@ def analyze(ss, cfg):
 
     # read our set of authors
     author_filename = path.join(cfg['hdfs']['onmerrit_dir'],
-                                "sdg_paper_author_affil.csv")
+                                "sdg_author_paper_affil.csv")
     sdg_authors = spark.read.csv(author_filename, header=True)
 
     # also get the table of links between authors and papers
