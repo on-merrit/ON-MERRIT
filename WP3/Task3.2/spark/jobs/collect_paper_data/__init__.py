@@ -28,7 +28,7 @@ def analyze(ss, cfg):
 
     # read our papers
     paper_path = path.join(cfg['hdfs']['onmerrit_dir'],
-                                "sdg_papers.parquet")
+                                "sdg_papers.csv")
     sdg_papers = spark.read.csv(paper_path, header=True)
 
 
