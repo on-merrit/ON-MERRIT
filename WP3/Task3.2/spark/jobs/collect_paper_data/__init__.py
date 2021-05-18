@@ -94,7 +94,7 @@ def analyze(ss, cfg):
                     f.col("citationcount") / f.col("mean_citations"))
 
     out_file = path.join(cfg['hdfs']['onmerrit_dir'],
-                         "sdg_papers_collated.parquet")
+                         "sdg_papers_collated.csv")
 
     logger.info('Writing paper table to file...')
     norm_citations. \
@@ -102,7 +102,7 @@ def analyze(ss, cfg):
         write.csv(out_file, mode="overwrite", header=True, sep=",",
                   quoteAll=True)
 
-    out_path = "/project/core/openaire_funders/openaire_funders_injoin_w_sdg.parquet"
+    out_path = "/project/core/openaire_funders/openaire_funders_injoin_w_sdg.csv"
     logger.info('Writing paper table to file...')
     funder_data_in_sdg_set. \
         write.csv(out_path, mode="overwrite", header=True, sep=",",
