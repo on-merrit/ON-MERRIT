@@ -59,6 +59,7 @@ def analyze(ss, cfg):
     logger.info('Writing cleaned funding data to file...')
     out_file = "/project/core/openaire_funders/openaire_funders_clean.parquet"
     funders_renamed. \
-        write.parquet(out_file)
+        write.csv(out_file, mode="overwrite", header=True, sep=",",
+                  quoteAll=True)
 
     logger.info('Done.')

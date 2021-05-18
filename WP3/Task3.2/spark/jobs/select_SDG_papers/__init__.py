@@ -74,7 +74,8 @@ def analyze(ss, cfg):
     if not papers_exist:
         logger.info('Writing papers to file...')
         sdg_papers. \
-            write.parquet(paper_filename)
+            write.csv(paper_filename, mode="error", header=True,
+                      sep=",", quoteAll=True)
     else:
         logger.info('Papers file already exists.')
 
@@ -94,7 +95,8 @@ def analyze(ss, cfg):
     if not authors_exist:
         logger.info('Writing authors to file...')
         sdg_author_affils. \
-            write.parquet(author_filename)
+            write.csv(author_filename, mode="error", header=True,
+                      sep=",", quoteAll=True)
     else:
         logger.info('Authors file already exists.')
 

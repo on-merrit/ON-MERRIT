@@ -31,8 +31,8 @@ def analyze(ss, cfg):
 
     # read our set of authors
     author_filename = path.join(cfg['hdfs']['onmerrit_dir'],
-                                "sdg_author_paper_affil.parquet")
-    sdg_authors = spark.read.parquet(author_filename)
+                                "sdg_paper_author_affil.parquet")
+    sdg_authors = spark.read.csv(author_filename, header=True)
 
     # also get the table of links between authors and papers
     paper_author_affil = spark \
@@ -120,6 +120,7 @@ def analyze(ss, cfg):
     out_file = path.join(cfg['hdfs']['onmerrit_dir'],
                          "sdg_author_data.parquet")
     sdg_author_table. \
-        write.parquet(out_file)
+        write.csv(out_file, mode="overwrite", header=True, sep=",",
+                  quoteAll=True)
 
     logger.info('Done.')
