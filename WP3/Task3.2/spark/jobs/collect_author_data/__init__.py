@@ -120,6 +120,6 @@ def analyze(ss, cfg):
     out_file = path.join(cfg['hdfs']['onmerrit_dir'],
                          "sdg_author_data.parquet")
     sdg_author_table. \
-        write.parquet(out_file
+        write.parquet(out_file)
 
     logger.info('Done.')
