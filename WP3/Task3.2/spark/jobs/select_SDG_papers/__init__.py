@@ -7,7 +7,6 @@ import sys
 import logging
 from os import path
 import pyspark.sql.functions as f
-from pyspark.sql import Window
 
 
 def analyze(ss, cfg):
@@ -25,37 +24,48 @@ def analyze(ss, cfg):
     # MAG dataset to use
     db_name = cfg['mag_db_name']
 
-    papers_df = ss \
+    # avoid nazis
+    spark = ss
+
+    papers_df = spark \
         .table(db_name + '.papers') \
         .drop_duplicates()
-    paper_field_of_study = ss \
+    paper_field_of_study = spark \
         .table(db_name + '.paperfieldsofstudy')
-    field_of_study = ss \
+    field_of_study = spark \
         .table(db_name + '.fieldsofstudy') \
         .select(['fieldofstudyid', 'displayname', 'normalizedname']) \
         .withColumnRenamed('displayname', 'fos_displayname') \
         .withColumnRenamed('normalizedname', 'fos_normalizedname')
     # ref for renaming cols: https://stackoverflow.com/a/36302241/3149349
 
-    paper_author_affil = ss \
+    paper_author_affil = spark \
         .table(db_name + '.paperauthoraffiliations')
 
-    # select Climate change, Agriculture, Medicine and Virus
-    sdg_fields = [132651083, 118518473, 71924100, 2522874641]
+    osdg_ontology = spark.read. \
+        option("sep", ";"). \
+        csv('/project/core/OSDG/OSDG-Ontology.csv', header=True)
+
+    # select the SDGs 2, 3 and 13 (hunger, health and climate)
+    osdg_ontology = osdg_ontology.select("SDG_label", "fos_id")
 
     # adapted from:
     # https://stackoverflow.com/questions/35870760/filtering-a-pyspark-dataframe-with-sql-like-in-clause
-    field_of_study_selection = field_of_study\
-        .where(f.col("fieldofstudyid").isin(sdg_fields))
+    sdg_fields = osdg_ontology.where(f.col("SDG_label").isin(["SDG_2", "SDG_3", "SDG_13"]))
+
+    field_of_study_selection = sdg_fields \
+        .join(field_of_study,
+              sdg_fields.fos_id == field_of_study.fieldofstudyid,
+              "left")
 
     sdg_paper_ids = field_of_study_selection \
         .join(paper_field_of_study, ['fieldofstudyid'], how='left')
 
     sdg_papers = sdg_paper_ids.join(papers_df, ['paperid'], how='left')
 
-    # only keep papers in our window (2008-2018)
+    # only keep papers in our window (2006-2020)
     sdg_papers = sdg_papers \
-        .filter((sdg_papers.year > 2007) & (sdg_papers.year < 2019))
+        .filter((sdg_papers.year > 2005) & (sdg_papers.year <= 2020))
 
     logger.info("Selected all papers.")
 
@@ -75,8 +85,6 @@ def analyze(ss, cfg):
     sdg_author_affils = sdg_papers \
         .select(['paperid']) \
         .join(paper_author_affil, ['paperid'], how='left')
-
-
 
     # write authors to file
     author_filename = path.join(cfg['hdfs']['onmerrit_dir'],
