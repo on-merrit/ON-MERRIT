@@ -49,14 +49,13 @@ def analyze(ss, cfg):
         .select("journalid", "year", "mean_citations")
 
     conferences_df = spark \
-        .table(db_name + '.conferenceinstances') \
-        .select("conferenceinstanceid", "displayname", "papercount",
-                "citationcount")
+        .table(db_name + '.conferenceinstances')
 
     # average citations per conference instance
     conferences_df = conferences_df \
         .withColumn("mean_citations",
-                   conferences_df.citationcount / conferences_df.papercount)
+                    conferences_df.citationcount / conferences_df.papercount) \
+        .select("conferenceinstanceid", "mean_citations")
 
 
     ##  select columns ---------------------------
