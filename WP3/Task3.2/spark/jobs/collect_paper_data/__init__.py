@@ -68,9 +68,10 @@ def analyze(ss, cfg):
     sdg_papers_selected = sdg_papers \
         .select(
         "paperid", "fieldofstudyid", "fos_displayname", "fos_normalizedname",
+        "SDG_label",
         "doi", "doctype", "papertitle", "originaltitle", "booktitle", "year",
         "date", "publisher", "journalid", "conferenceinstanceid",
-        "referencecount","citationcount", "originalvenue", "familyid"
+        "referencecount", "citationcount", "originalvenue", "familyid"
     )
 
 
