@@ -102,7 +102,7 @@ def analyze(ss, cfg):
     # journal and year
     norm_citations = with_funded_status \
         .join(journal_averages, ["journalid", "year"], "left") \
-        .join(conferences_df, ["conferenceinstanceid", "mean_citations], "left") \
+        .join(conferences_df, ["conferenceinstanceid", "mean_citations"], "left") \
         .withColumn("citations_norm",
                     f.col("citationcount") / f.col("mean_citations"))
 
