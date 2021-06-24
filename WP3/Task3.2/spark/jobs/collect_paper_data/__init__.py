@@ -24,6 +24,9 @@ def analyze(ss, cfg):
     # avoid nazis
     spark = ss
 
+    # MAG dataset to use
+    db_name = cfg['mag_db_name']
+
     logger.info('Reading the tables')
 
     # read our papers
