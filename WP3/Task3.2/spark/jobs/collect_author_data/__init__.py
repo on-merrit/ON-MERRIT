@@ -100,6 +100,7 @@ def analyze(ss, cfg):
     # we need to get the total number of unique co-authors and the mean number
     # of co-authors per paper
 
+    logger.info('Calculate numbers of co-authors.')
     # total unique co-authors
     target_authors = only_author_ids \
         .withColumnRenamed("authorid", "target_author")
@@ -145,7 +146,7 @@ def analyze(ss, cfg):
         .join(authors_df, "authorid", how="left") \
         .select("authorid", "author_normalizedname", "author_displayname",
                 "lastknownaffiliationid", "papercount", "year_first_paper",
-                "n_citations", "n_citations_norm", "total_co_authors",
+                "n_citations", "n_citations_norm", "n_unique_co_authors",
                 "mean_co_authors") \
         .drop_duplicates()
 
