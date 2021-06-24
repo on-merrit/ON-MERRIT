@@ -55,7 +55,7 @@ def analyze(ss, cfg):
 
     # average citations per conference instance
     conferences_df = conferences_df \
-        .withColum("mean_citations",
+        .withColumn("mean_citations",
                    conferences_df.citationcount / conferences_df.papercount)
 
 
