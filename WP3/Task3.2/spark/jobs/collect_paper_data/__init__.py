@@ -7,6 +7,7 @@ import sys
 import logging
 from os import path
 import pyspark.sql.functions as f
+from pyspark.sql.functions import when
 
 
 def analyze(ss, cfg):
@@ -53,9 +54,9 @@ def analyze(ss, cfg):
 
     # average citations per conference instance
     conferences_df = conferences_df \
-        .withColumn("mean_citations",
+        .withColumn("mean_conf_citations",
                     conferences_df.citationcount / conferences_df.papercount) \
-        .select("conferenceinstanceid", "mean_citations")
+        .select("conferenceinstanceid", "mean_conf_citations")
 
 
     ##  select columns ---------------------------
@@ -101,11 +102,14 @@ def analyze(ss, cfg):
 
     # normalise citations (by dividing raw citations by mean citations per
     # journal and year
-    norm_citations = with_funded_status \
+    cit = with_funded_status \
         .join(journal_averages, ["journalid", "year"], "left") \
-        .join(conferences_df, ["conferenceinstanceid", "mean_citations"], "left") \
-        .withColumn("citations_norm",
-                    f.col("citationcount") / f.col("mean_citations"))
+        .join(conferences_df, "conferenceinstanceid", "left")
+
+    norm_citations = cit.withColumn("citations_norm",
+         when(cit.conferenceinstanceid.isNotNull(), f.col("citationcount") / f.col("mean_conf_citations"))
+        .when(cit.journalid.isNotNull(), f.col("citationcount") / f.col("mean_citations"))
+        .otherwise(None))
 
     out_file = path.join(cfg['hdfs']['onmerrit_dir'],
                          "sdg_papers_collated.csv")
