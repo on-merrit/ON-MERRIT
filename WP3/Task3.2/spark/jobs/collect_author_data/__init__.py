@@ -124,7 +124,10 @@ def analyze(ss, cfg):
     # first get the total number of authors per paper
     total_co_authors = paper_author_affil \
         .groupBy("paperid") \
-        .agg(f.max(f.col("authorsequencenumber")).alias("n_co_authors"))
+        .agg(f.max(f.col("authorsequencenumber")).alias("n_co_authors_plus_")) \
+        .withColumn("n_co_authors", paper_author_affil.n_co_authors_plus_ - 1)
+    # we also need to subtract 1 here, since otherwise we calculate the average
+    # number of authors, not of co-authors
 
     co_authors_mean = all_paper_ids \
         .join(total_co_authors, "paperid", "left") \
