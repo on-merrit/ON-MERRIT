@@ -45,6 +45,16 @@ def analyze(ss, cfg):
         .csv("/project/core/bikash_dataset/journal_averages.csv", header=True) \
         .select("journalid", "year", "mean_citations")
 
+    conferences_df = spark \
+        .table(db_name + '.conferenceinstances') \
+        .select("conferenceinstanceid", "displayname", "papercount",
+                "citationcount")
+
+    # average citations per conference instance
+    conferences_df = conferences_df \
+        .withColum("mean_citations",
+                   conferences_df.citationcount / conferences_df.papercount)
+
 
     ##  select columns ---------------------------
     # available columns:
@@ -57,8 +67,8 @@ def analyze(ss, cfg):
         .select(
         "paperid", "fieldofstudyid", "fos_displayname", "fos_normalizedname",
         "doi", "doctype", "papertitle", "originaltitle", "booktitle", "year",
-        "date", "publisher", "journalid", "referencecount","citationcount",
-        "originalvenue", "familyid"
+        "date", "publisher", "journalid", "conferenceinstanceid",
+        "referencecount","citationcount", "originalvenue", "familyid"
     )
 
 
@@ -90,6 +100,7 @@ def analyze(ss, cfg):
     # journal and year
     norm_citations = with_funded_status \
         .join(journal_averages, ["journalid", "year"], "left") \
+        .join(conferences_df, "conferenceinstanceid", "left") \
         .withColumn("citations_norm",
                     f.col("citationcount") / f.col("mean_citations"))
 
