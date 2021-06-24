@@ -97,21 +97,46 @@ def analyze(ss, cfg):
         .join(citations, "authorid", how="left")
 
     # get number of co-authors
-    # first summarise the total number of authors per paper
+    # we need to get the total number of unique co-authors and the mean number
+    # of co-authors per paper
+
+    # total unique co-authors
+    target_authors = only_author_ids \
+        .withColumnRenamed("authorid", "target_author")
+
+    # first, find all papers from our authors
+    # then join all papers again to find the co-authors
+    co_authors = target_authors \
+        .join(paper_author_affil,
+              target_authors.target_author == paper_author_affil.authorid,
+              "left") \
+        .drop("authorid") \
+        .join(paper_author_affil, "paperid", "left") \
+        .groupBy(["target_author"]) \
+        .agg(f.countDistinct("authorid").alias("co_authors_plus_1"))
+
+    # need to subtract one, because our initial author will also be in there
+    unique_co_authors = co_authors \
+        .withColumn("n_unique_co_authors", co_authors.co_authors_plus_1 - 1) \
+        .drop("co_authors_plus_1")
+
+    # first get the total number of authors per paper
     total_co_authors = paper_author_affil \
         .groupBy("paperid") \
         .agg(f.max(f.col("authorsequencenumber")).alias("n_co_authors"))
 
-    co_authors = all_paper_ids \
+    co_authors_mean = all_paper_ids \
         .join(total_co_authors, "paperid", "left") \
         .groupBy("authorid") \
-        .agg(f.sum(f.col("n_co_authors")).alias("total_co_authors"),
-             f.mean(f.col("n_co_authors")).alias("mean_co_authors"))
+        .agg(f.mean(f.col("n_co_authors")).alias("mean_co_authors"))
 
     # this could be more efficient by not joining the full table but
     # selecting the distinct columns before, but whatever.
     full_author_table = full_author_table \
-        .join(co_authors, "authorid", how="left")
+        .join(co_authors_mean, "authorid", how="left") \
+        .join(unique_co_authors,
+              full_author_table.authorid == unique_co_authors.target_author,
+              "left")
 
     # only keep author level data (after deduplicating additional rows from all
     # the authors
