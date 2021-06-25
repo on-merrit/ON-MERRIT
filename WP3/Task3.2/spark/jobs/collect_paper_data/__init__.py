@@ -31,10 +31,8 @@ def analyze(ss, cfg):
     logger.info('Reading the tables')
 
     # read our papers
-    paper_path = path.join(cfg['hdfs']['onmerrit_dir'],
-                                "sdg_papers.csv")
+    paper_path = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
     sdg_papers = spark.read.csv(paper_path, header=True)
-
 
     # read unpaywall data
     unpaywall = spark.read \
@@ -59,7 +57,6 @@ def analyze(ss, cfg):
                     conferences_df.citationcount / conferences_df.papercount) \
         .select("conferenceinstanceid", "mean_conf_citations")
 
-
     ##  select columns ---------------------------
     # available columns:
     # "paperid","fieldofstudyid","fos_displayname","fos_normalizedname","score","rank","doi","doctype","papertitle",
@@ -76,7 +73,6 @@ def analyze(ss, cfg):
         "referencecount", "citationcount", "originalvenue", "familyid"
     )
 
-
     # join with unpaywall -------
     logger.info('Joining with unpaywall')
     # prepare new OA categorisation first
@@ -90,13 +86,13 @@ def analyze(ss, cfg):
 
     unpaywall_cat = best_locations \
         .withColumn("provider_cat",
-                    when((best_locations.host_type == "publisher") & (best_locations.has_repository_copy),
+                    when((best_locations.host_type == "publisher") & best_locations.has_repository_copy,
                          "Journal & Repository")
                     .when(best_locations.host_type == "repository", "Repository only")
                     .when(best_locations.host_type == "publisher", "Journal only"))
 
     cat_selected = unpaywall_cat.select("doi", "is_oa", "oa_status",
-                                          "has_repository_copy", "provider_cat")
+                                        "has_repository_copy", "provider_cat")
     with_oa = sdg_papers_selected \
         .join(cat_selected, 'doi', how='left')
 
