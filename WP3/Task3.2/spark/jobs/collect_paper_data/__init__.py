@@ -38,8 +38,9 @@ def analyze(ss, cfg):
 
     # read unpaywall data
     unpaywall = spark.read \
-        .parquet("hdfs:///project/core/unpaywall/unpaywall.parquet")\
-        .select('doi', 'is_oa', 'oa_status')
+        .parquet("hdfs:///project/core/unpaywall/unpaywall.parquet") \
+        .select('doi', 'is_oa', 'oa_status', 'has_repository_copy',
+                'oa_locations')
 
     funder_data = spark.read \
         .csv("/project/core/openaire_funders/openaire_funders_clean.csv",
@@ -78,8 +79,26 @@ def analyze(ss, cfg):
 
     # join with unpaywall -------
     logger.info('Joining with unpaywall')
+    # prepare new OA categorisation first
+    explodeDF = unpaywall.select(f.explode("oa_locations").alias("oa_loc"),
+                                 'doi', 'is_oa', 'oa_status', 'has_repository_copy')
+
+    flattenDF = explodeDF.selectExpr("oa_loc.is_best", "oa_loc.host_type",
+                                     'doi', 'is_oa', 'oa_status', 'has_repository_copy')
+
+    best_locations = flattenDF.distinct().filter(f.col('is_best'))
+
+    unpaywall_cat = best_locations \
+        .withColumn("provider_cat",
+                    when((best_locations.host_type == "publisher") & (best_locations.has_repository_copy),
+                         "Journal & Repository")
+                    .when(best_locations.host_type == "repository", "Repository only")
+                    .when(best_locations.host_type == "publisher", "Journal only"))
+
+    cat_selected = unpaywall_cat.select("doi", "is_oa", "oa_status",
+                                          "has_repository_copy", "provider_cat")
     with_oa = sdg_papers_selected \
-        .join(unpaywall, ['doi'], how='left')
+        .join(cat_selected, 'doi', how='left')
 
     # join with funder data -------------
     sdg_dois = with_oa.select("paperid", "doi")
