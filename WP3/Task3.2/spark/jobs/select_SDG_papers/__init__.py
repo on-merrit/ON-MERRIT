@@ -98,6 +98,10 @@ def analyze(ss, cfg):
     sdg_papers_selected = sdg_papers_select_cols \
         .join(aggregated_fos, "paperid", "left")
 
+    # split papers and sdg labels
+    sdg_labels = sdg_papers_selected.select("paperid", "SDG_label").distinct()
+    sdg_papers_selected = sdg_papers_selected.drop("SDG_label").distinct()
+
     # write papers to file
     paper_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
 
@@ -105,6 +109,10 @@ def analyze(ss, cfg):
     sdg_papers_selected. \
         write.csv(paper_filename, mode="overwrite", header=True,
                   sep=",", quoteAll=True)
+
+    logger.info("Writing SDG labels to file...")
+    sdg_labels.write.csv("/project/core/bikash_dataset/sdg_labels.csv",
+                         header=True, sep=",", quoteAll=True)
 
     # Find all authors of the papers
     sdg_author_affils = sdg_papers_selected \
