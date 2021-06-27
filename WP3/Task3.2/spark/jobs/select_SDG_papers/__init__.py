@@ -73,16 +73,41 @@ def analyze(ss, cfg):
     # print out what we sampled
     # sdg_papers.groupby(sdg_papers.fieldofstudyid).count().show()
 
+
+    ##  select columns ---------------------------
+    # available columns:
+    # "paperid","fieldofstudyid","fos_displayname","fos_normalizedname","score","rank","doi","doctype","papertitle",
+    # "originaltitle","booktitle","year","date","publisher","journalid","conferenceseriesid","conferenceinstanceid",
+    # "volume","issue","firstpage","lastpage","referencecount","citationcount","estimatedcitation","originalvenue","familyid","createddate"
+
+    logger.info('Selecting columns')
+    sdg_papers_select_cols = sdg_papers \
+        .select(
+        "paperid", "SDG_label",
+        "doi", "doctype", "papertitle", "originaltitle", "booktitle", "year",
+        "date", "publisher", "journalid", "conferenceinstanceid",
+        "referencecount", "citationcount", "originalvenue", "familyid"
+    ).distinct()
+
+    # aggregate FOS towards papers
+    # https://stackoverflow.com/a/41789093/3149349
+    aggregated_fos = sdg_papers.groupby("paperid") \
+        .agg(f.concat_ws(", ", f.collect_list(sdg_papers.fieldofstudyid))
+             .alias("fosid_aggregated"))
+
+    sdg_papers_selected = sdg_papers_select_cols \
+        .join(aggregated_fos, "paperid", "left")
+
     # write papers to file
     paper_filename = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
 
     logger.info('Writing papers to file...')
-    sdg_papers. \
+    sdg_papers_selected. \
         write.csv(paper_filename, mode="overwrite", header=True,
                   sep=",", quoteAll=True)
 
     # Find all authors of the papers
-    sdg_author_affils = sdg_papers \
+    sdg_author_affils = sdg_papers_selected \
         .select(['paperid']) \
         .join(paper_author_affil, ['paperid'], how='left')
 

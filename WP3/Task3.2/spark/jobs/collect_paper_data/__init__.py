@@ -57,21 +57,7 @@ def analyze(ss, cfg):
                     conferences_df.citationcount / conferences_df.papercount) \
         .select("conferenceinstanceid", "mean_conf_citations")
 
-    ##  select columns ---------------------------
-    # available columns:
-    # "paperid","fieldofstudyid","fos_displayname","fos_normalizedname","score","rank","doi","doctype","papertitle",
-    # "originaltitle","booktitle","year","date","publisher","journalid","conferenceseriesid","conferenceinstanceid",
-    # "volume","issue","firstpage","lastpage","referencecount","citationcount","estimatedcitation","originalvenue","familyid","createddate"
 
-    logger.info('Selecting columns')
-    sdg_papers_selected = sdg_papers \
-        .select(
-        "paperid", "fieldofstudyid", "fos_displayname", "fos_normalizedname",
-        "SDG_label",
-        "doi", "doctype", "papertitle", "originaltitle", "booktitle", "year",
-        "date", "publisher", "journalid", "conferenceinstanceid",
-        "referencecount", "citationcount", "originalvenue", "familyid"
-    )
 
     # join with unpaywall -------
     logger.info('Joining with unpaywall')
@@ -93,7 +79,7 @@ def analyze(ss, cfg):
 
     cat_selected = unpaywall_cat.select("doi", "is_oa", "oa_status",
                                         "has_repository_copy", "provider_cat")
-    with_oa = sdg_papers_selected \
+    with_oa = sdg_papers \
         .join(cat_selected, 'doi', how='left')
 
     # join with funder data -------------
@@ -136,7 +122,7 @@ def analyze(ss, cfg):
                   quoteAll=True)
 
     out_path = "/project/core/openaire_funders/openaire_funders_injoin_w_sdg.csv"
-    logger.info('Writing paper table to file...')
+    logger.info('Writing injoin with openaire to file...')
     funder_data_in_sdg_set. \
         write.csv(out_path, mode="overwrite", header=True, sep=",",
                   quoteAll=True)
