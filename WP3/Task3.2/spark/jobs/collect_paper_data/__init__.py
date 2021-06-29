@@ -79,8 +79,16 @@ def analyze(ss, cfg):
 
     cat_selected = unpaywall_cat.select("doi", "is_oa", "oa_status",
                                         "has_repository_copy", "provider_cat")
+
+    # add the closed access papers back in
+    unpaywall_closed = unpaywall.filter(~f.col("is_oa")) \
+        .withColumn("provider_cat", f.lit("Not OA")) \
+        .drop("oa_locations")
+
+    all_unpaywall = cat_selected.union(unpaywall_closed)
+
     with_oa = sdg_papers \
-        .join(cat_selected, 'doi', how='left')
+        .join(all_unpaywall, 'doi', how='left')
 
     # join with funder data -------------
     sdg_dois = with_oa.select("paperid", "doi")
