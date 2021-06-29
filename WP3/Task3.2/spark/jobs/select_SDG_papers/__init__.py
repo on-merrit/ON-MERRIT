@@ -102,7 +102,7 @@ def analyze(ss, cfg):
     # keep only papers that come either from a journal or a conference
     sdg_papers = sdg_papers \
         .filter(sdg_papers.journalid.isNotNull() |
-                sdg_papers.conferenceinstance.isNotNull())
+                sdg_papers.conferenceinstanceid.isNotNull())
 
     logger.info("Selected all papers.")
 
