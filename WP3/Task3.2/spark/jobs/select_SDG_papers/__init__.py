@@ -148,6 +148,7 @@ def analyze(ss, cfg):
 
     logger.info("Writing SDG labels to file...")
     sdg_labels.write.csv("/project/core/bikash_dataset/sdg_labels.csv",
+                         mode="overwrite",
                          header=True, sep=",", quoteAll=True)
 
     # Find all authors of the papers
