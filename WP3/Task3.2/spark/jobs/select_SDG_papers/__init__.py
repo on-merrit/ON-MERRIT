@@ -103,8 +103,8 @@ def analyze(ss, cfg):
     # those that have a doi
     sdg_papers = sdg_papers \
         .filter(sdg_papers.journalid.isNotNull() |
-                sdg_papers.conferenceinstanceid.isNotNull(),
-                sdg_papers.doi.isNotNull())
+                sdg_papers.conferenceinstanceid.isNotNull()) \
+        .filter(sdg_papers.doi.isNotNull())
 
     logger.info("Selected all papers.")
 
