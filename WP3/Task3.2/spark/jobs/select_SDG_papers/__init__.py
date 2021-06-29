@@ -99,10 +99,12 @@ def analyze(ss, cfg):
     sdg_papers = sdg_papers \
         .filter((sdg_papers.year > 2005) & (sdg_papers.year <= 2020))
 
-    # keep only papers that come either from a journal or a conference
+    # keep only papers that come either from a journal or a conference, and only
+    # those that have a doi
     sdg_papers = sdg_papers \
         .filter(sdg_papers.journalid.isNotNull() |
-                sdg_papers.conferenceinstanceid.isNotNull())
+                sdg_papers.conferenceinstanceid.isNotNull(),
+                sdg_papers.doi.isNotNull())
 
     logger.info("Selected all papers.")
 
