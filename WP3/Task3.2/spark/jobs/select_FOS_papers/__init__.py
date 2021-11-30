@@ -64,7 +64,7 @@ def analyze(ss, cfg):
     # sample a fraction (from https://stackoverflow.com/a/65256780/3149349)
     # get total count
     N = correct_dates.count()
-    logger.info("Selected total sample, which contains this number of papers:\n")
+    logger.info("Selected total sample, which contains this number of papers:")
     logger.info(N)
 
     target_fraction = 1e+7/N
@@ -72,7 +72,7 @@ def analyze(ss, cfg):
     selected_sample = correct_dates.sample(False, target_fraction, seed=20211130)
 
     n = selected_sample.count()
-    logger.info("Selected random sample, which contains this number of papers:\n")
+    logger.info("Selected random sample, which contains this number of papers:")
     logger.info(n)
 
     ##  select columns ---------------------------
