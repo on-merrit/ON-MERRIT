@@ -95,7 +95,7 @@ def analyze(ss, cfg):
     paper_filename = path.join(cfg['hdfs']['onmerrit_dir'], "fos_papers.csv")
 
     logger.info('Writing papers to file...')
-    sdg_papers_selected. \
+    sample_with_cols. \
         write.csv(paper_filename, mode="overwrite", header=True,
                   sep=",", quoteAll=True)
 
