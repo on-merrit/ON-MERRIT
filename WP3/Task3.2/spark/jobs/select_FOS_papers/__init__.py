@@ -113,6 +113,20 @@ def analyze(ss, cfg):
         write.csv(author_filename, mode="overwrite", header=True,
                   sep=",", quoteAll=True)
 
-    # TODO: write paper fos mapping for our papers to file
+    # write paper fos mapping for our papers to file
+    our_fos = sample_with_cols \
+        .select(['paperid']) \
+        .join(paper_field_of_study, ['paperid'], how='left') \
+        .join(field_of_study, 'fieldofstudyid', how='left')
+
+
+    fos_filename = path.join(cfg['hdfs']['onmerrit_dir'],
+                                "fos_papers_FOS_info.csv")
+
+    logger.info('Writing authors to file...')
+    our_fos. \
+        write.csv(fos_filename, mode="overwrite", header=True,
+                  sep=",", quoteAll=True)
+
 
     logger.info('Done.')
