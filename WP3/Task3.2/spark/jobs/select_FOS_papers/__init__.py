@@ -99,8 +99,20 @@ def analyze(ss, cfg):
         write.csv(paper_filename, mode="overwrite", header=True,
                   sep=",", quoteAll=True)
 
+    # Find all authors of the papers
+    sdg_author_affils = sample_with_cols \
+        .select(['paperid']) \
+        .join(paper_author_affil, ['paperid'], how='left')
 
-    # TODO: create table with our authors
+    # write authors to file
+    author_filename = path.join(cfg['hdfs']['onmerrit_dir'],
+                                "fos_author_paper_affil.csv")
+
+    logger.info('Writing authors to file...')
+    sdg_author_affils. \
+        write.csv(author_filename, mode="overwrite", header=True,
+                  sep=",", quoteAll=True)
+
     # TODO: write paper fos mapping for our papers to file
 
     logger.info('Done.')
