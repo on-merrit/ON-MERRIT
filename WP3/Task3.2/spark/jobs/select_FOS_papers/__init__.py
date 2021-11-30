@@ -100,4 +100,7 @@ def analyze(ss, cfg):
                   sep=",", quoteAll=True)
 
 
+    # TODO: create table with our authors
+    # TODO: write paper fos mapping for our papers to file
+
     logger.info('Done.')
