@@ -31,7 +31,7 @@ def analyze(ss, cfg):
     logger.info('Reading the tables')
 
     # read our papers
-    paper_path = path.join(cfg['hdfs']['onmerrit_dir'], "sdg_papers.csv")
+    paper_path = path.join(cfg['hdfs']['onmerrit_dir'], "fos_papers.csv")
     sdg_papers = spark.read.csv(paper_path, header=True)
 
     # read unpaywall data
@@ -121,7 +121,7 @@ def analyze(ss, cfg):
         .otherwise(None))
 
     out_file = path.join(cfg['hdfs']['onmerrit_dir'],
-                         "sdg_papers_collated.csv")
+                         "fos_papers_collated.csv")
 
     logger.info('Writing paper table to file...')
     norm_citations. \
@@ -129,7 +129,7 @@ def analyze(ss, cfg):
         write.csv(out_file, mode="overwrite", header=True, sep=",",
                   quoteAll=True)
 
-    out_path = "/project/core/openaire_funders/openaire_funders_injoin_w_sdg.csv"
+    out_path = "/project/core/openaire_funders/openaire_funders_injoin_w_fos.csv"
     logger.info('Writing injoin with openaire to file...')
     funder_data_in_sdg_set. \
         write.csv(out_path, mode="overwrite", header=True, sep=",",
