@@ -55,7 +55,7 @@ def analyze(ss, cfg):
 
     # drop those without a DOI
     with_doi = papers_only \
-        .filter(papers_df.doi != "")
+        .filter((papers_df.doi != "") | papers_df.doi.isNotNull())
 
     # restrict date range
     correct_dates = with_doi \
