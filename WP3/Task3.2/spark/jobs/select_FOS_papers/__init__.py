@@ -50,8 +50,8 @@ def analyze(ss, cfg):
     paper_author_affil = spark \
         .table(db_name + '.paperauthoraffiliations')
 
-    # only keep journal and conference papers
-    papers_only = papers_df.where(f.col("doctype").isin(["Journal", "Conference"]))
+    # only keep journal papers
+    papers_only = papers_df.where(f.col("doctype").isin(["Journal"]))
 
     # drop those without a DOI
     with_doi = papers_only \
